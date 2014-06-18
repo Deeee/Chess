@@ -597,7 +597,7 @@ GLfloat gCubeVertexData[216] =
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
     if (isTouched == 1) {
         for (UIImageView *iView in self.view.subviews) {
-            NSLog(@"%d, %d",k++, isTouched);
+            //NSLog(@"%d, %d",k++, isTouched);
             //enmu for 35 times wired
             if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[tempPiece getImage].image]) {
                 //NSLog(@"%d",k++);
