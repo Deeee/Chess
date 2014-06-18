@@ -210,22 +210,22 @@ GLfloat gCubeVertexData[216] =
 
     
     
-    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:brock and:[NSMutableString stringWithString:@"brock"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:bknight and:[NSMutableString stringWithString:@"bknight"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:0] setImg:bbishop and:[NSMutableString stringWithString:@"bbishop"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:0] setImg:bking and:[NSMutableString stringWithString:@"bking"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:0] setImg:bqueen and:[NSMutableString stringWithString:@"bqueen"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:0] setImg:bbishop2 and:[NSMutableString stringWithString:@"bbishop2"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:0] setImg:bkight2 and:[NSMutableString stringWithString:@"bknight2"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:0] setImg:brock2 and:[NSMutableString stringWithString:@"brock2"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:1] setImg:bpawn1 and:[NSMutableString stringWithString:@"bpawn1"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:1] setImg:bpawn2 and:[NSMutableString stringWithString:@"bpawn2"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:1] setImg:bpawn3 and:[NSMutableString stringWithString:@"bpawn3"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:1] setImg:bpawn4 and:[NSMutableString stringWithString:@"bpawn4"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:1] setImg:bpawn5 and:[NSMutableString stringWithString:@"bpawn5"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:1] setImg:bpawn6 and:[NSMutableString stringWithString:@"bpawn6"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:1] setImg:bpawn7 and:[NSMutableString stringWithString:@"bpawn7"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:1] setImg:bpawn8 and:[NSMutableString stringWithString:@"bpawn8"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:7] setImg:brock and:[NSMutableString stringWithString:@"brock"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:7] setImg:bknight and:[NSMutableString stringWithString:@"bknight"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:7] setImg:bbishop and:[NSMutableString stringWithString:@"bbishop"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:7] setImg:bking and:[NSMutableString stringWithString:@"bking"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:7] setImg:bqueen and:[NSMutableString stringWithString:@"bqueen"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:7] setImg:bbishop2 and:[NSMutableString stringWithString:@"bbishop2"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:7] setImg:bkight2 and:[NSMutableString stringWithString:@"bknight2"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:7] setImg:brock2 and:[NSMutableString stringWithString:@"brock2"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:6] setImg:bpawn1 and:[NSMutableString stringWithString:@"bpawn1"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:6] setImg:bpawn2 and:[NSMutableString stringWithString:@"bpawn2"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:6] setImg:bpawn3 and:[NSMutableString stringWithString:@"bpawn3"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:6] setImg:bpawn4 and:[NSMutableString stringWithString:@"bpawn4"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:6] setImg:bpawn5 and:[NSMutableString stringWithString:@"bpawn5"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:6] setImg:bpawn6 and:[NSMutableString stringWithString:@"bpawn6"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:6] setImg:bpawn7 and:[NSMutableString stringWithString:@"bpawn7"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:6] setImg:bpawn8 and:[NSMutableString stringWithString:@"bpawn8"]and:2];
     //[myBoard setPieceOnBoard:2 with:0 with:[[Piece alloc] initWithImg:space1 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:0]];
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:2] setImg:space1 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:2] setImg:space2 and:[NSMutableString stringWithString:@"empty"]and:0];
