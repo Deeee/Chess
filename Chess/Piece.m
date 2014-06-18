@@ -23,7 +23,6 @@
 }
 -(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)X with:(int)Y with:(int)Side{
     self = [super init];
-    NSLog(@"here!!!!!!!!!!");
     self.img = image;
     [self setLocation:X with:Y];
     self.name = name;

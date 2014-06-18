@@ -13,7 +13,7 @@
 @synthesize terms;
 -(id) init{
     self = [super init];
-    NSLog(@"initing board");
+    //NSLog(@"initing board");
     pieceSet = [[NSMutableArray alloc] initWithCapacity:8];
     for (int i = 0; i < 8; i++) {
         NSMutableArray *v = [[NSMutableArray alloc] initWithCapacity:8];
@@ -27,7 +27,7 @@
     return self;
 }
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p{
-    NSLog(@"in set piece on board");
+    //NSLog(@"in set piece on board");
     [[pieceSet objectAtIndex:X] insertObject:p atIndex:Y];
 }
 -(NSMutableArray *) getPieceSet{
@@ -35,12 +35,14 @@
 }
 
 -(void) setMove:(Piece *) p to:(Piece *)t {
-    NSLog(@"in board setMove");
-    
+    //NSLog(@"in board setMove");
+    if ([p getSide] == [t getSide]) {
+        return;
+    }
     if ([self requrieMove:p to:t] == true) {
-        NSLog(@"%@ and p name %@",[t getName],[p getName]);
+        //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         if ([[t getName] isEqualToString:@"empty"] ) {
-            NSLog(@"yes it is equal to empty");
+            //NSLog(@"yes it is equal to empty");
             UIImageView *tempImage = [t getImage];
             UIImageView *tempImage2 = [p getImage];
             [self imageExchange:tempImage with:tempImage2];
@@ -49,7 +51,7 @@
             [t setSide:[p getSide]];
             //[t setImg:[p getImage] and:[p getName]];
             //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
-            NSLog(@"%@ and p name %@",[t getName],[p getName]);
+            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
 
         }
         else if([t getSide] != [p getSide]) {
@@ -59,6 +61,8 @@
             [self imageTakeOver:tempImage takeOver:tempImage2];
             [t setName:[p getName]];
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
+            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
+
         }
     }
     
@@ -68,9 +72,9 @@
     a.image = [UIImage imageNamed:@"empty.png"];
 }
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b{
-    NSLog(@"in image exchange");
+    //NSLog(@"in image exchange");
     UIImage *c = [a.image copy];
-    NSLog(@"after copy");
+    //NSLog(@"after copy");
     a.image = b.image;
     b.image = c;
 }
