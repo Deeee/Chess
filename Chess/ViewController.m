@@ -133,7 +133,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize space31;
 @synthesize space32;
 @synthesize myBoard;
-@synthesize ver, para, isTouched;
+@synthesize X, Y, isTouched;
 @synthesize tempPiece;
 
 @synthesize rock;
@@ -262,8 +262,8 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:5] setImg:space32 and:[NSMutableString stringWithString:@"empty"]and:0];
     //[myBoard setPieceOnBoard:2 with:1 with:[[Piece alloc] initWithImg:space2 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:1]];
     //[myBoard setPieceOnBoard:2 with:2 with:[[Piece alloc] initWithImg:space3 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:2]];
-    ver = 0;
-    para = 0;
+    X = 0;
+    Y = 0;
     isTouched = 0;
 }
 
@@ -545,7 +545,7 @@ GLfloat gCubeVertexData[216] =
         for(Piece *p in v) {
             if([[p getImage] isEqual:iView]){
                 NSLog(@"found one");
-                NSLog(@"%d  %d",[p getVertical],[p getParallel]);
+                NSLog(@"%d  %d",[p getX],[p getY]);
                 return p;
             }
         }
@@ -567,8 +567,8 @@ GLfloat gCubeVertexData[216] =
                     NSLog(@"touched!");
                     isTouched = 1;
                     tempPiece = [self getMove:iView];
-                    ver = [tempPiece getVertical];
-                    para = [tempPiece getParallel];
+                    X = [tempPiece getX];
+                    Y = [tempPiece getY];
                     self.dragObject = iView;
                     self.touchOffset = CGPointMake(touchPoint.x - iView.frame.origin.x,
                                                    touchPoint.y - iView.frame.origin.y);

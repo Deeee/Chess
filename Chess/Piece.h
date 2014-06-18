@@ -9,20 +9,21 @@
 #import <Foundation/Foundation.h>
 
 @interface Piece : NSObject
-@property int VertLoc, ParaLoc;
+@property int x, y;
 @property UIImageView *img;
 @property NSMutableString *name;
 @property int side;
 //Init
--(id) initWithImg:(UIImageView *) image and:(int)Vertical with:(int)Parallel;
--(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)Vertical with:(int)Parallel with:(int)Side;
+-(id) initWithImg:(UIImageView *) image and:(int)X with:(int)Y;
+-(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)X with:(int)Y with:(int)Side;
 //Setter
--(void) setLocation:(int)Vertical with:(int)Parallel;
+-(void) setLocation:(int)X with:(int)Y;
 -(void) setSide:(int)side;
 -(void) setImg:(UIImageView *)image and:(NSMutableString *) name and:(int)Side;
 //Getter
--(int) getParallel;
--(int) getVertical;
+-(int) getX;
+-(int) getY;
 -(UIImageView *) getImage;
 -(NSMutableString *) getName;
+-(int) getSide;
 @end

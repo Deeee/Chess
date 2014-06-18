@@ -9,34 +9,34 @@
 #import "Piece.h"
 
 @implementation Piece
-@synthesize VertLoc, ParaLoc;
+@synthesize x, y;
 @synthesize img;
 @synthesize side;
 
 
 
--(id) initWithImg:(UIImageView *)image and:(int)Vertical with:(int)Parallel {
+-(id) initWithImg:(UIImageView *)image and:(int)X with:(int)Y {
     self = [super init];
     self.img = image;
-    [self setLocation:Vertical with:Parallel];
+    [self setLocation:X with:Y];
     return self;
 }
--(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)Vertical with:(int)Parallel with:(int)Side{
+-(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)X with:(int)Y with:(int)Side{
     self = [super init];
     NSLog(@"here!!!!!!!!!!");
     self.img = image;
-    [self setLocation:Vertical with:Parallel];
+    [self setLocation:X with:Y];
     self.name = name;
     self.side = Side;
     return self;
 }
 
--(int) getVertical{
-    return self.VertLoc;
+-(int) getY{
+    return self.y;
 }
 
--(int) getParallel{
-    return self.ParaLoc;
+-(int) getX{
+    return self.x;
 }
 
 -(UIImageView *) getImage {
@@ -58,9 +58,9 @@
 }
 
 
--(void) setLocation:(int)Vertical with:(int)Parallel {
-    VertLoc = Vertical;
-    ParaLoc = Parallel;
+-(void) setLocation:(int)X with:(int)Y {
+    x = X;
+    y = Y;
 }
 
 

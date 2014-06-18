@@ -53,7 +53,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *space32;
 @property (nonatomic, strong) Board *myBoard;
 @property Piece *tempPiece;
-@property int ver, para, isTouched;
+@property int X, Y, isTouched;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;

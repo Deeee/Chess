@@ -10,8 +10,12 @@
 #import "Piece.h"
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
+@property int terms;
 -(void) setMove:(Piece *) p to:(Piece *)t;
 -(BOOL) requrieMove:(Piece *) p to:(Piece *)t;
--(void) setPieceOnBoard:(int)Vertical with:(int)Parallel with:(Piece *)p;
+-(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
 -(NSMutableArray *) getPieceSet;
+-(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
+-(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
+-(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
 @end
