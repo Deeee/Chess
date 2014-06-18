@@ -601,13 +601,13 @@ GLfloat gCubeVertexData[216] =
             //enmu for 35 times wired
             if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[tempPiece getImage].image]) {
                 //NSLog(@"%d",k++);
-                NSLog(@"touchend succ");
+                //NSLog(@"touchend succ");
                 if (touchPoint.x > iView.frame.origin.x &&
                     touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
                     touchPoint.y > iView.frame.origin.y &&
                     touchPoint.y < iView.frame.origin.y + iView.frame.size.height )
                 {
-                    NSLog(@"setting backgroud");
+                    //NSLog(@"setting backgroud");
                     Piece *t = [self getMove:iView];
                     [myBoard setMove:tempPiece to:t];
                     switcher = 1;
@@ -618,7 +618,7 @@ GLfloat gCubeVertexData[216] =
                                                    self.dragObject.frame.size.height);
             }
             if (switcher == 1) {
-                NSLog(@"switching to 0");
+                //NSLog(@"switching to 0");
                 isTouched = 0;
                 
                 break;
