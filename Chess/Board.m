@@ -150,7 +150,6 @@
         if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 [self isAbleToBecomeQueenFor:pi to:t];
-                NSLog(@"1");
                 return true;
             }
             else {
@@ -198,7 +197,7 @@
     if ([pi getSide] == 1) {
         //for white pawn
         if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-            [self whitePawnMove:pi to:t];
+            return [self whitePawnMove:pi to:t];
         }
         // for white queen
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
@@ -221,7 +220,7 @@
     else if([pi getSide] == 2){
         if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
             //for black pawn.
-            [self blackPawnMove:pi to:t];
+            return [self blackPawnMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
             
