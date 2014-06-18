@@ -51,9 +51,11 @@
 @property (nonatomic, assign) IBOutlet UIImageView *space30;
 @property (nonatomic, assign) IBOutlet UIImageView *space31;
 @property (nonatomic, assign) IBOutlet UIImageView *space32;
+
 @property (nonatomic, strong) Board *myBoard;
 @property Piece *tempPiece;
 @property int X, Y, isTouched;
+@property int isMoved;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
@@ -99,10 +101,9 @@
 
 
 
-
 - (Piece *)getMove:(UIImageView *) iView;
 
-
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;

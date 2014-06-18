@@ -100,6 +100,8 @@ GLfloat gCubeVertexData[216] =
 @synthesize touchOffset;
 @synthesize homePosition;
 @synthesize backgroud;
+@synthesize isMoved;
+
 @synthesize space1;
 @synthesize space2;
 @synthesize space3;
@@ -265,6 +267,8 @@ GLfloat gCubeVertexData[216] =
     X = 0;
     Y = 0;
     isTouched = 0;
+    isMoved = 0;
+    
 }
 
 - (void)dealloc
@@ -539,6 +543,17 @@ GLfloat gCubeVertexData[216] =
     
     return YES;
 }
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 - (Piece *)getMove:(UIImageView *) iView{
     NSLog(@"in viewcontroller get move");
     for(NSMutableArray *v in [myBoard getPieceSet]) {
@@ -565,6 +580,7 @@ GLfloat gCubeVertexData[216] =
                     touchPoint.y < iView.frame.origin.y + iView.frame.size.height)
                 {
                     NSLog(@"touched!");
+                    [iView setAlpha:0.7];
                     isTouched = 1;
                     tempPiece = [self getMove:iView];
                     X = [tempPiece getX];
@@ -575,6 +591,7 @@ GLfloat gCubeVertexData[216] =
                     self.homePosition = CGPointMake(iView.frame.origin.x,
                                                     iView.frame.origin.y);
                     [self.view bringSubviewToFront:self.dragObject];
+                    
                 }
             }
         }
@@ -582,17 +599,32 @@ GLfloat gCubeVertexData[216] =
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
-    CGRect newDragObjectFrame = CGRectMake(touchPoint.x - touchOffset.x,
-                                           touchPoint.y - touchOffset.y,
-                                           self.dragObject.frame.size.width,
-                                           self.dragObject.frame.size.height);
-    self.dragObject.frame = newDragObjectFrame;
+    if (isMoved == 0 && isTouched == 1) {
+        NSLog(@"expanding");
+        CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
+        CGRect newDragObjectFrame = CGRectMake(touchPoint.x - touchOffset.x,
+                                               touchPoint.y - touchOffset.y,
+                                               self.dragObject.frame.size.width + 20,
+                                               self.dragObject.frame.size.height + 20);
+        self.dragObject.frame = newDragObjectFrame;
+        isMoved = 1;
+
+    }
+    else if(isTouched == 1){
+        NSLog(@"normal moving");
+        CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
+        CGRect newDragObjectFrame = CGRectMake(touchPoint.x - touchOffset.x,
+                                               touchPoint.y - touchOffset.y,
+                                               self.dragObject.frame.size.width,
+                                               self.dragObject.frame.size.height);
+        self.dragObject.frame = newDragObjectFrame;
+    }
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"in touches end");
-    int k = 0;
+    [dragObject setAlpha:1];
+    //switcher for iterating
     int switcher = 0;
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
     if (isTouched == 1) {
@@ -607,7 +639,7 @@ GLfloat gCubeVertexData[216] =
                     touchPoint.y > iView.frame.origin.y &&
                     touchPoint.y < iView.frame.origin.y + iView.frame.size.height )
                 {
-                    //NSLog(@"setting backgroud");
+                    NSLog(@"setting backgroud");
                     Piece *t = [self getMove:iView];
                     [myBoard setMove:tempPiece to:t];
                     switcher = 1;
@@ -616,12 +648,22 @@ GLfloat gCubeVertexData[216] =
                 self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
                                                    self.dragObject.frame.size.width,
                                                    self.dragObject.frame.size.height);
+                isMoved = 0;
+
+            }
+            if ([iView isEqual:[tempPiece getImage]] || switcher == 1) {
+                NSLog(@"equal to image");
+                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+                                                   self.dragObject.frame.size.width - 20,
+                                                   self.dragObject.frame.size.height - 20);
+                isMoved = 0;
+
             }
             if (switcher == 1) {
                 //NSLog(@"switching to 0");
                 isTouched = 0;
                 
-                break;
+                return;
             }
         }
     }
