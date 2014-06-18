@@ -99,56 +99,113 @@
     }
     return false;
 }
--(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
-    if ([pi getSide] == 1) {
-        if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-            if ([pi getY] == 1) {
-                if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
-                    if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                        [self isAbleToBecomeQueenFor:pi to:t];
-                        return true;
-                    }
-                    else {
-                        NSLog(@"not able to eat");
-                        return false;
-                    }
-                }
-                if ((([t getY] - [pi getY]) <= 2) && ([t getY] - [pi getY] > 0)&& ([t getX] - [pi getX] == 0)) {
-                    [self isAbleToBecomeQueenFor:pi to:t];
-                    return true;
-                }
-                else {
-                    NSLog(@"skipping too much");
-                    return false;
-                }
+
+//-(BOOL)whiteQueenMove:(Piece *)pi to :(Piece *)t {
+//    if([pi getY] == 1) {
+//        
+//    }
+//    else {
+//        
+//    }
+//}
+
+-(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t {
+    if ([pi getY] == 6) {
+        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                [self isAbleToBecomeQueenFor:pi to:t];
+                return true;
+            }
+            else return false;
+        }
+        if ((([t getY] - [pi getY]) >= -2) && ([t getY] - [pi getY] < 0)&& ([t getX] - [pi getX] == 0)) {
+            [self isAbleToBecomeQueenFor:pi to:t];
+            return true;
+        }
+        else return false;
+    }
+    else {
+        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                [self isAbleToBecomeQueenFor:pi to:t];
+                return true;
+            }
+            else return false;
+        }
+        if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
+            [self isAbleToBecomeQueenFor:pi to:t];
+            NSLog(@"regular move by black");
+            return true;
+        }
+        else return false;
+    }
+    NSLog(@"unexpected!");
+    return false;
+
+}
+-(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t {
+ 
+    if ([pi getY] == 1) {
+        //white Pawn is at starting spot.
+        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+            if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                [self isAbleToBecomeQueenFor:pi to:t];
+                NSLog(@"1");
+                return true;
             }
             else {
-                if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
-                    if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                        [self isAbleToBecomeQueenFor:pi to:t];
-                        return true;
-                    }
-                    else {
-                        NSLog(@"non original point unable to eat");
-                        return false;
-                    }
-                }
-                if ([t getY] - [pi getY] == 1 && ([t getX] - [pi getX] == 0)) {
-                    [self isAbleToBecomeQueenFor:pi to:t];
-                    return true;
-                }
-                else {
-                    NSLog(@"non original point skipping too much");
-                    return false;
-                }
+                NSLog(@"not able to eat");
+                return false;
             }
-            NSLog(@"unexpected!");
+        }
+        else if ((([t getY] - [pi getY]) <= 2) && ([t getY] - [pi getY] > 0)&& ([t getX] - [pi getX] == 0)) {
+            [self isAbleToBecomeQueenFor:pi to:t];
+            return true;
+        }
+        else {
+            NSLog(@"skipping too much");
             return false;
         }
+    }
+    
+    else {
+        //white pawn is not at starting spot.
+        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+            if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                [self isAbleToBecomeQueenFor:pi to:t];
+                return true;
+            }
+            else {
+                NSLog(@"non original point unable to eat");
+                return false;
+            }
+        }
+        if ([t getY] - [pi getY] == 1 && ([t getX] - [pi getX] == 0)) {
+            [self isAbleToBecomeQueenFor:pi to:t];
+            return true;
+        }
+        else {
+            NSLog(@"non original point skipping too much");
+            return false;
+        }
+    }
+    NSLog(@"unexpected!");
+    return false;
+}
+
+
+-(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
+    if ([pi getSide] == 1) {
+        //for white pawn
+        if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+            [self whitePawnMove:pi to:t];
+        }
+        // for white queen
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
             
         }
         else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+            
             
         }
         else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
@@ -163,37 +220,8 @@
     }
     else if([pi getSide] == 2){
         if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-            if ([pi getY] == 6) {
-                if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
-                    if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                        [self isAbleToBecomeQueenFor:pi to:t];
-                        return true;
-                    }
-                    else return false;
-                }
-                if ((([t getY] - [pi getY]) >= -2) && ([t getY] - [pi getY] < 0)&& ([t getX] - [pi getX] == 0)) {
-                    [self isAbleToBecomeQueenFor:pi to:t];
-                    return true;
-                }
-                else return false;
-            }
-            else {
-                if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
-                    if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                        [self isAbleToBecomeQueenFor:pi to:t];
-                        return true;
-                    }
-                    else return false;
-                }
-                if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
-                    [self isAbleToBecomeQueenFor:pi to:t];
-                    NSLog(@"regular move by black");
-                    return true;
-                }
-                else return false;
-            }
-            NSLog(@"unexpected!");
-            return false;
+            //for black pawn.
+            [self blackPawnMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
             

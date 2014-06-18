@@ -11,8 +11,8 @@
 @implementation Piece
 @synthesize x, y;
 @synthesize img;
+//0, is empty, 1 is white, 2 is black
 @synthesize side;
-
 
 
 -(id) initWithImg:(UIImageView *)image and:(int)X with:(int)Y {
