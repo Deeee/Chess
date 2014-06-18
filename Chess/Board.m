@@ -45,6 +45,7 @@
             //NSLog(@"yes it is equal to empty");
             UIImageView *tempImage = [t getImage];
             UIImageView *tempImage2 = [p getImage];
+            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
             [self imageExchange:tempImage with:tempImage2];
             [t setName:[p getName]];
             [p setName:[NSMutableString stringWithString:@"empty"]];
@@ -52,19 +53,18 @@
             [p setSide:0];
             //[t setImg:[p getImage] and:[p getName]];
             //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
-            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
 
         }
         else if([t getSide] != [p getSide]) {
             NSLog(@"t side isnt same to p side");
             UIImageView *tempImage2 = [t getImage];
             UIImageView *tempImage = [p getImage];
+            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
             [self imageTakeOver:tempImage takeOver:tempImage2];
             [t setName:[p getName]];
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
-            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
 
         }
     }
