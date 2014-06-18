@@ -49,6 +49,7 @@
             [t setName:[p getName]];
             [p setName:[NSMutableString stringWithString:@"empty"]];
             [t setSide:[p getSide]];
+            [p setSide:0];
             //[t setImg:[p getImage] and:[p getName]];
             //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
             NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
@@ -61,6 +62,8 @@
             [self imageTakeOver:tempImage takeOver:tempImage2];
             [t setName:[p getName]];
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
+            [t setSide:[p getSide]];
+            [p setSide:0];
             NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
 
         }
@@ -184,6 +187,7 @@
                 }
                 if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
                     [self isAbleToBecomeQueenFor:pi to:t];
+                    NSLog(@"regular move by black");
                     return true;
                 }
                 else return false;
