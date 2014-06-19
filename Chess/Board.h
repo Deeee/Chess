@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Piece.h"
+#import "LinearEquation.h"
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
 @property int terms;
@@ -18,5 +19,15 @@
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
 -(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
+-(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
+
+-(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t;
+-(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t;
+
+-(BOOL)knightMove:(Piece *)pi to :(Piece *)t;
+-(BOOL)isValidKnightMove:(Piece *)pi to :(Piece*)t;
+
+-(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t;
+-(BOOL)bishopMove:(Piece *)pi to :(Piece *)t;
 @end

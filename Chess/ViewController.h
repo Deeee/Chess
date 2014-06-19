@@ -91,16 +91,6 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn7;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
 
-
-
-
-
-
-
-
-
-
-
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;

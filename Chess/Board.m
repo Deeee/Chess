@@ -355,7 +355,7 @@
 }
 
 //knightMove works for both colors
--(BOOL)knightMove:(Piece *)pi to :(Piece *)t {
+-(BOOL)knightMove:(Piece *)pi to:(Piece *)t {
     if(([pi getSide] != [t getSide]) && [self isValidKnightMove:pi to:t]) {
         NSLog(@"valid knight move ");
         return true;
@@ -365,7 +365,54 @@
         return false;
     }
 }
-
+//Need implementation on every piece type that requires block check
+-(BOOL)isPieceBlocked:(Piece *)pi to:(Piece *)t {
+    NSLog(@"in testing blocking");
+    if ([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+        LinearEquation *le = [[LinearEquation alloc]initWith:0 and:0];
+        [le solvingFromX1:[pi getX] andY1:[pi getY] andX2:[t getX] andY2:[t getY]];
+        if ([pi getX] > [t getX]) {
+            for (int i = [pi getX] - 1;i != [t getX]; i--) {
+                if (![[[self getPieceAt:i with:[le getYbyX:i]] getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]]) {
+                    return true;
+                }
+            }
+        }
+        else {
+            for (int i = [pi getX] + 1;i != [t getX]; i++) {
+                if (![[[self getPieceAt:i with:[le getYbyX:i]] getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    return false;
+}
+//helpful function for bishop moves
+-(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t {
+    int xDiff = [t getX] - [pi getX];
+    int yDiff = [t getY] - [pi getY];
+    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    if (ABS(xDiff) == ABS(yDiff) && ![self isPieceBlocked:pi to:t]) {
+        return true;
+    }
+    else {
+        NSLog(@"invalid bishop move");
+        return false;
+    }
+}
+//main function for checking bishop moves
+-(BOOL)bishopMove:(Piece *)pi to :(Piece *)t {
+    if (([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
+        NSLog(@"valid bishop move");
+        return true;
+    }
+    else {
+        NSLog(@"invalid bishop move");
+        return false;
+    }
+}
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
     
