@@ -27,6 +27,7 @@
 		5B0FA10E194BD5B300DAE166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA10C194BD5B300DAE166 /* InfoPlist.strings */; };
 		5B0FA110194BD5B300DAE166 /* ChessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0FA10F194BD5B300DAE166 /* ChessTests.m */; };
 		5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B0F1952A3C600AC9190 /* LinearEquation.m */; };
+		5B322B131953599B00AC9190 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B121953599B00AC9190 /* Player.m */; };
 		5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */; };
 		5B3B3333194D3EA800068A0B /* B_King.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3320194D3EA800068A0B /* B_King.png */; };
 		5B3B3334194D3EA800068A0B /* B_King.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3321194D3EA800068A0B /* B_King.psd */; };
@@ -89,6 +90,8 @@
 		5B0FA10F194BD5B300DAE166 /* ChessTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessTests.m; sourceTree = "<group>"; };
 		5B322B0E1952A3C600AC9190 /* LinearEquation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearEquation.h; sourceTree = "<group>"; };
 		5B322B0F1952A3C600AC9190 /* LinearEquation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearEquation.m; sourceTree = "<group>"; };
+		5B322B111953599B00AC9190 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		5B322B121953599B00AC9190 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chess.board.fabric.png; sourceTree = "<group>"; };
 		5B3B3320194D3EA800068A0B /* B_King.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_King.png; sourceTree = "<group>"; };
 		5B3B3321194D3EA800068A0B /* B_King.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_King.psd; sourceTree = "<group>"; };
@@ -179,6 +182,8 @@
 			children = (
 				5B3B331D194D2DB800068A0B /* images */,
 				5B0FA0EC194BD5B300DAE166 /* AppDelegate.h */,
+				5B322B111953599B00AC9190 /* Player.h */,
+				5B322B121953599B00AC9190 /* Player.m */,
 				5B0FA0ED194BD5B300DAE166 /* AppDelegate.m */,
 				5B0FA0EF194BD5B300DAE166 /* Main_iPhone.storyboard */,
 				5B0FA0F2194BD5B300DAE166 /* Main_iPad.storyboard */,
@@ -381,6 +386,7 @@
 				5B0FA0FB194BD5B300DAE166 /* ViewController.m in Sources */,
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
 				5B0FA0EA194BD5B300DAE166 /* main.m in Sources */,
+				5B322B131953599B00AC9190 /* Player.m in Sources */,
 				5B3B334B194E7B2400068A0B /* Board.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

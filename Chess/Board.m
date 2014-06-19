@@ -23,7 +23,7 @@
         }
         [pieceSet addObject:v];
     }
-    terms = 0;
+    terms = 1;
     return self;
 }
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p{
@@ -34,10 +34,10 @@
     return pieceSet;
 }
 
--(void) setMove:(Piece *) p to:(Piece *)t {
+-(BOOL) setMove:(Piece *) p to:(Piece *)t {
     //NSLog(@"in board setMove");
     if ([p getSide] == [t getSide]) {
-        return;
+        return false;
     }
     if ([self requrieMove:p to:t] == true) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
@@ -53,6 +53,7 @@
             [p setSide:0];
             //[t setImg:[p getImage] and:[p getName]];
             //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
+            return true;
 
         }
         else if([t getSide] != [p getSide]) {
@@ -65,6 +66,7 @@
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
+            return true;
 
         }
     }
@@ -72,7 +74,8 @@
     else {
         NSLog(@"requrie move returned false");
     }
-    
+    return false;
+
 }
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b {
     b.image = a.image;
