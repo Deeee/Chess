@@ -292,4 +292,5 @@
 -(Piece *) getPieceAt:(int)X with:(int)Y {
     return [[pieceSet objectAtIndex:X] objectAtIndex:Y];
 }
+
 @end
