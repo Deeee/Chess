@@ -652,13 +652,18 @@ GLfloat gCubeVertexData[216] =
                 isMoved = 0;
 
             }
-            if ([iView isEqual:[tempPiece getImage]] || switcher == 1) {
-                NSLog(@"equal to image");
+            if (isMoved == 1) {
+                
+
                 self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
                                                    self.dragObject.frame.size.width - 20,
                                                    self.dragObject.frame.size.height - 20);
                 isMoved = 0;
-
+            }
+            else {
+                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+                                                   self.dragObject.frame.size.width,
+                                                   self.dragObject.frame.size.height);
             }
             if (switcher == 1) {
                 //NSLog(@"switching to 0");
