@@ -193,6 +193,71 @@
     return false;
 }
 
+// valid rock moves for both colors
+// helper function to rockMove()
+-(BOOL)isValidRockMove:(Piece *)pi to : (Piece*) t {
+    
+    int startX = [pi getX];
+    int startY = [pi getY];
+    int endX = [t getX];
+    int endY = [t getY];
+    
+    int xDiff = endX - startX;
+    int yDiff = endY - startY;
+    
+    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    
+    // all for loops within the inner if blocks are used to make sure that the piece is only going through
+    // empty squares to reach the destination square.
+    
+    if((yDiff == 0) && (xDiff != 0)) {
+        // rock is moving horizontal, along x axis
+        // debug print statement :  NSLog(@" piece at %d, %d \t %d,%d \t side = %d\n",i,startY, [p getX], [p getY], [p getSide]);
+            // need Piece* p = getPiece() etc.
+        if(xDiff < 0) {
+            for(int i = startX - 1; i > endX; i--)
+                if([ [self getPieceAt:i with:startY] getSide] != 0)
+                    return false;
+        }
+        else {
+            for(int i = startX + 1; i < endX; i++)
+                if([ [self getPieceAt:i with:startY] getSide] != 0)
+                    return false;
+        }
+        return true;
+    }
+    else if((xDiff == 0) && (yDiff != 0)) {
+        // rock is moving vertical, along y axis
+        // debug print statement : NSLog(@" piece at %d,%d \t %d,%d \t side = %d\n",startX,i, [p getX], [p getY], [p getSide]);
+        if(yDiff < 0) {
+            for(int i = startY - 1; i > endY; i--)
+                if([ [self getPieceAt:startX with:i] getSide] != 0)
+                    return false;
+        }
+        else {
+            for(int i = startY + 1; i < endY; i++)
+                if([ [self getPieceAt:startX with:i] getSide] != 0)
+                    return false;
+        }
+        return true;
+    }
+    else
+        return false;
+
+}
+
+//rockMove for both colors
+-(BOOL)rockMove:(Piece *)pi to :(Piece*)t {
+    if(([pi getSide] != [t getSide]) && [self isValidRockMove:pi to:t]) {
+        NSLog(@"valid rock move ");
+        return true;
+    }
+    else {
+        NSLog(@"invalid rock move");
+        return false;
+    }
+}
+
 // valid knight moves for both colors
 // helper function to knightMove()
 -(BOOL)isValidKnightMove:(Piece *)pi to :(Piece*)t {
@@ -257,7 +322,7 @@
             return [self knightMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-            
+            return [self rockMove:pi to:t];
         }
     }
     //BLACK PIECES
@@ -278,7 +343,7 @@
             return [self knightMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-            
+            return [self rockMove:pi to:t];
         }
     }
     else {
