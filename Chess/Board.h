@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Piece.h"
 #import "LinearEquation.h"
+#import "Player.h"
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
 @property int terms;
+@property Player *white;
+@property Player *black;
 -(BOOL) setMove:(Piece *) p to:(Piece *)t;
 -(BOOL) requrieMove:(Piece *) p to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
@@ -21,6 +24,7 @@
 -(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
 -(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
+-(void) changeTerms;
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t;
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t;

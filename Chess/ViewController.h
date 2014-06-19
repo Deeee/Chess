@@ -92,6 +92,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
 
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
+@property int isDebug;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;

@@ -101,6 +101,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize homePosition;
 @synthesize backgroud;
 @synthesize isMoved;
+@synthesize isDebug;
 
 @synthesize space1;
 @synthesize space2;
@@ -269,6 +270,7 @@ GLfloat gCubeVertexData[216] =
     Y = 0;
     isTouched = 0;
     isMoved = 0;
+    isDebug = 0;
     
 }
 
@@ -556,12 +558,12 @@ GLfloat gCubeVertexData[216] =
 }
 
 - (Piece *)getMove:(UIImageView *) iView{
-    NSLog(@"in viewcontroller get move");
+    //NSLog(@"in viewcontroller get move");
     for(NSMutableArray *v in [myBoard getPieceSet]) {
         for(Piece *p in v) {
             if([[p getImage] isEqual:iView]){
-                NSLog(@"found one");
-                NSLog(@"%d  %d",[p getX],[p getY]);
+                //NSLog(@"found one");
+                //NSLog(@"%d  %d",[p getX],[p getY]);
                 return p;
             }
         }
@@ -574,7 +576,8 @@ GLfloat gCubeVertexData[216] =
         // one finger
         CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
         for (UIImageView *iView in self.view.subviews) {
-            if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[UIImage imageNamed:@"empty.png"]]) {
+            Piece *temp = [self getMove:iView];
+            if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[UIImage imageNamed:@"empty.png"]] && ([myBoard terms] == [temp getSide] || isDebug == 1)) {
                 if (touchPoint.x > iView.frame.origin.x &&
                     touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
                     touchPoint.y > iView.frame.origin.y &&
@@ -623,7 +626,7 @@ GLfloat gCubeVertexData[216] =
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"in touches end");
+    NSLog(@"in touches end %d",[myBoard terms]);
     [dragObject setAlpha:1];
     //switcher for iterating
     //int switcher = 0;
@@ -632,7 +635,7 @@ GLfloat gCubeVertexData[216] =
         for (UIImageView *iView in self.view.subviews) {
             //NSLog(@"%d, %d",k++, isTouched);
             //enmu for 35 times wired
-            if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[tempPiece getImage].image]) {
+            if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[tempPiece getImage].image] ) {
                 //NSLog(@"%d",k++);
                 //NSLog(@"touchend succ");
                 if (touchPoint.x > iView.frame.origin.x &&
@@ -640,10 +643,10 @@ GLfloat gCubeVertexData[216] =
                     touchPoint.y > iView.frame.origin.y &&
                     touchPoint.y < iView.frame.origin.y + iView.frame.size.height )
                 {
-                    NSLog(@"setting backgroud");
                     Piece *t = [self getMove:iView];
+                    NSLog(@"setting backgroud");
                     if ([myBoard setMove:tempPiece to:t]) {
-
+                        [myBoard changeTerms];
                     }
 
                 }
@@ -712,6 +715,12 @@ GLfloat gCubeVertexData[216] =
             NSLog(@"%d %d to %d %d",X1,Y1,X2,Y2);
             [myBoard debugMove:[myBoard getPieceAt:X1 with:Y1] to:[myBoard getPieceAt:X2 with:Y2]];
             
+        }
+        else if ([debuggingWindow.text rangeOfString:@"debug mode off"].location != NSNotFound) {
+            isDebug = 1;
+        }
+        else if ([debuggingWindow.text rangeOfString:@"debug mode on"].location != NSNotFound) {
+            isDebug = 0;
         }
     }
     debuggingWindow.text = @"";

@@ -11,6 +11,7 @@
 @implementation Board
 @synthesize pieceSet;
 @synthesize terms;
+@synthesize white, black;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -24,14 +25,27 @@
         [pieceSet addObject:v];
     }
     terms = 1;
+    [white setSide:1];
+    [black setSide:2];
     return self;
 }
+
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p{
     //NSLog(@"in set piece on board");
     [[pieceSet objectAtIndex:X] insertObject:p atIndex:Y];
 }
+
 -(NSMutableArray *) getPieceSet{
     return pieceSet;
+}
+
+-(void) changeTerms {
+    if (terms == 1) {
+        terms = 2;
+    }
+    else {
+        terms = 1;
+    }
 }
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t {
