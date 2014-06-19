@@ -173,6 +173,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize bpawn8;
 
 @synthesize debuggingWindow;
+@synthesize isDebug;
 - (void)viewDidLoad
 {
     [super viewDidLoad];

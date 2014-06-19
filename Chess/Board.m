@@ -486,9 +486,9 @@
 
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
-    if (isDebug == 1) {
-        return true;
-    }
+//    if (isDebug == 1) {
+//        return true;
+//    }
     // moves for all pieces except pawns are color independent.
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
         if([pi getSide] == 1)

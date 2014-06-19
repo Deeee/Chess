@@ -12,6 +12,7 @@
 #import "Piece.h"
 #import "Board.h"
 @interface ViewController : GLKViewController<UITextFieldDelegate>
+
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 //@property (nonatomic, strong) IBOutlet UIView *dropTarget;
@@ -56,6 +57,7 @@
 @property Piece *tempPiece;
 @property int X, Y, isTouched;
 @property int isMoved;
+@property int isDebug;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
