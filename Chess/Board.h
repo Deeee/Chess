@@ -18,4 +18,5 @@
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
 -(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
+-(Piece *) getPieceAt:(int)X with:(int)Y;
 @end
