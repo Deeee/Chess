@@ -68,6 +68,10 @@
 
         }
     }
+    //added this
+    else {
+        NSLog(@"requrie move returned false");
+    }
     
 }
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b {
@@ -100,18 +104,14 @@
     return false;
 }
 
-//-(BOOL)whiteQueenMove:(Piece *)pi to :(Piece *)t {
-//    if([pi getY] == 1) {
-//        
-//    }
-//    else {
-//        
-//    }
-//}
+// if piece colors are different and not empty.
+-(BOOL) isOppColor: (Piece *) pi and :(Piece *)t {
+    return ([t getSide] != [pi getSide] && ([t getSide] != 0));
+}
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t {
     if ([pi getY] == 6) {
-        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+        if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 [self isAbleToBecomeQueenFor:pi to:t];
                 return true;
@@ -125,7 +125,7 @@
         else return false;
     }
     else {
-        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+        if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 [self isAbleToBecomeQueenFor:pi to:t];
                 return true;
@@ -143,11 +143,12 @@
     return false;
 
 }
+
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t {
  
     if ([pi getY] == 1) {
-        //white Pawn is at starting spot.
-        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+        if ([self isOppColor:pi and:t]) {
+            
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 [self isAbleToBecomeQueenFor:pi to:t];
                 return true;
@@ -168,9 +169,9 @@
     }
     
     else {
-        //white pawn is not at starting spot.
-        if ([t getSide] != [pi getSide] && ([t getSide] != 0)) {
+        if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                // attacks diagonally up one square.
                 [self isAbleToBecomeQueenFor:pi to:t];
                 return true;
             }
@@ -192,34 +193,76 @@
     return false;
 }
 
+// valid knight moves for both colors
+// helper function to knightMove()
+-(BOOL)isValidKnightMove:(Piece *)pi to :(Piece*)t {
+    
+    int xDiff = [t getX] - [pi getX];
+    int yDiff = [t getY] - [pi getY];
+    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    
+    if(xDiff == 2 && yDiff == 1)
+        return true;
+    if(xDiff == 2 && yDiff == -1)
+        return true;
+    if(xDiff == -2 && yDiff == 1)
+        return true;
+    if(xDiff == -2 && yDiff == -1)
+        return true;
+    
+    if(xDiff == 1 && yDiff == 2)
+        return true;
+    if(xDiff == 1 && yDiff == -2)
+        return true;
+    if(xDiff == -1 && yDiff == 2)
+        return true;
+    if(xDiff == -1 && yDiff == -2)
+        return true;
+    
+    return false;
+}
 
+//knightMove works for both colors
+-(BOOL)knightMove:(Piece *)pi to :(Piece *)t {
+    if(([pi getSide] != [t getSide]) && [self isValidKnightMove:pi to:t]) {
+        NSLog(@"valid knight move ");
+        return true;
+    }
+    else {
+        NSLog(@"invalid knight move");
+        return false;
+    }
+}
+
+//requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
+    
+    // might not need if statment to get color, piece methods could be color independent.
+    
+    //WHITE pieces
     if ([pi getSide] == 1) {
         //for white pawn
         if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
             return [self whitePawnMove:pi to:t];
         }
-        // for white queen
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
             
         }
         else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-            
-            
         }
         else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
             
         }
         else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-            
+            return [self knightMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
             
         }
     }
+    //BLACK PIECES
     else if([pi getSide] == 2){
         if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-            //for black pawn.
             return [self blackPawnMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
@@ -232,7 +275,7 @@
             
         }
         else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-            
+            return [self knightMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
             
