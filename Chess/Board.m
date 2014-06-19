@@ -226,8 +226,8 @@
     return false;
 }
 
-// valid rock moves for both colors
 // helper function to rockMove()
+// TODO : implement queenMove with isPieceBlocked() for clarity.
 -(BOOL)isValidRockMove:(Piece *)pi to : (Piece*) t {
     
     int startX = [pi getX];
@@ -446,6 +446,36 @@
         return false;
     }
 }
+// helper function for queenMove();
+// TODO : implement queenMove with isPieceBlocked() for clarity.
+-(BOOL) isValidQueenMove:(Piece *)pi to: (Piece *)t {
+    int xDiff = [t getX] - [pi getX];
+    int yDiff = [t getY] - [pi getY];
+    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    
+    if(![self isValidKnightMove:pi to:t]) {
+        if(xDiff == yDiff)
+            return [self isValidBishopMove:pi to:t];
+        else
+            return [self isValidRockMove:pi to:t];
+    }
+    else {
+        NSLog(@"invalid queen move");
+        return false;
+    }
+}
+
+-(BOOL)queenMove:(Piece *)pi to :(Piece *)t {
+    if (([pi getSide] != [t getSide]) && [self isValidQueenMove:pi to:t]) {
+        NSLog(@"valid queen move");
+        return true;
+    }
+    else {
+        NSLog(@"invalid queen move");
+        return false;
+    }
+}
+
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
     
@@ -462,6 +492,7 @@
         
     }
     else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+        return [self queenMove:pi to:t];
     }
     else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
         return [self bishopMove:pi to:t];
