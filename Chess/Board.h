@@ -12,7 +12,7 @@
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
 @property int terms;
--(void) setMove:(Piece *) p to:(Piece *)t;
+-(BOOL) setMove:(Piece *) p to:(Piece *)t;
 -(BOOL) requrieMove:(Piece *) p to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
 -(NSMutableArray *) getPieceSet;
