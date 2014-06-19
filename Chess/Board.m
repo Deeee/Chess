@@ -134,6 +134,14 @@
 }
 
 -(Piece *)getWhiteKing {
+    for (NSMutableArray *i  in pieceSet) {
+        for (Piece *p in i) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"bking"]]) {
+                return p;
+            }
+        }
+    }
+    NSLog(@"erro king doesnt exist");
     return nil;
 }
 
@@ -478,7 +486,9 @@
 
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
-    
+    if (isDebug == 1) {
+        return true;
+    }
     // moves for all pieces except pawns are color independent.
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
         if([pi getSide] == 1)

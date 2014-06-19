@@ -10,7 +10,9 @@
 #import "Piece.h"
 #import "LinearEquation.h"
 #import "Player.h"
+
 @interface Board : NSObject
+extern int isDebug;
 @property NSMutableArray* pieceSet;
 @property int terms;
 @property Player *white;

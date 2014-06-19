@@ -101,7 +101,6 @@ GLfloat gCubeVertexData[216] =
 @synthesize homePosition;
 @synthesize backgroud;
 @synthesize isMoved;
-@synthesize isDebug;
 
 @synthesize space1;
 @synthesize space2;
