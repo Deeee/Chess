@@ -546,6 +546,29 @@ GLfloat gCubeVertexData[216] =
     
     return YES;
 }
++(void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack
+{
+    // Prepare the animation from the old size to the new size
+    CGRect oldBounds = view.layer.bounds;
+    CGRect newBounds = oldBounds;
+    newBounds.size = size;
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"bounds"];
+    
+    
+    // iOS
+    animation.fromValue = [NSValue valueWithCGRect:oldBounds];
+    animation.toValue = [NSValue valueWithCGRect:newBounds];
+    
+    
+    if(!snapBack)
+    {
+        // Update the layer’s bounds so the layer doesn’t snap back when the animation completes.
+        view.layer.bounds = newBounds;
+    }
+    
+    // Add the animation, overriding the implicit animation.
+    [view.layer addAnimation:animation forKey:@"bounds"];
+}
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
     //UIGraphicsBeginImageContext(newSize);
     // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
@@ -717,10 +740,10 @@ GLfloat gCubeVertexData[216] =
             
         }
         else if ([debuggingWindow.text rangeOfString:@"debug mode off"].location != NSNotFound) {
-            isDebug = 1;
+            isDebug = 0;
         }
         else if ([debuggingWindow.text rangeOfString:@"debug mode on"].location != NSNotFound) {
-            isDebug = 0;
+            isDebug = 1;
         }
     }
     debuggingWindow.text = @"";

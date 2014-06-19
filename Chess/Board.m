@@ -120,6 +120,22 @@
     }
     return false;
 }
+//return king from the board
+-(Piece *)getBlackKing {
+    for (NSMutableArray *i  in pieceSet) {
+        for (Piece *p in i) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"king"]]) {
+                return p;
+            }
+        }
+    }
+    NSLog(@"erro king doesnt exist");
+    return nil;
+}
+
+-(Piece *)getWhiteKing {
+    return nil;
+}
 
 // if piece colors are different and not empty.
 -(BOOL) isOppColor: (Piece *) pi and :(Piece *)t {

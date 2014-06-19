@@ -103,5 +103,5 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
-
++(void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end
