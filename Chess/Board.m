@@ -390,7 +390,7 @@
     return false;
 }
 //helpful function for bishop moves
--(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t {
+-(BOOL)isValidBishopMove1:(Piece *)pi to:(Piece *)t {
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
     NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
@@ -403,7 +403,7 @@
     }
 }
 //main function for checking bishop moves
--(BOOL)bishopMove:(Piece *)pi to :(Piece *)t {
+-(BOOL)bishopMove1:(Piece *)pi to :(Piece *)t {
     if (([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
         NSLog(@"valid bishop move");
         return true;
@@ -471,6 +471,35 @@
 }
 -(Piece *) getPieceAt:(int)X with:(int)Y {
     return [[pieceSet objectAtIndex:X] objectAtIndex:Y];
+}
+-(void) debugMove:(Piece *)p to:(Piece *)t {
+    if ([[t getName] isEqualToString:@"empty"] ) {
+        //NSLog(@"yes it is equal to empty");
+        UIImageView *tempImage = [t getImage];
+        UIImageView *tempImage2 = [p getImage];
+        NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
+        [self imageExchange:tempImage with:tempImage2];
+        [t setName:[p getName]];
+        [p setName:[NSMutableString stringWithString:@"empty"]];
+        [t setSide:[p getSide]];
+        [p setSide:0];
+        //[t setImg:[p getImage] and:[p getName]];
+        //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
+        
+    }
+    else {
+        NSLog(@"t side isnt same to p side");
+        UIImageView *tempImage2 = [t getImage];
+        UIImageView *tempImage = [p getImage];
+        NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
+        [self imageTakeOver:tempImage takeOver:tempImage2];
+        [t setName:[p getName]];
+        [p setName: [NSMutableString stringWithFormat: @"empty"]];
+        [t setSide:[p getSide]];
+        [p setSide:0];
+        
+    }
+
 }
 
 @end

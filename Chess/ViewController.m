@@ -171,6 +171,8 @@ GLfloat gCubeVertexData[216] =
 @synthesize bpawn6;
 @synthesize bpawn7;
 @synthesize bpawn8;
+
+@synthesize debuggingWindow;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -186,11 +188,10 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
-//    for (int i = 1; i < 6; i++) {
-//        for (int j = 0; j < 8; j++) {
-//            [myBoard setPieceOnBoard:j with:i with:[[Piece alloc] initWithImg:space1 and:[NSMutableString stringWithString: @"empty"]and:0 with:i with:j]]
-//        }
-//    }
+
+    UIView* dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    debuggingWindow.inputView = dummyView; // Hide keyboard, but show blinking cursor
+    self.debuggingWindow.delegate = self;
     NSLog(@"in viewdidload");
     myBoard = [[Board alloc] init];
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
@@ -675,5 +676,35 @@ GLfloat gCubeVertexData[216] =
 //    }
 
 }
-
+//Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"here");
+    if (textField == self.debuggingWindow) {
+        if ([debuggingWindow.text rangeOfString:@"move"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            NSLog(@"%d %d to %d %d",X1,Y1,X2,Y2);
+            [myBoard debugMove:[myBoard getPieceAt:X1 with:Y1] to:[myBoard getPieceAt:X2 with:Y2]];
+            
+        }
+    }
+    debuggingWindow.text = @"";
+    return YES;
+}
 @end

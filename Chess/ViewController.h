@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Piece.h"
 #import "Board.h"
-@interface ViewController : GLKViewController
+@interface ViewController : GLKViewController<UITextFieldDelegate>
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 //@property (nonatomic, strong) IBOutlet UIView *dropTarget;
@@ -91,6 +91,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn7;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
 
+@property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
@@ -99,5 +100,7 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
 
 @end

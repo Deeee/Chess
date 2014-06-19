@@ -317,6 +317,14 @@
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OOD-X9-TgJ">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0UW-2o-Ack">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
                                     </scrollView>
                                     <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bvJ-gj-Mgh">
                                         <rect key="frame" x="0.0" y="181" width="320" height="49"/>
@@ -353,6 +361,7 @@
                         <outlet property="bqueen" destination="bRf-S9-RGH" id="WZq-9f-L81"/>
                         <outlet property="brock" destination="Pna-j9-uc1" id="thC-u8-731"/>
                         <outlet property="brock2" destination="a9O-Uv-pbn" id="kSz-wu-Ide"/>
+                        <outlet property="debuggingWindow" destination="0UW-2o-Ack" id="COL-BV-SE0"/>
                         <outlet property="kight2" destination="Ed7-LN-uyY" id="ts3-Te-xMl"/>
                         <outlet property="king" destination="WVz-oQ-aR4" id="gVV-AF-3cY"/>
                         <outlet property="knight" destination="DvZ-wD-2nG" id="Uzf-bJ-yh5"/>

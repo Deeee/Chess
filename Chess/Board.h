@@ -30,4 +30,6 @@
 
 -(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t;
 -(BOOL)bishopMove:(Piece *)pi to :(Piece *)t;
+
+-(void) debugMove:(Piece *)p to:(Piece *)t;
 @end
