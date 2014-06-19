@@ -642,7 +642,9 @@ GLfloat gCubeVertexData[216] =
                 {
                     NSLog(@"setting backgroud");
                     Piece *t = [self getMove:iView];
-                    [myBoard setMove:tempPiece to:t];
+                    if ([myBoard setMove:tempPiece to:t]) {
+                        <#statements#>
+                    }
                     switcher = 1;
 
                 }
