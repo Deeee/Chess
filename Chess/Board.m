@@ -419,52 +419,30 @@
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
     
-    // might not need if statment to get color, piece methods could be color independent.
-    
-    //WHITE pieces
-    if ([pi getSide] == 1) {
-        //for white pawn
-        if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+    // moves for all pieces except pawns are color independent.
+    if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+        if([pi getSide] == 1)
             return [self whitePawnMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-            
-        }
-        else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-        }
-        else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-            return [self bishopMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-            return [self knightMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-            return [self rockMove:pi to:t];
-        }
+        else if([pi getSide] == 2)
+           return [self blackPawnMove:pi to:t];
+        else
+            ;
     }
-    //BLACK PIECES
-    else if([pi getSide] == 2){
-        if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-            return [self blackPawnMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-            
-        }
-        else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-            
-        }
-        else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-            return [self bishopMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-            return [self knightMove:pi to:t];
-        }
-        else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-            return [self rockMove:pi to:t];
-        }
+    else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
+        
+    }
+    else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+    }
+    else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+        return [self bishopMove:pi to:t];
+    }
+    else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
+        return [self knightMove:pi to:t];
+    }
+    else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
+        return [self rockMove:pi to:t];
     }
     else {
-        
     }
     return true;
 }
