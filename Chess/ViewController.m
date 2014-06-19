@@ -626,9 +626,9 @@ GLfloat gCubeVertexData[216] =
     NSLog(@"in touches end");
     [dragObject setAlpha:1];
     //switcher for iterating
-    int switcher = 0;
+    //int switcher = 0;
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
-    if (isTouched == 1) {
+    if (isTouched == 1 && isMoved == 1) {
         for (UIImageView *iView in self.view.subviews) {
             //NSLog(@"%d, %d",k++, isTouched);
             //enmu for 35 times wired
@@ -643,37 +643,40 @@ GLfloat gCubeVertexData[216] =
                     NSLog(@"setting backgroud");
                     Piece *t = [self getMove:iView];
                     if ([myBoard setMove:tempPiece to:t]) {
-                        <#statements#>
+
                     }
-                    switcher = 1;
 
                 }
-                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-                                                   self.dragObject.frame.size.width,
-                                                   self.dragObject.frame.size.height);
-                isMoved = 0;
+//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+//                                                   self.dragObject.frame.size.width,
+//                                                   self.dragObject.frame.size.height);
 
             }
-            if (isMoved == 1) {
-                
-
-                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-                                                   self.dragObject.frame.size.width - 20,
-                                                   self.dragObject.frame.size.height - 20);
-                isMoved = 0;
-            }
-            else {
-                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-                                                   self.dragObject.frame.size.width,
-                                                   self.dragObject.frame.size.height);
-            }
-            if (switcher == 1) {
-                //NSLog(@"switching to 0");
-                isTouched = 0;
-                
-                return;
-            }
+//            if (isMoved == 1) {
+//                
+//
+//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+//                                                   self.dragObject.frame.size.width - 20,
+//                                                   self.dragObject.frame.size.height - 20);
+//                isMoved = 0;
+//            }
+//            else {
+//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+//                                                   self.dragObject.frame.size.width,
+//                                                   self.dragObject.frame.size.height);
+//            }
+//            if (switcher == 1) {
+//                //NSLog(@"switching to 0");
+//                isTouched = 0;
+//                
+//                return;
+//            }
         }
+        isMoved = 0;
+        isTouched = 0;
+        self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+                                           self.dragObject.frame.size.width - 20,
+                                           self.dragObject.frame.size.height - 20);
     }
 //    else {
 //        NSLog(@"in else ");
