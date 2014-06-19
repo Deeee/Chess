@@ -258,6 +258,73 @@
     }
 }
 
+// helper function for moveBishop()
+-(BOOL)isValidBishopMove:(Piece *)pi to : (Piece*) t{
+
+    int startX = [pi getX];
+    int startY = [pi getY];
+    int endX = [t getX];
+    int endY = [t getY];
+    
+    int xDiff = endX - startX;
+    int yDiff = endY - startY;
+    
+    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+//    NSLog(@"from (%d,%d) to (%d,%d)\n",startX,startY,endX,endY);
+    
+    //moving diagonally means that the abs of diff for both axis must be same.
+    if(!(ABS(xDiff) == ABS(yDiff)))
+        return false;
+
+    // all for loops within if blocks are used to make sure that the piece is only going through
+    // empty squares to reach the destination square.
+    
+    //General print debug statement for for
+        //NSLog(@" piece at %d,%d \t %d,%d \t side = %d\n",i,idx, [p getX], [p getY], [p getSide]);
+        // must create Piece *p = getPiece();
+
+    if (xDiff < 0 && yDiff < 0) {
+        // left up diagonal
+        int idx = startY - 1;
+        for(int i = startX - 1; i > endX; i--)
+            if([[self getPieceAt:i with:idx--] getSide] != 0)
+                return false;
+    }
+    else if(xDiff < 0 && yDiff > 0) {
+        //left down diagaonal
+        int idx = startY + 1;
+        for(int i = startX - 1; i > endX; i--)
+            if([[self getPieceAt:i with:idx++] getSide] != 0)
+                return false;
+        }
+    else if(xDiff > 0 && yDiff < 0 ) {
+        // right up diagaonal
+        int idx = startY - 1;
+        for(int i = startX + 1; i < endX; i++)
+            if([[self getPieceAt:i with:idx--] getSide] != 0)
+                return false;
+    }
+    else {
+        //right down diagonal.
+        int idx = startY + 1;
+        for(int i = startX + 1; i < endX; i++)
+            if([[self getPieceAt:i with:idx++] getSide] != 0)
+                return false;
+    }
+    return true;
+}
+
+-(BOOL)bishopMove:(Piece *)pi to :(Piece*)t {
+    if(([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
+        NSLog(@"valid bishop move ");
+        return true;
+    }
+    else {
+        NSLog(@"invalid bishop move");
+        return false;
+    }
+}
+
 // valid knight moves for both colors
 // helper function to knightMove()
 -(BOOL)isValidKnightMove:(Piece *)pi to :(Piece*)t {
@@ -316,7 +383,7 @@
         else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
         }
         else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-            
+            return [self bishopMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
             return [self knightMove:pi to:t];
@@ -337,7 +404,7 @@
             
         }
         else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-            
+            return [self bishopMove:pi to:t];
         }
         else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
             return [self knightMove:pi to:t];
@@ -351,7 +418,8 @@
     }
     return true;
 }
-- (BOOL) bot_requireMove:(Piece *) p to:(Piece *)t {
+
+-(BOOL) bot_requireMove:(Piece *) p to:(Piece *)t {
     return true;
 }
 -(Piece *) getPieceAt:(int)X with:(int)Y {
