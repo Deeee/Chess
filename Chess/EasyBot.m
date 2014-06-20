@@ -26,7 +26,9 @@
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {}
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {}
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {}
-                else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {}
+                else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
+                    return [self findRookAttack:pi];
+                }
                 else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {}
             }
             else {
@@ -37,6 +39,43 @@
     return NULL;
 }
 
+-(Piece *)findRookAttack : (Piece*)rook {
+    // left horizontal attacks
+    for(int i = [rook getX]; i > -1; i--) {
+        Piece* p = [self getPieceAt:i with:[rook getY]];
+        if([self isOppColor:rook and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+            return p;
+        }
+    }
+    // right horizontal attacks
+    for(int i = [rook getX]; i < 9; i++) {
+        Piece* p = [self getPieceAt:i with:[rook getY]];
+        if([self isOppColor:rook and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+            return p;
+        }
+    }
+    // up vertical attacks
+    
+    for(int i = [rook getY]; i > -1; i--) {
+        Piece* p = [self getPieceAt:[rook getX] with:i];
+        if([self isOppColor:rook and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+            return p;
+        }
+    }
+    
+    // down vertical attacks
+    for(int i = [rook getY]; i < 9; i++) {
+        Piece* p = [self getPieceAt:[rook getX] with:i];
+        if([self isOppColor:rook and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+            return p;
+        }
+    }
+    return NULL;
+}
 
 -(Piece *) findWhitePawnAttack : (Piece*) pawn {
     if([pawn getX] == 0) {

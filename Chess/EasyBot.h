@@ -14,4 +14,5 @@
 -(Piece *) findAttack : (int) color;
 -(Piece *) findWhitePawnAttack : (Piece*) pawn;
 -(Piece *) findBlackPawnAttack : (Piece*) pawn;
+-(Piece *)findRookAttack : (Piece*)rook;
 @end
