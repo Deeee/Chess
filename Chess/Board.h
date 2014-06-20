@@ -16,7 +16,6 @@
 @property int terms;
 @property Player *white;
 @property Player *black;
-@property int isChecked;
 -(BOOL) setMove:(Piece *) p to:(Piece *)t;
 -(BOOL) requrieMove:(Piece *) p to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
@@ -38,6 +37,8 @@
 -(BOOL)bishopMove:(Piece *)pi to :(Piece *)t;
 
 -(void) debugMove:(Piece *)p to:(Piece *)t;
+-(BOOL) isChecked;
+
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;
 @end

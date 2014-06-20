@@ -53,6 +53,7 @@
     if ([p getSide] == [t getSide]) {
         return false;
     }
+
     if ([self requrieMove:p to:t] == true) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         if ([[t getName] isEqualToString:@"empty"] ) {
@@ -124,7 +125,7 @@
 -(Piece *)getBlackKing {
     for (NSMutableArray *i  in pieceSet) {
         for (Piece *p in i) {
-            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"king"]]) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"bking"]]) {
                 return p;
             }
         }
@@ -136,7 +137,7 @@
 -(Piece *)getWhiteKing {
     for (NSMutableArray *i  in pieceSet) {
         for (Piece *p in i) {
-            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"bking"]]) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"king"]]) {
                 return p;
             }
         }
@@ -144,7 +145,45 @@
     NSLog(@"erro king doesnt exist");
     return nil;
 }
+-(BOOL) isChecked {
+    if (terms == 1) {
+        
+        Piece *temp = [self getWhiteKing];
+        NSLog(@"");
+        for (NSMutableArray *i in pieceSet) {
+            for (Piece *p in i) {
+                if ([p getSide] == 2) {
+                    if ([self requrieMove:p to:temp]) {
+                        NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+                        return true;
+                    }
+                    else {
+                        //NSLog(@"shouldnt reach here %@, (%d,%d)",[p getName],[p getX],[p getY]);
+                    }
+                }
+            }
+        }
+        
+    }
+    else if(terms == 2){
+        Piece *temp = [self getBlackKing];
+        for (NSMutableArray *i in pieceSet) {
+            for (Piece *p in i) {
+                if ([p getSide] == 1) {
+                    if ([self requrieMove:p to:temp]) {
+                        NSLog(@"black king checked");
+                        return true;
+                    }
+                }
 
+            }
+        }
+    }
+    else {
+        NSLog(@"terms erro!");
+    }
+    return false;
+}
 // if piece colors are different and not empty.
 -(BOOL) isOppColor: (Piece *) pi and :(Piece *)t {
     return ([t getSide] != [pi getSide] && ([t getSide] != 0));
@@ -154,13 +193,13 @@
     if ([pi getY] == 6) {
         if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                [self isAbleToBecomeQueenFor:pi to:t];
+                //[self isAbleToBecomeQueenFor:pi to:t];
                 return true;
             }
             else return false;
         }
         if ((([t getY] - [pi getY]) >= -2) && ([t getY] - [pi getY] < 0)&& ([t getX] - [pi getX] == 0)) {
-            [self isAbleToBecomeQueenFor:pi to:t];
+            //[self isAbleToBecomeQueenFor:pi to:t];
             return true;
         }
         else return false;
@@ -168,13 +207,13 @@
     else {
         if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                [self isAbleToBecomeQueenFor:pi to:t];
+                //[self isAbleToBecomeQueenFor:pi to:t];
                 return true;
             }
             else return false;
         }
         if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
-            [self isAbleToBecomeQueenFor:pi to:t];
+            //[self isAbleToBecomeQueenFor:pi to:t];
             NSLog(@"regular move by black");
             return true;
         }
@@ -191,20 +230,22 @@
         if ([self isOppColor:pi and:t]) {
             
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                [self isAbleToBecomeQueenFor:pi to:t];
+                //[self isAbleToBecomeQueenFor:pi to:t];
+                NSLog(@"valid white pawn move");
                 return true;
             }
             else {
-                NSLog(@"not able to eat");
+                //NSLog(@"not able to eat");
                 return false;
             }
         }
         else if ((([t getY] - [pi getY]) <= 2) && ([t getY] - [pi getY] > 0)&& ([t getX] - [pi getX] == 0)) {
-            [self isAbleToBecomeQueenFor:pi to:t];
+            //[self isAbleToBecomeQueenFor:pi to:t];
+            NSLog(@"valid white pawn move to skewed side");
             return true;
         }
         else {
-            NSLog(@"skipping too much");
+            //NSLog(@"skipping too much");
             return false;
         }
     }
@@ -213,20 +254,22 @@
         if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 // attacks diagonally up one square.
-                [self isAbleToBecomeQueenFor:pi to:t];
+                //[self isAbleToBecomeQueenFor:pi to:t];
+                NSLog(@"valid white pawn eating move to skewed side");
                 return true;
             }
             else {
-                NSLog(@"non original point unable to eat");
+                //NSLog(@"non original point unable to eat");
                 return false;
             }
         }
         if ([t getY] - [pi getY] == 1 && ([t getX] - [pi getX] == 0)) {
-            [self isAbleToBecomeQueenFor:pi to:t];
+            //[self isAbleToBecomeQueenFor:pi to:t];
+            NSLog(@"valid white pawn eating move");
             return true;
         }
         else {
-            NSLog(@"non original point skipping too much");
+            //NSLog(@"non original point skipping too much");
             return false;
         }
     }
@@ -484,6 +527,43 @@
     }
 }
 
+-(BOOL)kingMove:(Piece *)pi to:(Piece *)t {
+    int xDiff = [t getX] - [pi getX];
+    int yDiff = [t getY] - [pi getY];
+    if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1)) {
+        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
+        return true;
+    }
+    else return false;
+}
+-(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t {
+    if ([pi getSide] == [t getSide]) {
+        return false;
+    }
+        int tempSideT = [t getSide];
+    int tempSideP = [pi getSide];
+    NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
+        NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
+        [t setName:[pi getName]];
+        [pi setName:[NSMutableString stringWithString:@"empty"]];
+        [t setSide:[pi getSide]];
+        [pi setSide:0];
+        if ([self isChecked]) {
+            [t setSide:tempSideT];
+            [t setName:tempNameT];
+            [pi setSide:tempSideP];
+            [pi setName:tempNameP];
+            return false;
+        }
+        else {
+            [t setSide:tempSideT];
+            [t setName:tempNameT];
+            [pi setSide:tempSideP];
+            [pi setName:tempNameP];
+            return true;
+        }
+
+}
 //requrieMove ~ validating moves ?
 -(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
 //    if (isDebug == 1) {
@@ -491,31 +571,82 @@
 //    }
     // moves for all pieces except pawns are color independent.
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-        if([pi getSide] == 1)
-            return [self whitePawnMove:pi to:t];
-        else if([pi getSide] == 2)
-           return [self blackPawnMove:pi to:t];
+        if([pi getSide] == 1) {
+            if([self whitePawnMove:pi to:t]) {
+                NSLog(@"valid white pawn move");
+                if ([self isUnchecked:pi to:t]) {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+        else if([pi getSide] == 2) {
+            if([self blackPawnMove:pi to:t]) {
+                NSLog(@"valid black pawn move");
+                if ([self isUnchecked:pi to:t]) {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
         else
             ;
     }
     else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-        
+        if ([self kingMove:pi to:t]) {
+            if ([self isUnchecked:pi to:t]) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
     }
     else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-        return [self queenMove:pi to:t];
+        if ([self queenMove:pi to:t]) {
+            if ([self isUnchecked:pi to:t]) {
+                return true;
+            }
+            else false;
+        }
+        else return false;
     }
     else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-        return [self bishopMove:pi to:t];
+        if ([self bishopMove:pi to:t]) {
+            NSLog(@"valid bishop move");
+            if ([self isUnchecked:pi to:t]) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
     }
     else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-        return [self knightMove:pi to:t];
+        if ([self knightMove:pi to:t]) {
+            NSLog(@"valid knight move");
+            if ([self isUnchecked:pi to:t]) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
     }
     else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-        return [self rockMove:pi to:t];
+        if ([self rockMove:pi to:t]) {
+            NSLog(@"valid rock");
+            if ([self isUnchecked:pi to:t]) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
     }
     else {
+        NSLog(@"expected");
+        return false;
     }
-    return true;
+    return false;
 }
 
 -(BOOL) bot_requireMove:(Piece *) p to:(Piece *)t {
