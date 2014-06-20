@@ -48,12 +48,15 @@
     }
 }
 
--(BOOL) setMove:(Piece *) p to:(Piece *)t {
+-(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug{
     //NSLog(@"in board setMove");
     if ([p getSide] == [t getSide]) {
         return false;
     }
-
+    if (isDebug == 1) {
+        [self debugMove:p to:t];
+        return true;
+    }
     if ([self requrieMove:p to:t] == true) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         if ([[t getName] isEqualToString:@"empty"] ) {
@@ -145,7 +148,10 @@
     NSLog(@"erro king doesnt exist");
     return nil;
 }
--(BOOL) isChecked {
+-(BOOL) isChecked:(int)isDebug {
+    if (isDebug == 1) {
+        return false;
+    }
     if (terms == 1) {
         
         Piece *temp = [self getWhiteKing];
@@ -548,7 +554,7 @@
         [pi setName:[NSMutableString stringWithString:@"empty"]];
         [t setSide:[pi getSide]];
         [pi setSide:0];
-        if ([self isChecked]) {
+    if ([self isChecked]) {
             [t setSide:tempSideT];
             [t setName:tempNameT];
             [pi setSide:tempSideP];
