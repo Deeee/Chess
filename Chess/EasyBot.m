@@ -25,7 +25,9 @@
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {}
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {}
-                else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {}
+                else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+                    return [self findBishopAttack:pi];
+                }
                 else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
                     return [self findRookAttack:pi];
                 }
@@ -34,6 +36,46 @@
             else {
                 // this piece has same color as Color, do not search
             }
+        }
+    }
+    return NULL;
+}
+
+-(Piece*)findBishopAttack :(Piece*)bishop {
+    // up left attacks
+    int tempY = [bishop getY];
+    for(int i = [bishop getX]; i > -1; i--) {
+        Piece *p = [self getPieceAt:i with:tempY--];
+        if([self isOppColor:bishop and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
+            return p;
+        }
+    }
+    // up right attacks
+    tempY = [bishop getY];
+    for(int i = [bishop getX]; i < 9; i++) {
+        Piece * p = [self getPieceAt:i with:tempY++];
+        if([self isOppColor:bishop and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
+            return p;
+        }
+    }
+    // down left attacks
+    int tempX = [bishop getX];
+    for(int i = [bishop getY]; i < 9; i++) {
+        Piece* p = [self getPieceAt:tempX-- with:i];
+        if([self isOppColor:bishop and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
+            return p;
+        }
+    }
+    // down right attacks
+    tempX = [bishop getX];
+    for(int i = [bishop getY]; i > -1; i--) {
+        Piece* p = [self getPieceAt:tempX++ with:i];
+        if([self isOppColor:bishop and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
+            return p;
         }
     }
     return NULL;
