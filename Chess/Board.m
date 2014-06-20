@@ -289,7 +289,7 @@
     int xDiff = endX - startX;
     int yDiff = endY - startY;
     
-    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    NSLog(@"xDiff : %d \t yDiff : %d -- isValidRockMove\n",xDiff, yDiff);
     
     // all for loops within the inner if blocks are used to make sure that the piece is only going through
     // empty squares to reach the destination square.
@@ -353,7 +353,7 @@
     int xDiff = endX - startX;
     int yDiff = endY - startY;
     
-    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    NSLog(@"xDiff : %d \t yDiff : %d -- isValidBishopMove\n",xDiff, yDiff);
 //    NSLog(@"from (%d,%d) to (%d,%d)\n",startX,startY,endX,endY);
     
     //moving diagonally means that the abs of diff for both axis must be same.
@@ -415,7 +415,7 @@
     
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    NSLog(@"xDiff : %d \t yDiff : %d -- isValidKnightMove\n",xDiff, yDiff);
     
     if(xDiff == 2 && yDiff == 1)
         return true;
@@ -502,16 +502,16 @@
 -(BOOL) isValidQueenMove:(Piece *)pi to: (Piece *)t {
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+    NSLog(@"xDiff : %d \t yDiff : %d -- isValidQueenMove\n",xDiff, yDiff);
     
     if(![self isValidKnightMove:pi to:t]) {
-        if(xDiff == yDiff)
+        if(ABS(xDiff) == ABS(yDiff))
             return [self isValidBishopMove:pi to:t];
         else
             return [self isValidRockMove:pi to:t];
     }
     else {
-        NSLog(@"invalid queen move");
+        NSLog(@"invalid queen move -- isValidQueenMove");
         return false;
     }
 }
@@ -522,7 +522,7 @@
         return true;
     }
     else {
-        NSLog(@"invalid queen move");
+        NSLog(@"invalid queen move -- queenMove");
         return false;
     }
 }
