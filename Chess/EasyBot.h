@@ -7,7 +7,11 @@
 //
 
 #import "Board.h"
+#import <Foundation/Foundation.h>
+#import "Piece.h"
 
 @interface EasyBot : Board
-
+-(Piece *) findAttack : (int) color;
+-(Piece *) findWhitePawnAttack : (Piece*) pawn;
+-(Piece *) findBlackPawnAttack : (Piece*) pawn;
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C2217811954ACDF007081F2 /* EasyBot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C2217801954ACDF007081F2 /* EasyBot.m */; };
 		5B0FA0DA194BD5B300DAE166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0D9194BD5B300DAE166 /* Foundation.framework */; };
 		5B0FA0DC194BD5B300DAE166 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0DB194BD5B300DAE166 /* CoreGraphics.framework */; };
 		5B0FA0DE194BD5B300DAE166 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0DD194BD5B300DAE166 /* UIKit.framework */; };
@@ -65,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C22177F1954ACDF007081F2 /* EasyBot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyBot.h; sourceTree = "<group>"; };
+		1C2217801954ACDF007081F2 /* EasyBot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyBot.m; sourceTree = "<group>"; };
 		5B0FA0D6194BD5B300DAE166 /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0FA0D9194BD5B300DAE166 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B0FA0DB194BD5B300DAE166 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -201,6 +204,8 @@
 				5B3B334A194E7B2400068A0B /* Board.m */,
 				5B0FA0FC194BD5B300DAE166 /* Images.xcassets */,
 				5B0FA0E4194BD5B300DAE166 /* Supporting Files */,
+				1C22177F1954ACDF007081F2 /* EasyBot.h */,
+				1C2217801954ACDF007081F2 /* EasyBot.m */,
 			);
 			path = Chess;
 			sourceTree = "<group>";
@@ -388,6 +393,7 @@
 				5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */,
 				5B3B3348194E4FD000068A0B /* Piece.m in Sources */,
 				5B0FA0FB194BD5B300DAE166 /* ViewController.m in Sources */,
+				1C2217811954ACDF007081F2 /* EasyBot.m in Sources */,
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
 				5B0FA0EA194BD5B300DAE166 /* main.m in Sources */,
 				5B322B131953599B00AC9190 /* Player.m in Sources */,
