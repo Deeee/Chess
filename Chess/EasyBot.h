@@ -16,4 +16,5 @@
 -(Piece *) findBlackPawnAttack : (Piece*) pawn;
 -(Piece *)findRookAttack : (Piece*)rook;
 -(Piece*)findBishopAttack :(Piece*)bishop;
+-(Piece*)findQueenAttack: (Piece*)queen;
 @end

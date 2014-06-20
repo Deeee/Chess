@@ -24,7 +24,9 @@
                         return [self findBlackPawnAttack:pi];
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {}
-                else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {}
+                else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+                    
+                }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
                     return [self findBishopAttack:pi];
                 }
@@ -39,6 +41,19 @@
         }
     }
     return NULL;
+}
+
+-(Piece*)findQueenAttack: (Piece*)queen {
+    Piece* p = [self findBishopAttack:queen];
+    if(p != NULL)
+        return p;
+    else {
+        p = [self findRookAttack:queen];
+        if(p != NULL)
+            return p;
+        else
+            return NULL;
+    }
 }
 
 -(Piece*)findBishopAttack :(Piece*)bishop {
