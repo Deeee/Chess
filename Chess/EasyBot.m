@@ -134,6 +134,44 @@
     return NULL;
 }
 
+//used as helper function for findKnightAttack
+    //but can be used on any piece and will return if it has valid board coordinates.
+-(BOOL) isOnBoard : (Piece*) p {
+    if(([p getX] < 0) || ([p getY] > 8))
+        return false;
+    else
+        return true;
+}
+
+-(Piece *)findKnightAttack : (Piece*) knight {
+    
+    int knightY = [knight getY]; int knightX = [knight getX];
+    
+    Piece* knightMoves[] = {
+        [self getPieceAt:knightX + 2 with:knightY + 1],
+        [self getPieceAt:knightX + 2 with:knightY - 1],
+        [self getPieceAt:knightX - 2 with:knightY + 1],
+        [self getPieceAt:knightX - 2 with:knightY - 1],
+        
+        [self getPieceAt:knightX + 1 with:knightY + 2],
+        [self getPieceAt:knightX + 1 with:knightY - 2],
+        [self getPieceAt:knightX - 1 with:knightY + 2],
+        [self getPieceAt:knightX - 1 with:knightY - 2],
+    };
+
+    for(int i = 0; i < 8; i++) {
+        if(![self isOnBoard:knightMoves[i]])
+            continue;
+        else if([self isOnBoard:knightMoves[i]] && [self isOppColor:knight and:knightMoves[i]]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",knightMoves[i], [knightMoves[i] getX], [knightMoves[i] getY],knight, [knight getX], [knight getY]);
+            return knightMoves[i];
+        }
+        else
+            return NULL;
+    }
+    return NULL;
+}
+
 -(Piece *) findWhitePawnAttack : (Piece*) pawn {
     if([pawn getX] == 0) {
         // upper right pawn

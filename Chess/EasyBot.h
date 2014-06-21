@@ -17,4 +17,6 @@
 -(Piece *)findRookAttack : (Piece*)rook;
 -(Piece*)findBishopAttack :(Piece*)bishop;
 -(Piece*)findQueenAttack: (Piece*)queen;
+-(BOOL) isOnBoard : (Piece*) p;
+-(Piece *)findKnightAttack : (Piece*) knight;
 @end
