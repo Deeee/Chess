@@ -19,4 +19,5 @@
 -(Piece*)findQueenAttack: (Piece*)queen;
 -(BOOL) isOnBoard : (Piece*) p;
 -(Piece *)findKnightAttack : (Piece*) knight;
+-(Piece*) findKingAttack : (Piece*) king;
 @end

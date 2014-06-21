@@ -134,13 +134,39 @@
     return NULL;
 }
 
-//used as helper function for findKnightAttack
-    //but can be used on any piece and will return if it has valid board coordinates.
+// returns true if piece p has valid board coordinates : (9,1) is invald and returns false.
 -(BOOL) isOnBoard : (Piece*) p {
     if(([p getX] < 0) || ([p getY] > 8))
         return false;
     else
         return true;
+}
+
+-(Piece*) findKingAttack : (Piece*) king {
+    int kingY = [king getY]; int kingX = [king getX];
+    
+    Piece* kingMoves[] = {
+        [self getPieceAt:kingX + 1 with:kingY],
+        [self getPieceAt:kingX - 1 with:kingY],
+        [self getPieceAt:kingX with:kingY + 1],
+        [self getPieceAt:kingX with:kingY - 1],
+        [self getPieceAt:kingX +1 with:kingY + 1],
+        [self getPieceAt:kingX +1 with:kingY - 1],
+        [self getPieceAt:kingX -1 with:kingY + 1],
+        [self getPieceAt:kingX -1 with:kingY - 1],
+    };
+    
+    for(int i = 0; i < 8; i ++) {
+        if(![self isOnBoard:kingMoves[i]])
+            continue;
+        else if([self isOnBoard:kingMoves[i]] && [self isOppColor:king and:kingMoves[i]]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
+            return kingMoves[i];
+        }
+        else
+            return NULL;
+    }
+    return NULL;
 }
 
 -(Piece *)findKnightAttack : (Piece*) knight {
