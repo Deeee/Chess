@@ -23,9 +23,11 @@
                     else
                         return [self findBlackPawnAttack:pi];
                 }
-                else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {}
+                else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
+                    return [self findKingAttack:pi];
+                }
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-                    
+                    return [self findQueenAttack:pi];
                 }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
                     return [self findBishopAttack:pi];
@@ -33,7 +35,9 @@
                 else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
                     return [self findRookAttack:pi];
                 }
-                else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {}
+                else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
+                    return [self findKnightAttack:pi];
+                }
             }
             else {
                 // this piece has same color as Color, do not search
@@ -156,15 +160,11 @@
         [self getPieceAt:kingX -1 with:kingY - 1],
     };
     
-    for(int i = 0; i < 8; i ++) {
-        if(![self isOnBoard:kingMoves[i]])
-            continue;
-        else if([self isOnBoard:kingMoves[i]] && [self isOppColor:king and:kingMoves[i]]) {
+    for(int i = 0; i < 8; i++) {
+        if([self isOnBoard:kingMoves[i]] && [self isOppColor:king and:kingMoves[i]]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
             return kingMoves[i];
         }
-        else
-            return NULL;
     }
     return NULL;
 }
@@ -186,14 +186,10 @@
     };
 
     for(int i = 0; i < 8; i++) {
-        if(![self isOnBoard:knightMoves[i]])
-            continue;
-        else if([self isOnBoard:knightMoves[i]] && [self isOppColor:knight and:knightMoves[i]]) {
+        if([self isOnBoard:knightMoves[i]] && [self isOppColor:knight and:knightMoves[i]]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",knightMoves[i], [knightMoves[i] getX], [knightMoves[i] getY],knight, [knight getX], [knight getY]);
             return knightMoves[i];
         }
-        else
-            return NULL;
     }
     return NULL;
 }
