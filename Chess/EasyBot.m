@@ -202,7 +202,7 @@
     if([pawn getX] == 0) {
         // upper right pawn
         Piece* leftDiag = [self getPieceAt:[pawn getX] + 1 with:[pawn getY] + 1];
-        if([self isOppColor:pawn and:leftDiag]) {
+        if([self isOppColor:pawn and:leftDiag] || [self isOnBoard:leftDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
             return leftDiag;
         }
@@ -210,7 +210,7 @@
     else if([pawn getX] == 7) {
         // upper left pawn
         Piece* rightDiag = [self getPieceAt:[pawn getX] - 1 with: [pawn getY] + 1];
-        if([self isOppColor:pawn and:rightDiag]) {
+        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
             return rightDiag;
         }
@@ -218,12 +218,12 @@
     else {
         // all other pawns.
         Piece* leftDiag = [self getPieceAt:[pawn getX] + 1 with:[pawn getY] + 1];
-        if([self isOppColor:pawn and:leftDiag]) {
+        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
             return leftDiag;
         }
         Piece* rightDiag = [self getPieceAt:[pawn getX] - 1 with: [pawn getY] + 1];
-        if([self isOppColor:pawn and:rightDiag]) {
+        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
             return rightDiag;
         }
@@ -235,7 +235,7 @@
     if([pawn getX] == 0) {
         //bottom right pawn
         Piece* rightDiag = [self getPieceAt:[pawn getX] + 1 with: [pawn getY] -1 ];
-        if([self isOppColor:pawn and:rightDiag]) {
+        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
             return rightDiag;
         }
@@ -243,7 +243,7 @@
     else if([pawn getX] == 7) {
         //bottom left pawn
         Piece* leftDiag = [self getPieceAt:[pawn getX] - 1 with:[pawn getY] - 1];
-        if([self isOppColor:pawn and:leftDiag]) {
+        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
             return leftDiag;
         }
@@ -251,13 +251,13 @@
     else {
         // all other pawns.
         Piece* rightDiag = [self getPieceAt:[pawn getX] + 1 with: [pawn getY] -1 ];
-        if([self isOppColor:pawn and:rightDiag]) {
+        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
             return rightDiag;
         }
         
         Piece* leftDiag = [self getPieceAt:[pawn getX] - 1 with:[pawn getY] - 1];
-        if([self isOppColor:pawn and:leftDiag]) {
+        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
             return leftDiag;
         }
