@@ -11,13 +11,13 @@
 #import "Piece.h"
 
 @interface EasyBot : Board
--(Piece *) findAttack : (int) color;
--(Piece *) findWhitePawnAttack : (Piece*) pawn;
--(Piece *) findBlackPawnAttack : (Piece*) pawn;
--(Piece *)findRookAttack : (Piece*)rook;
--(Piece*)findBishopAttack :(Piece*)bishop;
--(Piece*)findQueenAttack: (Piece*)queen;
+-(NSMutableArray *) findAttack : (int) color;
+-(NSMutableArray *) findWhitePawnAttack : (Piece*) pawn;
+-(NSMutableArray *) findBlackPawnAttack : (Piece*) pawn;
+-(NSMutableArray *)findRookAttack : (Piece*)rook;
+-(NSMutableArray*)findBishopAttack :(Piece*)bishop;
+-(NSMutableArray*)findQueenAttack: (Piece*)queen;
 -(BOOL) isOnBoard : (Piece*) p;
--(Piece *)findKnightAttack : (Piece*) knight;
--(Piece*) findKingAttack : (Piece*) king;
+-(NSMutableArray *)findKnightAttack : (Piece*) knight;
+-(NSMutableArray*) findKingAttack : (Piece*) king;
 @end
