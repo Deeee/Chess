@@ -9,7 +9,9 @@
 #import "ViewController.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#define MINRADIUS 10
 
+#define MAXRADIUS 30
 // Uniform index.
 enum
 {
@@ -27,7 +29,7 @@ enum
     NUM_ATTRIBUTES
 };
 
-GLfloat gCubeVertexData[216] = 
+GLfloat gCubeVertexData[216] =
 {
     // Data layout for each line below is:
     // positionX, positionY, positionZ,     normalX, normalY, normalZ,
@@ -101,7 +103,8 @@ GLfloat gCubeVertexData[216] =
 @synthesize homePosition;
 @synthesize backgroud;
 @synthesize isMoved;
-
+@synthesize paths;
+@synthesize filePath;
 @synthesize space1;
 @synthesize space2;
 @synthesize space3;
@@ -137,6 +140,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize myBoard;
 @synthesize X, Y, isTouched;
 @synthesize tempPiece;
+@synthesize isTapped;
 
 @synthesize rock;
 @synthesize knight;
@@ -174,12 +178,15 @@ GLfloat gCubeVertexData[216] =
 
 @synthesize debuggingWindow;
 @synthesize isDebug;
+@synthesize debugInfo;
+@synthesize drawPoint = _drawPoint;
+@synthesize circleViews;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
+    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -189,10 +196,26 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
-
-    UIView* dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-    debuggingWindow.inputView = dummyView; // Hide keyboard, but show blinking cursor
+    //Gestures setup
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTapGesture];
+    
+    //Debug window setup
+    UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    // Hide keyboard, but show blinking cursor
+    debuggingWindow.inputView = dummyView;
     self.debuggingWindow.delegate = self;
+    
+    //Initialize circleViews
+    circleViews = [[NSMutableArray alloc] init];
+    
+    
+    //    UIView *mainView = view;
+    //    CALayer *mainViewLayer = mainView.layer;
+    //    [mainViewLayer addSublayer:dummyView.layer];
+    //    [mainViewLayer addSublayer:v.layer];
+    //    [mainViewLayer]
     NSLog(@"in viewdidload");
     myBoard = [[Board alloc] init];
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
@@ -211,7 +234,7 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:1] setImg:pawn6 and:[NSMutableString stringWithString:@"pawn6"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:1] setImg:pawn7 and:[NSMutableString stringWithString:@"pawn7"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:1] setImg:pawn8 and:[NSMutableString stringWithString:@"pawn8"]and:1];
-
+    
     
     
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:7] setImg:brock and:[NSMutableString stringWithString:@"brock"]and:2];
@@ -230,7 +253,7 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:6] setImg:bpawn6 and:[NSMutableString stringWithString:@"bpawn6"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:6] setImg:bpawn7 and:[NSMutableString stringWithString:@"bpawn7"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:6] setImg:bpawn8 and:[NSMutableString stringWithString:@"bpawn8"]and:2];
-    //[myBoard setPieceOnBoard:2 with:0 with:[[Piece alloc] initWithImg:space1 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:0]];
+    
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:2] setImg:space1 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:2] setImg:space2 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:2] setImg:space3 and:[NSMutableString stringWithString:@"empty"]and:0];
@@ -264,18 +287,22 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:5] setImg:space30 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:5] setImg:space31 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:5] setImg:space32 and:[NSMutableString stringWithString:@"empty"]and:0];
-    //[myBoard setPieceOnBoard:2 with:1 with:[[Piece alloc] initWithImg:space2 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:1]];
-    //[myBoard setPieceOnBoard:2 with:2 with:[[Piece alloc] initWithImg:space3 and:[NSMutableString stringWithString:@"empty"]and:0 with:2 with:2]];
+    
     X = 0;
     Y = 0;
     isTouched = 0;
     isMoved = 0;
     isDebug = 0;
+    isTapped = 0;
+    paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
+    filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
+    debugInfo = [[NSMutableString alloc] init];
+    
     
 }
 
 - (void)dealloc
-{    
+{
     [self tearDownGL];
     
     if ([EAGLContext currentContext] == self.context) {
@@ -286,7 +313,7 @@ GLfloat gCubeVertexData[216] =
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-
+    
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
         self.view = nil;
         
@@ -297,7 +324,7 @@ GLfloat gCubeVertexData[216] =
         }
         self.context = nil;
     }
-
+    
     // Dispose of any resources that can be recreated.
 }
 
@@ -569,6 +596,7 @@ GLfloat gCubeVertexData[216] =
     // Add the animation, overriding the implicit animation.
     [view.layer addAnimation:animation forKey:@"bounds"];
 }
+
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
     //UIGraphicsBeginImageContext(newSize);
     // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
@@ -591,10 +619,82 @@ GLfloat gCubeVertexData[216] =
             }
         }
     }
+    //NSLog(@"error cant find the piece");
     return nil;
 }
--(void)showAvailableMoves:(Piece *)pi{
+- (void)setMyPoint:(CGPoint)myPoint
+{
+    _drawPoint = myPoint;
+    [self setNeedsDisplay];
+}
+
+- (NSInteger)getTagFromPiece:(Piece *) temp{
+    int tempX = [temp getX];
+    int tempY = [temp getY]; /* Assuming this is initalized to the second number */
+    int tempTag = [[NSString stringWithFormat:@"%d%d",tempX, tempY] intValue];
+    return tempTag;
+}
+
+- (void)isMoveDrawn:(Piece *) temp {
+    NSInteger tag = [self getTagFromPiece:temp];
+    for (DrawCircles *i in circleViews) {
+        if (i.tag == tag) {
+            NSLog(@"removing object from array");
+            [i removeFromSuperview];
+            [circleViews removeObject:i];
+            return;
+        }
+    }
+    CGRect frame = [UIScreen mainScreen].bounds;
+    DrawCircles *drawView = [[DrawCircles alloc] initWithFrame:frame];
+    drawView.tag = [self getTagFromPiece:temp];
     
+    [circleViews addObject:drawView];
+    drawView.userInteractionEnabled = NO;
+    [self.view addSubview:drawView];
+    [self.view bringSubviewToFront:drawView];
+    [self showAvailableMoves:temp onView:drawView];
+    return;
+}
+-(void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture{
+    if (doubleTapGesture.state == UIGestureRecognizerStateRecognized) {
+        CGPoint tapPoint = [doubleTapGesture locationInView:self.view];
+        for (UIImageView *iView in self.view.subviews) {
+            //can result serious problems because it returns nil when a piece is not found
+            Piece *temp = [self getMove:iView];
+            if (temp != nil && [iView isMemberOfClass:[UIImageView class]] && iView != backgroud && (![[temp getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]])) {
+                if (tapPoint.x > iView.frame.origin.x &&
+                    tapPoint.x < iView.frame.origin.x + iView.frame.size.width &&
+                    tapPoint.y > iView.frame.origin.y &&
+                    tapPoint.y < iView.frame.origin.y + iView.frame.size.height)
+                {
+                    NSLog(@"tap object recognized!");
+                    [self isMoveDrawn:temp];
+                }
+            }
+        }
+        
+        
+    }
+}
+
+
+-(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
+    NSLog(@"in show availabie moves %@ requiring ava moves", [pi getName]);
+    for (NSMutableArray *i in [myBoard getPieceSet]) {
+        for (Piece *t in i) {
+            if ([t getSide] != [pi getSide]) {
+                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                if ([myBoard requireMove:pi to:t]) {
+                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                    CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
+                    //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
+                    [drawView drawOnSpot:pt withSide:[pi getSide]];
+                    
+                }
+            }
+        }
+    }
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -602,78 +702,52 @@ GLfloat gCubeVertexData[216] =
         // one finger
         CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
         
-            for (UIImageView *iView in self.view.subviews) {
-                Piece *temp = [self getMove:iView];
-                                //if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[UIImage imageNamed:@"empty.png"]] && ([myBoard terms] == [temp getSide] || isDebug == 1))
-                if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && (![[temp getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]]) && ([myBoard terms] == [temp getSide] || isDebug == 1)) {
-                    if (touchPoint.x > iView.frame.origin.x &&
-                        touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
-                        touchPoint.y > iView.frame.origin.y &&
-                        touchPoint.y < iView.frame.origin.y + iView.frame.size.height)
-                    {
-                        NSLog(@"touched!");
-                        [iView setAlpha:0.7];
-                        isTouched = 1;
-                        tempPiece = [self getMove:iView];
-                        X = [tempPiece getX];
-                        Y = [tempPiece getY];
-                        self.dragObject = iView;
-                        self.touchOffset = CGPointMake(touchPoint.x - iView.frame.origin.x,
-                                                       touchPoint.y - iView.frame.origin.y);
-                        self.homePosition = CGPointMake(iView.frame.origin.x,
-                                                        iView.frame.origin.y);
-                        [self.view bringSubviewToFront:self.dragObject];
-                        
-                    }
-                }
-            }
-    }
-    if ([touches count] == 2) {
-        CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
-        
         for (UIImageView *iView in self.view.subviews) {
+            //can result serious problems because it returns nil when a piece is not found
             Piece *temp = [self getMove:iView];
+            //if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[UIImage imageNamed:@"empty.png"]] && ([myBoard terms] == [temp getSide] || isDebug == 1))
             if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && (![[temp getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]]) && ([myBoard terms] == [temp getSide] || isDebug == 1)) {
                 if (touchPoint.x > iView.frame.origin.x &&
                     touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
                     touchPoint.y > iView.frame.origin.y &&
-                    touchPoint.y < iView.frame.origin.y + iView.frame.size.height) {
-                    [self showAvailableMoves:temp];
-
+                    touchPoint.y < iView.frame.origin.y + iView.frame.size.height)
+                {
+                    NSLog(@"touched!");
+                    isTouched = 1;
+                    tempPiece = [self getMove:iView];
+                    X = [tempPiece getX];
+                    Y = [tempPiece getY];
+                    self.dragObject = iView;
+                    self.touchOffset = CGPointMake(touchPoint.x - iView.frame.origin.x,
+                                                   touchPoint.y - iView.frame.origin.y);
+                    self.homePosition = CGPointMake(iView.frame.origin.x,
+                                                    iView.frame.origin.y);
+                    [self.view bringSubviewToFront:self.dragObject];
+                    
                 }
-
             }
         }
     }
+    //    if ([touches count] == 2) {
+    //        CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
+    //
+    //        for (UIImageView *iView in self.view.subviews) {
+    //            Piece *temp = [self getMove:iView];
+    //            if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && (![[temp getName] isEqualToString:[NSMutableString stringWithFormat:@"empty"]]) && ([myBoard terms] == [temp getSide] || isDebug == 1)) {
+    //                if (touchPoint.x > iView.frame.origin.x &&
+    //                    touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
+    //                    touchPoint.y > iView.frame.origin.y &&
+    //                    touchPoint.y < iView.frame.origin.y + iView.frame.size.height) {
+    //                    [self showAvailableMoves:temp];
+    //
+    //                }
+    //
+    //            }
+    //        }
+    //    }
     
     
-//        else {
-//            NSLog(@"in checked loop");
-//            for (UIImageView *iView in self.view.subviews) {
-//                Piece *temp = [self getMove:iView];
-//                if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ([iView.image isEqual:[UIImage imageNamed:@"king.png"]] || [iView.image isEqual:[UIImage imageNamed:@"bking.png"]]) && ([myBoard terms] == [temp getSide] || isDebug == 1)) {
-//                    if (touchPoint.x > iView.frame.origin.x &&
-//                        touchPoint.x < iView.frame.origin.x + iView.frame.size.width &&
-//                        touchPoint.y > iView.frame.origin.y &&
-//                        touchPoint.y < iView.frame.origin.y + iView.frame.size.height)
-//                    {
-//                        NSLog(@"is checked touched!");
-//                        [iView setAlpha:0.7];
-//                        isTouched = 1;
-//                        tempPiece = [self getMove:iView];
-//                        X = [tempPiece getX];
-//                        Y = [tempPiece getY];
-//                        self.dragObject = iView;
-//                        self.touchOffset = CGPointMake(touchPoint.x - iView.frame.origin.x,
-//                                                       touchPoint.y - iView.frame.origin.y);
-//                        self.homePosition = CGPointMake(iView.frame.origin.x,
-//                                                        iView.frame.origin.y);
-//                        [self.view bringSubviewToFront:self.dragObject];
-//                        
-//                    }
-//                }
-//            }
-//        }
+    
     
     
 }
@@ -681,6 +755,7 @@ GLfloat gCubeVertexData[216] =
 {
     if (isMoved == 0 && isTouched == 1) {
         NSLog(@"expanding");
+        [dragObject setAlpha:0.7];
         CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
         CGRect newDragObjectFrame = CGRectMake(touchPoint.x - touchOffset.x,
                                                touchPoint.y - touchOffset.y,
@@ -688,7 +763,7 @@ GLfloat gCubeVertexData[216] =
                                                self.dragObject.frame.size.height + 20);
         self.dragObject.frame = newDragObjectFrame;
         isMoved = 1;
-
+        
     }
     else if(isTouched == 1){
         //NSLog(@"normal moving");
@@ -698,6 +773,11 @@ GLfloat gCubeVertexData[216] =
                                                self.dragObject.frame.size.width,
                                                self.dragObject.frame.size.height);
         self.dragObject.frame = newDragObjectFrame;
+    }
+}
+- (void)removeAllCircles {
+    for (DrawCircles *i in circleViews) {
+        [i removeFromSuperview];
     }
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -722,34 +802,36 @@ GLfloat gCubeVertexData[216] =
                     Piece *t = [self getMove:iView];
                     NSLog(@"setting backgroud");
                     if ([myBoard setMove:tempPiece to:t and:isDebug]) {
+                        [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
                         [myBoard changeTerms];
+                        [self removeAllCircles];
                     }
-
+                    
                 }
-//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-//                                                   self.dragObject.frame.size.width,
-//                                                   self.dragObject.frame.size.height);
-
+                //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+                //                                                   self.dragObject.frame.size.width,
+                //                                                   self.dragObject.frame.size.height);
+                
             }
-//            if (isMoved == 1) {
-//                
-//
-//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-//                                                   self.dragObject.frame.size.width - 20,
-//                                                   self.dragObject.frame.size.height - 20);
-//                isMoved = 0;
-//            }
-//            else {
-//                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-//                                                   self.dragObject.frame.size.width,
-//                                                   self.dragObject.frame.size.height);
-//            }
-//            if (switcher == 1) {
-//                //NSLog(@"switching to 0");
-//                isTouched = 0;
-//                
-//                return;
-//            }
+            //            if (isMoved == 1) {
+            //
+            //
+            //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+            //                                                   self.dragObject.frame.size.width - 20,
+            //                                                   self.dragObject.frame.size.height - 20);
+            //                isMoved = 0;
+            //            }
+            //            else {
+            //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+            //                                                   self.dragObject.frame.size.width,
+            //                                                   self.dragObject.frame.size.height);
+            //            }
+            //            if (switcher == 1) {
+            //                //NSLog(@"switching to 0");
+            //                isTouched = 0;
+            //
+            //                return;
+            //            }
         }
         isMoved = 0;
         isTouched = 0;
@@ -757,13 +839,13 @@ GLfloat gCubeVertexData[216] =
                                            self.dragObject.frame.size.width - 20,
                                            self.dragObject.frame.size.height - 20);
     }
-//    else {
-//        NSLog(@"in else ");
-//        self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-//                                           self.dragObject.frame.size.width,
-//                                           self.dragObject.frame.size.height);
-//    }
-
+    //    else {
+    //        NSLog(@"in else ");
+    //        self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
+    //                                           self.dragObject.frame.size.width,
+    //                                           self.dragObject.frame.size.height);
+    //    }
+    
 }
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -809,6 +891,29 @@ GLfloat gCubeVertexData[216] =
             int Y1;
             [scanner scanInt:&Y1];
             NSLog(@"%@ side:%d",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide]);
+        }
+        else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            Piece *t = [myBoard getPieceAt:X1 with:Y1];
+            CGRect frame = [UIScreen mainScreen].bounds;
+            DrawCircles *drawView = [[DrawCircles alloc] initWithFrame:frame];
+            drawView.userInteractionEnabled = NO;
+            [self.view addSubview:drawView];
+            [self.view bringSubviewToFront:drawView];
+            [self showAvailableMoves:t onView:drawView];
+            
+            NSLog(@"show available move of %@(%d , %d) side:%d",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide]);
+        }
+        else if ([debuggingWindow.text rangeOfString:@"draw"].location != NSNotFound) {
+            
         }
     }
     debuggingWindow.text = @"";

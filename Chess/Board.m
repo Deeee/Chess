@@ -57,7 +57,7 @@
         [self debugMove:p to:t];
         return true;
     }
-    if ([self requrieMove:p to:t] == true) {
+    if ([self requireMove:p to:t] == true) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         if ([[t getName] isEqualToString:@"empty"] ) {
             //NSLog(@"yes it is equal to empty");
@@ -72,7 +72,7 @@
             //[t setImg:[p getImage] and:[p getName]];
             //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
             return true;
-
+            
         }
         else if([t getSide] != [p getSide]) {
             NSLog(@"t side isnt same to p side");
@@ -85,7 +85,7 @@
             [t setSide:[p getSide]];
             [p setSide:0];
             return true;
-
+            
         }
     }
     //added this
@@ -93,7 +93,7 @@
         NSLog(@"requrie move returned false");
     }
     return false;
-
+    
 }
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b {
     b.image = a.image;
@@ -148,10 +148,7 @@
     NSLog(@"erro king doesnt exist");
     return nil;
 }
--(BOOL) isChecked:(int)isDebug {
-    if (isDebug == 1) {
-        return false;
-    }
+-(BOOL) isChecked {
     if (terms == 1) {
         
         Piece *temp = [self getWhiteKing];
@@ -159,7 +156,7 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 2) {
-                    if ([self requrieMove:p to:temp]) {
+                    if ([self requireMove:p to:temp]) {
                         NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
                         return true;
                     }
@@ -176,12 +173,12 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 1) {
-                    if ([self requrieMove:p to:temp]) {
+                    if ([self requireMove:p to:temp]) {
                         NSLog(@"black king checked");
                         return true;
                     }
                 }
-
+                
             }
         }
     }
@@ -227,11 +224,11 @@
     }
     NSLog(@"unexpected!");
     return false;
-
+    
 }
 
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t {
- 
+    
     if ([pi getY] == 1) {
         if ([self isOppColor:pi and:t]) {
             
@@ -303,7 +300,7 @@
     if((yDiff == 0) && (xDiff != 0)) {
         // rock is moving horizontal, along x axis
         // debug print statement :  NSLog(@" piece at %d, %d \t %d,%d \t side = %d\n",i,startY, [p getX], [p getY], [p getSide]);
-            // need Piece* p = getPiece() etc.
+        // need Piece* p = getPiece() etc.
         if(xDiff < 0) {
             for(int i = startX - 1; i > endX; i--)
                 if([ [self getPieceAt:i with:startY] getSide] != 0)
@@ -333,7 +330,7 @@
     }
     else
         return false;
-
+    
 }
 
 //rockMove for both colors
@@ -350,7 +347,7 @@
 
 // helper function for moveBishop()
 -(BOOL)isValidBishopMove:(Piece *)pi to : (Piece*) t{
-
+    
     int startX = [pi getX];
     int startY = [pi getY];
     int endX = [t getX];
@@ -360,19 +357,19 @@
     int yDiff = endY - startY;
     
     NSLog(@"xDiff : %d \t yDiff : %d -- isValidBishopMove\n",xDiff, yDiff);
-//    NSLog(@"from (%d,%d) to (%d,%d)\n",startX,startY,endX,endY);
+    //    NSLog(@"from (%d,%d) to (%d,%d)\n",startX,startY,endX,endY);
     
     //moving diagonally means that the abs of diff for both axis must be same.
     if(!(ABS(xDiff) == ABS(yDiff)))
         return false;
-
+    
     // all for loops within if blocks are used to make sure that the piece is only going through
     // empty squares to reach the destination square.
     
     //General print debug statement for for
-        //NSLog(@" piece at %d,%d \t %d,%d \t side = %d\n",i,idx, [p getX], [p getY], [p getSide]);
-        // must create Piece *p = getPiece();
-
+    //NSLog(@" piece at %d,%d \t %d,%d \t side = %d\n",i,idx, [p getX], [p getY], [p getSide]);
+    // must create Piece *p = getPiece();
+    
     if (xDiff < 0 && yDiff < 0) {
         // left up diagonal
         int idx = startY - 1;
@@ -386,7 +383,7 @@
         for(int i = startX - 1; i > endX; i--)
             if([[self getPieceAt:i with:idx++] getSide] != 0)
                 return false;
-        }
+    }
     else if(xDiff > 0 && yDiff < 0 ) {
         // right up diagaonal
         int idx = startY - 1;
@@ -546,35 +543,35 @@
     if ([pi getSide] == [t getSide]) {
         return false;
     }
-        int tempSideT = [t getSide];
+    int tempSideT = [t getSide];
     int tempSideP = [pi getSide];
     NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
-        NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
-        [t setName:[pi getName]];
-        [pi setName:[NSMutableString stringWithString:@"empty"]];
-        [t setSide:[pi getSide]];
-        [pi setSide:0];
+    NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
+    [t setName:[pi getName]];
+    [pi setName:[NSMutableString stringWithString:@"empty"]];
+    [t setSide:[pi getSide]];
+    [pi setSide:0];
     if ([self isChecked]) {
-            [t setSide:tempSideT];
-            [t setName:tempNameT];
-            [pi setSide:tempSideP];
-            [pi setName:tempNameP];
-            return false;
-        }
-        else {
-            [t setSide:tempSideT];
-            [t setName:tempNameT];
-            [pi setSide:tempSideP];
-            [pi setName:tempNameP];
-            return true;
-        }
-
+        [t setSide:tempSideT];
+        [t setName:tempNameT];
+        [pi setSide:tempSideP];
+        [pi setName:tempNameP];
+        return false;
+    }
+    else {
+        [t setSide:tempSideT];
+        [t setName:tempNameT];
+        [pi setSide:tempSideP];
+        [pi setName:tempNameP];
+        return true;
+    }
+    
 }
 //requrieMove ~ validating moves ?
--(BOOL) requrieMove:(Piece *) pi to:(Piece *)t {
-//    if (isDebug == 1) {
-//        return true;
-//    }
+-(BOOL) requireMove:(Piece *) pi to:(Piece *)t {
+    //    if (isDebug == 1) {
+    //        return true;
+    //    }
     // moves for all pieces except pawns are color independent.
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
         if([pi getSide] == 1) {

@@ -17,7 +17,7 @@
 @property Player *white;
 @property Player *black;
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
--(BOOL) requrieMove:(Piece *) pi to:(Piece *)t debug:(int)isDebug;
+-(BOOL) requireMove:(Piece *) pi to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
 -(NSMutableArray *) getPieceSet;
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;

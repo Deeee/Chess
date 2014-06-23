@@ -11,14 +11,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Piece.h"
 #import "Board.h"
+#import "DrawCircles.h"
 @interface ViewController : GLKViewController<UITextFieldDelegate>
-
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 //@property (nonatomic, strong) IBOutlet UIView *dropTarget;
 @property (nonatomic, strong) UIImageView *dragObject;
 @property (nonatomic, assign) CGPoint touchOffset;
 @property (nonatomic, assign) CGPoint homePosition;
+
 @property (nonatomic, assign) IBOutlet UIImageView *backgroud;
 @property (nonatomic, assign) IBOutlet UIImageView *space1;
 @property (nonatomic, assign) IBOutlet UIImageView *space2;
@@ -54,10 +55,12 @@
 @property (nonatomic, assign) IBOutlet UIImageView *space32;
 
 @property (nonatomic, strong) Board *myBoard;
+
 @property Piece *tempPiece;
 @property int X, Y, isTouched;
 @property int isMoved;
 @property int isDebug;
+@property int isTapped;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
@@ -92,17 +95,30 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn6;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn7;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
-
+@property NSMutableString *debugInfo;
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
+@property (nonatomic, strong) NSMutableArray *circleViews;
+
+@property NSArray *paths;
+@property NSString *filePath;
+@property (nonatomic)CGPoint drawPoint;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
-
+- (void)setNeedsDisplay;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 
+- (void) drawCircle;
+- (NSInteger)getTagFromPiece:(Piece *) temp;
+- (void)removeAllCircles;
+
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
-+(void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
+-(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
+- (IBAction)doubleTap:(UITapGestureRecognizer*)recognizer;
++ (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end

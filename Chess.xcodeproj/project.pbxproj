@@ -53,6 +53,8 @@
 		5B3B3348194E4FD000068A0B /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B3347194E4FD000068A0B /* Piece.m */; };
 		5B3B334B194E7B2400068A0B /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B334A194E7B2400068A0B /* Board.m */; };
 		5B3B334D194E9D2200068A0B /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B334C194E9D2200068A0B /* empty.png */; };
+		5B7EE4EE1957AB0600BB53CA /* DrawCircles.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */; };
+		5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +124,10 @@
 		5B3B3349194E7B2400068A0B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		5B3B334A194E7B2400068A0B /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		5B3B334C194E9D2200068A0B /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
+		5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawCircles.m; path = ../DrawCircles.m; sourceTree = "<group>"; };
+		5B7EE4EB1957AB0600BB53CA /* DrawCircles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawCircles.h; path = ../DrawCircles.h; sourceTree = "<group>"; };
+		5B7EE4EC1957AB0600BB53CA /* IOSCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSCircle.h; path = ../IOSCircle.h; sourceTree = "<group>"; };
+		5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IOSCircle.m; path = ../IOSCircle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +196,10 @@
 				5B322B111953599B00AC9190 /* Player.h */,
 				5B322B121953599B00AC9190 /* Player.m */,
 				5B0FA0ED194BD5B300DAE166 /* AppDelegate.m */,
+				5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */,
+				5B7EE4EB1957AB0600BB53CA /* DrawCircles.h */,
+				5B7EE4EC1957AB0600BB53CA /* IOSCircle.h */,
+				5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */,
 				5B0FA0EF194BD5B300DAE166 /* Main_iPhone.storyboard */,
 				5B0FA0F2194BD5B300DAE166 /* Main_iPad.storyboard */,
 				5B0FA0F5194BD5B300DAE166 /* Shader.fsh */,
@@ -390,12 +400,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B7EE4EE1957AB0600BB53CA /* DrawCircles.m in Sources */,
 				5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */,
 				5B3B3348194E4FD000068A0B /* Piece.m in Sources */,
 				5B0FA0FB194BD5B300DAE166 /* ViewController.m in Sources */,
 				1C2217811954ACDF007081F2 /* EasyBot.m in Sources */,
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
 				5B0FA0EA194BD5B300DAE166 /* main.m in Sources */,
+				5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */,
 				5B322B131953599B00AC9190 /* Player.m in Sources */,
 				5B3B334B194E7B2400068A0B /* Board.m in Sources */,
 			);
