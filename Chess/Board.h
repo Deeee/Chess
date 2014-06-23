@@ -16,6 +16,7 @@
 @property int terms;
 @property Player *white;
 @property Player *black;
+@property int isInCheck;
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(BOOL) requireMove:(Piece *) pi to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
@@ -39,6 +40,9 @@
 -(void) debugMove:(Piece *)p to:(Piece *)t;
 -(BOOL) isChecked;
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t;
+-(BOOL) isPermaChecked;
+-(void) checkStatus;
+
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;

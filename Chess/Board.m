@@ -12,6 +12,7 @@
 @synthesize pieceSet;
 @synthesize terms;
 @synthesize white, black;
+@synthesize isInCheck;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -25,6 +26,7 @@
         [pieceSet addObject:v];
     }
     terms = 1;
+    isInCheck = 0;
     [white setSide:1];
     [black setSide:2];
     return self;
@@ -50,14 +52,12 @@
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug{
     //NSLog(@"in board setMove");
-    if ([p getSide] == [t getSide]) {
-        return false;
-    }
     if (isDebug == 1) {
         [self debugMove:p to:t];
         return true;
     }
-    if ([self requireMove:p to:t] == true) {
+
+    if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self requireMove:p to:t]) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         if ([[t getName] isEqualToString:@"empty"] ) {
             //NSLog(@"yes it is equal to empty");
@@ -148,19 +148,24 @@
     NSLog(@"erro king doesnt exist");
     return nil;
 }
--(BOOL) isChecked {
+
+-(void) checkStatus {
+    NSLog(@" in checkStatus");
+    
     if (terms == 1) {
-        
+        NSLog(@"in is term 1");
         Piece *temp = [self getWhiteKing];
-        NSLog(@"");
+        NSLog(@"white king is %@(%d,%d)",[temp getName],[temp getX],[temp getY]);
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 2) {
                     if ([self requireMove:p to:temp]) {
                         NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
-                        return true;
+                        isInCheck = 1;
+                        return;
                     }
                     else {
+                        isInCheck = 0;
                         //NSLog(@"shouldnt reach here %@, (%d,%d)",[p getName],[p getX],[p getY]);
                     }
                 }
@@ -169,6 +174,52 @@
         
     }
     else if(terms == 2){
+        NSLog(@"in is term 2");
+        
+        Piece *temp = [self getBlackKing];
+        for (NSMutableArray *i in pieceSet) {
+            for (Piece *p in i) {
+                if ([p getSide] == 1) {
+                    if ([self requireMove:p to:temp]) {
+                        NSLog(@"black king checked");
+                        isInCheck = 2;
+                        return;
+                    }
+                    else {
+                        isInCheck = 0;
+                    }
+                }
+                
+            }
+        }
+    }
+    else {
+        NSLog(@"terms erro!");
+    }
+}
+
+-(BOOL) isChecked {
+    NSLog(@" in side is checked");
+
+    if (terms == 1) {
+        NSLog(@"in is term 1");
+        Piece *temp = [self getWhiteKing];
+        NSLog(@"white king is %@(%d,%d)",[temp getName],[temp getX],[temp getY]);
+        for (NSMutableArray *i in pieceSet) {
+            for (Piece *p in i) {
+                if ([p getSide] == 2) {
+                    if ([self requireMove:p to:temp]) {
+                        NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+                        return true;
+                    }
+                }
+            }
+        }
+        
+    }
+    else if(terms == 2){
+        NSLog(@"in is term 2");
+        
         Piece *temp = [self getBlackKing];
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
@@ -177,6 +228,7 @@
                         NSLog(@"black king checked");
                         return true;
                     }
+
                 }
                 
             }
@@ -539,10 +591,32 @@
     }
     else return false;
 }
+
+-(BOOL) isPermaChecked{
+    for (NSMutableArray *i in pieceSet) {
+        for (Piece *pi in i) {
+            if ([pi getSide] == terms) {
+                for (NSMutableArray *j in pieceSet) {
+                    for (Piece *t in j) {
+                        
+                        if ([pi getSide] != [t getSide] && [self requireMove:pi to:t] && [self isUnchecked:pi to:t]) {
+                            NSLog(@"*1%@(%d, %d) can be moved to %@(%d, %d) to uncheck", [pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    NSLog(@"%d is perma checked", terms);
+    return true;
+}
+
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t {
     if ([pi getSide] == [t getSide]) {
         return false;
     }
+    NSLog(@"isunchecked.");
     int tempSideT = [t getSide];
     int tempSideP = [pi getSide];
     NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
@@ -551,7 +625,7 @@
     [pi setName:[NSMutableString stringWithString:@"empty"]];
     [t setSide:[pi getSide]];
     [pi setSide:0];
-    if ([self isChecked]) {
+    if ([self isChecked] ) {
         [t setSide:tempSideT];
         [t setName:tempNameT];
         [pi setSide:tempSideP];
@@ -573,24 +647,19 @@
     //        return true;
     //    }
     // moves for all pieces except pawns are color independent.
+
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
         if([pi getSide] == 1) {
             if([self whitePawnMove:pi to:t]) {
-                NSLog(@"valid white pawn move");
-                if ([self isUnchecked:pi to:t]) {
-                    return true;
-                }
-                else return false;
+                //NSLog(@"valid white pawn move");
+                return true;
             }
             else return false;
         }
         else if([pi getSide] == 2) {
             if([self blackPawnMove:pi to:t]) {
-                NSLog(@"valid black pawn move");
-                if ([self isUnchecked:pi to:t]) {
-                    return true;
-                }
-                else return false;
+                //NSLog(@"valid black pawn move");
+                return true;
             }
             else return false;
         }
@@ -599,54 +668,39 @@
     }
     else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
         if ([self kingMove:pi to:t]) {
-            if ([self isUnchecked:pi to:t]) {
-                return true;
-            }
-            else return false;
+            return true;
         }
         return false;
     }
     else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
         if ([self queenMove:pi to:t]) {
-            if ([self isUnchecked:pi to:t]) {
-                return true;
-            }
-            else false;
+
+            return true;
         }
         else return false;
     }
     else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
         if ([self bishopMove:pi to:t]) {
-            NSLog(@"valid bishop move");
-            if ([self isUnchecked:pi to:t]) {
-                return true;
-            }
-            else return false;
+
+            return true;
         }
         return false;
     }
     else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
         if ([self knightMove:pi to:t]) {
-            NSLog(@"valid knight move");
-            if ([self isUnchecked:pi to:t]) {
-                return true;
-            }
-            else return false;
+            return true;
         }
         return false;
     }
     else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
         if ([self rockMove:pi to:t]) {
-            NSLog(@"valid rock");
-            if ([self isUnchecked:pi to:t]) {
-                return true;
-            }
-            else return false;
+
+            return true;
         }
         return false;
     }
     else {
-        NSLog(@"expected");
+        NSLog(@"unexpected");
         return false;
     }
     return false;

@@ -114,7 +114,7 @@
 - (void) drawCircle;
 - (NSInteger)getTagFromPiece:(Piece *) temp;
 - (void)removeAllCircles;
-
+- (void)endGame;
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;

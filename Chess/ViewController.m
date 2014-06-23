@@ -780,6 +780,10 @@ GLfloat gCubeVertexData[216] =
         [i removeFromSuperview];
     }
 }
+
+-(void) endGame {
+    NSLog(@"game over");
+}
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"in touches end %d",[myBoard terms]);
@@ -801,11 +805,23 @@ GLfloat gCubeVertexData[216] =
                 {
                     Piece *t = [self getMove:iView];
                     NSLog(@"setting backgroud");
+                    //[myBoard isChecked];
+                    //NSLog(@"after checking check %d",[myBoard isInCheck]);
+                    [myBoard checkStatus];
+                    if ([myBoard isInCheck] != 0) {
+                        NSLog(@"$1 checking perma");
+                        if ( [myBoard isPermaChecked]) {
+                            [self endGame];
+                        }
+                    }
                     if ([myBoard setMove:tempPiece to:t and:isDebug]) {
                         [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-                        [myBoard changeTerms];
+                        if (isDebug == 0) {
+                            [myBoard changeTerms];
+                        }
                         [self removeAllCircles];
                     }
+
                     
                 }
                 //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
