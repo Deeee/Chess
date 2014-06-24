@@ -61,6 +61,7 @@
 @property int isMoved;
 @property int isDebug;
 @property int isTapped;
+@property int isSet;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
@@ -98,7 +99,7 @@
 @property NSMutableString *debugInfo;
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
 @property (nonatomic, strong) NSMutableArray *circleViews;
-
+@property int availableMoves;
 @property NSArray *paths;
 @property NSString *filePath;
 @property (nonatomic)CGPoint drawPoint;
@@ -111,14 +112,13 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 
-- (void) drawCircle;
 - (NSInteger)getTagFromPiece:(Piece *) temp;
 - (void)removeAllCircles;
 - (void)endGame;
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
--(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
-- (IBAction)doubleTap:(UITapGestureRecognizer*)recognizer;
+- (IBAction)clickOnComfirm;
+-(NSMutableArray *)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
 + (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end

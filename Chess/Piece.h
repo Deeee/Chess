@@ -25,5 +25,7 @@
 -(int) getY;
 -(UIImageView *) getImage;
 -(NSMutableString *) getName;
+-(Piece *)copyWithSelf;
 -(int) getSide;
+-(void) printInformation;
 @end

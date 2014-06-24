@@ -13,6 +13,8 @@
 @synthesize terms;
 @synthesize white, black;
 @synthesize isInCheck;
+@synthesize undecidedMove;
+@synthesize undecidedReturnTrue;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -25,8 +27,10 @@
         }
         [pieceSet addObject:v];
     }
+    undecidedMove = [[NSMutableArray alloc] init];
     terms = 1;
     isInCheck = 0;
+    undecidedReturnTrue = 0;
     [white setSide:1];
     [black setSide:2];
     return self;
@@ -43,9 +47,13 @@
 
 -(void) changeTerms {
     if (terms == 1) {
+        undecidedReturnTrue = 0;
+        [undecidedMove removeAllObjects];
         terms = 2;
     }
     else {
+        undecidedReturnTrue = 0;
+        [undecidedMove removeAllObjects];
         terms = 1;
     }
 }
@@ -56,11 +64,54 @@
         [self debugMove:p to:t];
         return true;
     }
+    if ([undecidedMove count] == 2) {
+        BoardPoint *savedP = [[BoardPoint alloc] initWith: [undecidedMove objectAtIndex:0]];
+        BoardPoint *savedT = [[BoardPoint alloc] initWith:[undecidedMove objectAtIndex:1]];
+        NSLog(@"undecidedmove equals to 2");
+        if (![self comparePoints:[[BoardPoint alloc] initWith:t] to:savedP]  || ![self comparePoints:[[BoardPoint alloc] initWith:p] to:savedT]) {
+            NSLog(@"undecidedmove false");
+            undecidedReturnTrue = 0;
+            return false;
+        }
+        else {
+            Piece *tempP = [undecidedMove objectAtIndex:0];
+            Piece *tempT = [undecidedMove objectAtIndex:1];
+            NSLog(@"trying to put");
+            [tempP printInformation];
+            [tempT printInformation];
+            [p setName:[tempP getName]];
+            [p setSide:[tempP getSide]];
+            [t setName:[tempT getName]];
+            [t setSide:[tempT getSide]];
+            UIImageView *tempImage = [tempP getImage];
+            UIImageView *tempImage2 = [tempT getImage];
+            [self imageExchange:tempImage with:[p getImage]];
+            [self imageExchange:tempImage2 with:[t getImage]];
+            [undecidedMove removeAllObjects];
+            undecidedReturnTrue = 1;
+            //i suspect that the image didnt get exchanged
+            NSLog(@"undecidedmove true");
+            return true;
 
+        }
+    }
+    else {
+        NSLog(@"undecidedmove is empty");
+        [undecidedMove addObject:[p copyWithSelf]];
+
+        [undecidedMove addObject:[t copyWithSelf]];
+        NSLog(@"saved piece p:");
+        [[undecidedMove objectAtIndex:0] printInformation];
+        NSLog(@"saved piece t:");
+        [[undecidedMove objectAtIndex:1] printInformation];
+
+    }
     if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self requireMove:p to:t]) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
+
         if ([[t getName] isEqualToString:@"empty"] ) {
             //NSLog(@"yes it is equal to empty");
+
             UIImageView *tempImage = [t getImage];
             UIImageView *tempImage2 = [p getImage];
             NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
@@ -69,8 +120,6 @@
             [p setName:[NSMutableString stringWithString:@"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
-            //[t setImg:[p getImage] and:[p getName]];
-            //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
             return true;
             
         }
@@ -739,5 +788,14 @@
         [p setSide:0];
         
     }
+}
+-(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y {
+    if (x.x  == y.x && x.y == y.y) {
+        return true;
+    }
+    else {
+        return false;
+    }
+    
 }
 @end

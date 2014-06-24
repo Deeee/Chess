@@ -45,7 +45,13 @@
 -(NSMutableString *) getName {
     return self.name;
 }
-
+-(Piece *)copyWithSelf
+{
+    // We'll ignore the zone for now
+    Piece *another = [[Piece alloc] initWithImg:[self getImage] and:[self getName] with:[self getX] with:[self getY] with:[self getSide]];
+    
+    return another;
+}
 -(int) getSide {
     return self.side;
 }
@@ -61,6 +67,8 @@
     x = X;
     y = Y;
 }
-
+-(void) printInformation {
+    NSLog(@"%@(%d,%d) side %d",[self getName], [self getX],[self getY], [self getSide]);
+}
 
 @end

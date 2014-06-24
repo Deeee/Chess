@@ -181,6 +181,8 @@ GLfloat gCubeVertexData[216] =
 @synthesize debugInfo;
 @synthesize drawPoint = _drawPoint;
 @synthesize circleViews;
+@synthesize availableMoves;
+@synthesize isSet;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -194,8 +196,9 @@ GLfloat gCubeVertexData[216] =
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    
     [self setupGL];
+    
+    
     //Gestures setup
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     doubleTapGesture.numberOfTapsRequired = 2;
@@ -294,10 +297,11 @@ GLfloat gCubeVertexData[216] =
     isMoved = 0;
     isDebug = 0;
     isTapped = 0;
+    availableMoves = 1;
     paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
     filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
     debugInfo = [[NSMutableString alloc] init];
-    
+    isSet = 0;
     
 }
 
@@ -679,7 +683,8 @@ GLfloat gCubeVertexData[216] =
 }
 
 
--(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
+-(NSMutableArray *)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
+    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
     NSLog(@"in show availabie moves %@ requiring ava moves", [pi getName]);
     for (NSMutableArray *i in [myBoard getPieceSet]) {
         for (Piece *t in i) {
@@ -689,12 +694,15 @@ GLfloat gCubeVertexData[216] =
                     NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
                     CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
                     //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
+                    [availableMovesArray addObject:pi];
+                    [availableMovesArray addObject:t];
                     [drawView drawOnSpot:pt withSide:[pi getSide]];
                     
                 }
             }
         }
     }
+    return availableMovesArray;
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -808,6 +816,7 @@ GLfloat gCubeVertexData[216] =
                     //[myBoard isChecked];
                     //NSLog(@"after checking check %d",[myBoard isInCheck]);
                     [myBoard checkStatus];
+                    
                     if ([myBoard isInCheck] != 0) {
                         NSLog(@"$1 checking perma");
                         if ( [myBoard isPermaChecked]) {
@@ -816,9 +825,10 @@ GLfloat gCubeVertexData[216] =
                     }
                     if ([myBoard setMove:tempPiece to:t and:isDebug]) {
                         [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-                        if (isDebug == 0) {
-                            [myBoard changeTerms];
-                        }
+                        
+//                        if (isDebug == 0) {
+//                            [myBoard changeTerms];
+//                        }
                         [self removeAllCircles];
                     }
 
@@ -863,6 +873,13 @@ GLfloat gCubeVertexData[216] =
     //    }
     
 }
+
+- (IBAction)clickOnComfirm {
+    if (isDebug == 0) {
+        [myBoard changeTerms];
+    }
+}
+
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

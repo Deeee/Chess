@@ -10,6 +10,7 @@
 #import "Piece.h"
 #import "LinearEquation.h"
 #import "Player.h"
+#import "BoardPoint.h"
 
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
@@ -17,6 +18,8 @@
 @property Player *white;
 @property Player *black;
 @property int isInCheck;
+@property NSMutableArray *undecidedMove;
+@property int undecidedReturnTrue;
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(BOOL) requireMove:(Piece *) pi to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
@@ -27,6 +30,7 @@
 -(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 -(void) changeTerms;
+
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t;
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t;
@@ -42,6 +46,7 @@
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t;
 -(BOOL) isPermaChecked;
 -(void) checkStatus;
+-(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
 
 
 -(Piece *)getWhiteKing;
