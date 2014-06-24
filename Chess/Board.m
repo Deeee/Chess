@@ -57,13 +57,60 @@
         terms = 1;
     }
 }
-
+-(NSString *) getImageNameFromPiece:(Piece *)p {
+    if ([[p getName] rangeOfString:@"bpawn"].location != NSNotFound) {
+        return @"bpawn.png";
+    }
+    else if ([[p getName] rangeOfString:@"bknight"].location != NSNotFound){
+        return @"bknight.png";
+    }
+    else if ([[p getName] rangeOfString:@"brock"].location != NSNotFound) {
+        return @"brock.png";
+    }
+    else if ([[p getName] rangeOfString:@"bqueen"].location != NSNotFound) {
+        return @"bqueen.png";
+    }
+    else if ([[p getName] rangeOfString:@"bking"].location != NSNotFound) {
+        return @"bking.png";
+    }
+    else if ([[p getName] rangeOfString:@"bbishop"].location != NSNotFound) {
+        return @"bbishop.png";
+    }
+    else if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
+        return @"pawn.png";
+    }
+    else if ([[p getName] rangeOfString:@"knight"].location != NSNotFound){
+        return @"knight.png";
+    }
+    else if ([[p getName] rangeOfString:@"rock"].location != NSNotFound) {
+        return @"rock.png";
+    }
+    else if ([[p getName] rangeOfString:@"queen"].location != NSNotFound) {
+        return @"queen.png";
+    }
+    else if ([[p getName] rangeOfString:@"king"].location != NSNotFound) {
+        return @"king.png";
+    }
+    else if ([[p getName] rangeOfString:@"bishop"].location != NSNotFound) {
+        return @"bishop.png";
+    }
+    else if ([[p getName] rangeOfString:@"empty"].location != NSNotFound) {
+        return @"empty.png";
+    }
+    else {
+        NSLog(@"error from find image names, picece info printed as below");
+        [p printInformation];
+        NSLog(@"----------------------------------------");
+        return nil;
+    }
+}
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug{
     //NSLog(@"in board setMove");
     if (isDebug == 1) {
         [self debugMove:p to:t];
         return true;
     }
+    
     if ([undecidedMove count] == 2) {
         BoardPoint *savedP = [[BoardPoint alloc] initWith: [undecidedMove objectAtIndex:0]];
         BoardPoint *savedT = [[BoardPoint alloc] initWith:[undecidedMove objectAtIndex:1]];
@@ -76,17 +123,21 @@
         else {
             Piece *tempP = [undecidedMove objectAtIndex:0];
             Piece *tempT = [undecidedMove objectAtIndex:1];
-            NSLog(@"trying to put");
+            NSLog(@"tempP");
             [tempP printInformation];
+            NSLog(@"tempT");
             [tempT printInformation];
-            [p setName:[tempP getName]];
-            [p setSide:[tempP getSide]];
-            [t setName:[tempT getName]];
-            [t setSide:[tempT getSide]];
-            UIImageView *tempImage = [tempP getImage];
-            UIImageView *tempImage2 = [tempT getImage];
-            [self imageExchange:tempImage with:[p getImage]];
-            [self imageExchange:tempImage2 with:[t getImage]];
+            NSLog(@"p :");
+            [p printInformation];
+            NSLog(@"t :");
+            [t printInformation];
+            [p setName:[tempT getName]];
+            [p setSide:[tempT getSide]];
+            [t setName:[tempP getName]];
+            [t setSide:[tempP getSide]];
+            [t getImage].image = [UIImage imageNamed:[self getImageNameFromPiece:tempP]];
+            [p getImage].image = [UIImage imageNamed:[self getImageNameFromPiece:tempT]];
+
             [undecidedMove removeAllObjects];
             undecidedReturnTrue = 1;
             //i suspect that the image didnt get exchanged
@@ -97,13 +148,16 @@
     }
     else {
         NSLog(@"undecidedmove is empty");
-        [undecidedMove addObject:[p copyWithSelf]];
+        if ([self requireMove:p to:t]) {
+            [undecidedMove addObject:[p copyWithSelf]];
+            [undecidedMove addObject:[t copyWithSelf]];
+        }
+        else return false;
 
-        [undecidedMove addObject:[t copyWithSelf]];
-        NSLog(@"saved piece p:");
-        [[undecidedMove objectAtIndex:0] printInformation];
-        NSLog(@"saved piece t:");
-        [[undecidedMove objectAtIndex:1] printInformation];
+//        NSLog(@"saved piece p:");
+//        [[undecidedMove objectAtIndex:0] printInformation];
+//        NSLog(@"saved piece t:");
+//        [[undecidedMove objectAtIndex:1] printInformation];
 
     }
     if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self requireMove:p to:t]) {

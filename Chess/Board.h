@@ -47,6 +47,7 @@
 -(BOOL) isPermaChecked;
 -(void) checkStatus;
 -(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
+-(NSString *) getImageNameFromPiece:(Piece *)p;
 
 
 -(Piece *)getWhiteKing;

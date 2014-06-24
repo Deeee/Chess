@@ -31,25 +31,25 @@
 		5B322B131953599B00AC9190 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B121953599B00AC9190 /* Player.m */; };
 		5B322B151953E1CD00AC9190 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B322B141953E1CD00AC9190 /* highlight.png */; };
 		5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */; };
-		5B3B3333194D3EA800068A0B /* B_King.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3320194D3EA800068A0B /* B_King.png */; };
+		5B3B3333194D3EA800068A0B /* bking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3320194D3EA800068A0B /* bking.png */; };
 		5B3B3334194D3EA800068A0B /* B_King.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3321194D3EA800068A0B /* B_King.psd */; };
-		5B3B3335194D3EA800068A0B /* B_Queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3322194D3EA800068A0B /* B_Queen.png */; };
+		5B3B3335194D3EA800068A0B /* bqueen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3322194D3EA800068A0B /* bqueen.png */; };
 		5B3B3336194D3EA800068A0B /* B_Queen.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3323194D3EA800068A0B /* B_Queen.psd */; };
-		5B3B3337194D3EA800068A0B /* B_Bishop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3324194D3EA800068A0B /* B_Bishop.png */; };
+		5B3B3337194D3EA800068A0B /* bbishop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3324194D3EA800068A0B /* bbishop.png */; };
 		5B3B3338194D3EA800068A0B /* B_Bishop.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3325194D3EA800068A0B /* B_Bishop.psd */; };
-		5B3B3339194D3EA800068A0B /* B_Knight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3326194D3EA800068A0B /* B_Knight.png */; };
+		5B3B3339194D3EA800068A0B /* bknight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3326194D3EA800068A0B /* bknight.png */; };
 		5B3B333A194D3EA800068A0B /* B_Knight.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3327194D3EA800068A0B /* B_Knight.psd */; };
-		5B3B333B194D3EA800068A0B /* B_Rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3328194D3EA800068A0B /* B_Rock.png */; };
+		5B3B333B194D3EA800068A0B /* brock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3328194D3EA800068A0B /* brock.png */; };
 		5B3B333C194D3EA800068A0B /* B_Rock.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3329194D3EA800068A0B /* B_Rock.psd */; };
-		5B3B333D194D3EA800068A0B /* B_Pawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332A194D3EA800068A0B /* B_Pawn.png */; };
+		5B3B333D194D3EA800068A0B /* bpawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332A194D3EA800068A0B /* bpawn.png */; };
 		5B3B333E194D3EA800068A0B /* B_Pawn.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332B194D3EA800068A0B /* B_Pawn.psd */; };
-		5B3B333F194D3EA800068A0B /* Pawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332C194D3EA800068A0B /* Pawn.png */; };
+		5B3B333F194D3EA800068A0B /* pawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332C194D3EA800068A0B /* pawn.png */; };
 		5B3B3340194D3EA800068A0B /* Pawn.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332D194D3EA800068A0B /* Pawn.psd */; };
-		5B3B3341194D3EA800068A0B /* Knight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332E194D3EA800068A0B /* Knight.png */; };
-		5B3B3342194D3EA800068A0B /* Queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332F194D3EA800068A0B /* Queen.png */; };
-		5B3B3343194D3EA800068A0B /* King.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3330194D3EA800068A0B /* King.png */; };
-		5B3B3344194D3EA800068A0B /* Bishop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3331194D3EA800068A0B /* Bishop.png */; };
-		5B3B3345194D3EA800068A0B /* Rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3332194D3EA800068A0B /* Rock.png */; };
+		5B3B3341194D3EA800068A0B /* knight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332E194D3EA800068A0B /* knight.png */; };
+		5B3B3342194D3EA800068A0B /* queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332F194D3EA800068A0B /* queen.png */; };
+		5B3B3343194D3EA800068A0B /* king.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3330194D3EA800068A0B /* king.png */; };
+		5B3B3344194D3EA800068A0B /* bishop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3331194D3EA800068A0B /* bishop.png */; };
+		5B3B3345194D3EA800068A0B /* rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3332194D3EA800068A0B /* rock.png */; };
 		5B3B3348194E4FD000068A0B /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B3347194E4FD000068A0B /* Piece.m */; };
 		5B3B334B194E7B2400068A0B /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B334A194E7B2400068A0B /* Board.m */; };
 		5B3B334D194E9D2200068A0B /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B334C194E9D2200068A0B /* empty.png */; };
@@ -101,25 +101,25 @@
 		5B322B121953599B00AC9190 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		5B322B141953E1CD00AC9190 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chess.board.fabric.png; sourceTree = "<group>"; };
-		5B3B3320194D3EA800068A0B /* B_King.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_King.png; sourceTree = "<group>"; };
+		5B3B3320194D3EA800068A0B /* bking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bking.png; sourceTree = "<group>"; };
 		5B3B3321194D3EA800068A0B /* B_King.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_King.psd; sourceTree = "<group>"; };
-		5B3B3322194D3EA800068A0B /* B_Queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_Queen.png; sourceTree = "<group>"; };
+		5B3B3322194D3EA800068A0B /* bqueen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bqueen.png; sourceTree = "<group>"; };
 		5B3B3323194D3EA800068A0B /* B_Queen.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Queen.psd; sourceTree = "<group>"; };
-		5B3B3324194D3EA800068A0B /* B_Bishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_Bishop.png; sourceTree = "<group>"; };
+		5B3B3324194D3EA800068A0B /* bbishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bbishop.png; sourceTree = "<group>"; };
 		5B3B3325194D3EA800068A0B /* B_Bishop.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Bishop.psd; sourceTree = "<group>"; };
-		5B3B3326194D3EA800068A0B /* B_Knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_Knight.png; sourceTree = "<group>"; };
+		5B3B3326194D3EA800068A0B /* bknight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bknight.png; sourceTree = "<group>"; };
 		5B3B3327194D3EA800068A0B /* B_Knight.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Knight.psd; sourceTree = "<group>"; };
-		5B3B3328194D3EA800068A0B /* B_Rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_Rock.png; sourceTree = "<group>"; };
+		5B3B3328194D3EA800068A0B /* brock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brock.png; sourceTree = "<group>"; };
 		5B3B3329194D3EA800068A0B /* B_Rock.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Rock.psd; sourceTree = "<group>"; };
-		5B3B332A194D3EA800068A0B /* B_Pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = B_Pawn.png; sourceTree = "<group>"; };
+		5B3B332A194D3EA800068A0B /* bpawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bpawn.png; sourceTree = "<group>"; };
 		5B3B332B194D3EA800068A0B /* B_Pawn.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Pawn.psd; sourceTree = "<group>"; };
-		5B3B332C194D3EA800068A0B /* Pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pawn.png; sourceTree = "<group>"; };
+		5B3B332C194D3EA800068A0B /* pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pawn.png; sourceTree = "<group>"; };
 		5B3B332D194D3EA800068A0B /* Pawn.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pawn.psd; sourceTree = "<group>"; };
-		5B3B332E194D3EA800068A0B /* Knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Knight.png; sourceTree = "<group>"; };
-		5B3B332F194D3EA800068A0B /* Queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Queen.png; sourceTree = "<group>"; };
-		5B3B3330194D3EA800068A0B /* King.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = King.png; sourceTree = "<group>"; };
-		5B3B3331194D3EA800068A0B /* Bishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bishop.png; sourceTree = "<group>"; };
-		5B3B3332194D3EA800068A0B /* Rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rock.png; sourceTree = "<group>"; };
+		5B3B332E194D3EA800068A0B /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
+		5B3B332F194D3EA800068A0B /* queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queen.png; sourceTree = "<group>"; };
+		5B3B3330194D3EA800068A0B /* king.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = king.png; sourceTree = "<group>"; };
+		5B3B3331194D3EA800068A0B /* bishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bishop.png; sourceTree = "<group>"; };
+		5B3B3332194D3EA800068A0B /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
 		5B3B3346194E4FD000068A0B /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
 		5B3B3347194E4FD000068A0B /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
 		5B3B3349194E7B2400068A0B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
@@ -258,26 +258,26 @@
 			isa = PBXGroup;
 			children = (
 				5B3B334C194E9D2200068A0B /* empty.png */,
-				5B3B3320194D3EA800068A0B /* B_King.png */,
-				5B3B3322194D3EA800068A0B /* B_Queen.png */,
+				5B3B3320194D3EA800068A0B /* bking.png */,
+				5B3B3322194D3EA800068A0B /* bqueen.png */,
 				5B3B3323194D3EA800068A0B /* B_Queen.psd */,
-				5B3B3324194D3EA800068A0B /* B_Bishop.png */,
+				5B3B3324194D3EA800068A0B /* bbishop.png */,
 				5B322B141953E1CD00AC9190 /* highlight.png */,
 				5B3B3325194D3EA800068A0B /* B_Bishop.psd */,
-				5B3B3326194D3EA800068A0B /* B_Knight.png */,
+				5B3B3326194D3EA800068A0B /* bknight.png */,
 				5B3B3327194D3EA800068A0B /* B_Knight.psd */,
-				5B3B3328194D3EA800068A0B /* B_Rock.png */,
+				5B3B3328194D3EA800068A0B /* brock.png */,
 				5B3B3329194D3EA800068A0B /* B_Rock.psd */,
-				5B3B332A194D3EA800068A0B /* B_Pawn.png */,
+				5B3B332A194D3EA800068A0B /* bpawn.png */,
 				5B3B332B194D3EA800068A0B /* B_Pawn.psd */,
 				5B3B3321194D3EA800068A0B /* B_King.psd */,
-				5B3B332C194D3EA800068A0B /* Pawn.png */,
+				5B3B332C194D3EA800068A0B /* pawn.png */,
 				5B3B332D194D3EA800068A0B /* Pawn.psd */,
-				5B3B332E194D3EA800068A0B /* Knight.png */,
-				5B3B332F194D3EA800068A0B /* Queen.png */,
-				5B3B3330194D3EA800068A0B /* King.png */,
-				5B3B3331194D3EA800068A0B /* Bishop.png */,
-				5B3B3332194D3EA800068A0B /* Rock.png */,
+				5B3B332E194D3EA800068A0B /* knight.png */,
+				5B3B332F194D3EA800068A0B /* queen.png */,
+				5B3B3330194D3EA800068A0B /* king.png */,
+				5B3B3331194D3EA800068A0B /* bishop.png */,
+				5B3B3332194D3EA800068A0B /* rock.png */,
 				5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */,
 			);
 			path = images;
@@ -361,32 +361,32 @@
 			files = (
 				5B3B3334194D3EA800068A0B /* B_King.psd in Resources */,
 				5B3B3336194D3EA800068A0B /* B_Queen.psd in Resources */,
-				5B3B3341194D3EA800068A0B /* Knight.png in Resources */,
+				5B3B3341194D3EA800068A0B /* knight.png in Resources */,
 				5B3B333E194D3EA800068A0B /* B_Pawn.psd in Resources */,
-				5B3B3345194D3EA800068A0B /* Rock.png in Resources */,
+				5B3B3345194D3EA800068A0B /* rock.png in Resources */,
 				5B3B334D194E9D2200068A0B /* empty.png in Resources */,
 				5B0FA0F6194BD5B300DAE166 /* Shader.fsh in Resources */,
 				5B0FA0F4194BD5B300DAE166 /* Main_iPad.storyboard in Resources */,
 				5B3B3340194D3EA800068A0B /* Pawn.psd in Resources */,
 				5B3B3338194D3EA800068A0B /* B_Bishop.psd in Resources */,
 				5B0FA0F1194BD5B300DAE166 /* Main_iPhone.storyboard in Resources */,
-				5B3B3337194D3EA800068A0B /* B_Bishop.png in Resources */,
-				5B3B3339194D3EA800068A0B /* B_Knight.png in Resources */,
-				5B3B3344194D3EA800068A0B /* Bishop.png in Resources */,
+				5B3B3337194D3EA800068A0B /* bbishop.png in Resources */,
+				5B3B3339194D3EA800068A0B /* bknight.png in Resources */,
+				5B3B3344194D3EA800068A0B /* bishop.png in Resources */,
 				5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */,
-				5B3B3343194D3EA800068A0B /* King.png in Resources */,
+				5B3B3343194D3EA800068A0B /* king.png in Resources */,
 				5B3B333A194D3EA800068A0B /* B_Knight.psd in Resources */,
 				5B0FA0FD194BD5B300DAE166 /* Images.xcassets in Resources */,
 				5B0FA0E8194BD5B300DAE166 /* InfoPlist.strings in Resources */,
-				5B3B333D194D3EA800068A0B /* B_Pawn.png in Resources */,
+				5B3B333D194D3EA800068A0B /* bpawn.png in Resources */,
 				5B3B333C194D3EA800068A0B /* B_Rock.psd in Resources */,
-				5B3B3335194D3EA800068A0B /* B_Queen.png in Resources */,
-				5B3B333B194D3EA800068A0B /* B_Rock.png in Resources */,
-				5B3B333F194D3EA800068A0B /* Pawn.png in Resources */,
+				5B3B3335194D3EA800068A0B /* bqueen.png in Resources */,
+				5B3B333B194D3EA800068A0B /* brock.png in Resources */,
+				5B3B333F194D3EA800068A0B /* pawn.png in Resources */,
 				5B322B151953E1CD00AC9190 /* highlight.png in Resources */,
-				5B3B3342194D3EA800068A0B /* Queen.png in Resources */,
+				5B3B3342194D3EA800068A0B /* queen.png in Resources */,
 				5B0FA0F8194BD5B300DAE166 /* Shader.vsh in Resources */,
-				5B3B3333194D3EA800068A0B /* B_King.png in Resources */,
+				5B3B3333194D3EA800068A0B /* bking.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
