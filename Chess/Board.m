@@ -15,6 +15,7 @@
 @synthesize isInCheck;
 @synthesize undecidedMove;
 @synthesize undecidedReturnTrue;
+@synthesize isCastlePiecesMoved;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -28,6 +29,10 @@
         [pieceSet addObject:v];
     }
     undecidedMove = [[NSMutableArray alloc] init];
+    isCastlePiecesMoved = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 6; i ++) {
+        [isCastlePiecesMoved addObject: @(1)];
+    }
     terms = 1;
     isInCheck = 0;
     undecidedReturnTrue = 0;
@@ -46,6 +51,9 @@
 }
 
 -(void) changeTerms {
+    if ([undecidedMove count] == 0) {
+        return;
+    }
     if (terms == 1) {
         undecidedReturnTrue = 0;
         [undecidedMove removeAllObjects];
@@ -148,7 +156,7 @@
     }
     else {
         NSLog(@"undecidedmove is empty");
-        if ([self requireMove:p to:t]) {
+        if ([self validateMove:p to:t]) {
             [undecidedMove addObject:[p copyWithSelf]];
             [undecidedMove addObject:[t copyWithSelf]];
         }
@@ -160,7 +168,7 @@
 //        [[undecidedMove objectAtIndex:1] printInformation];
 
     }
-    if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self requireMove:p to:t]) {
+    if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self validateMove:p to:t]) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
 
         if ([[t getName] isEqualToString:@"empty"] ) {
@@ -262,7 +270,7 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 2) {
-                    if ([self requireMove:p to:temp]) {
+                    if ([self validateMove:p to:temp]) {
                         NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
                         isInCheck = 1;
                         return;
@@ -283,7 +291,7 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 1) {
-                    if ([self requireMove:p to:temp]) {
+                    if ([self validateMove:p to:temp]) {
                         NSLog(@"black king checked");
                         isInCheck = 2;
                         return;
@@ -311,7 +319,7 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 2) {
-                    if ([self requireMove:p to:temp]) {
+                    if ([self validateMove:p to:temp]) {
                         NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
                         return true;
                     }
@@ -327,7 +335,7 @@
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 1) {
-                    if ([self requireMove:p to:temp]) {
+                    if ([self validateMove:p to:temp]) {
                         NSLog(@"black king checked");
                         return true;
                     }
@@ -702,7 +710,7 @@
                 for (NSMutableArray *j in pieceSet) {
                     for (Piece *t in j) {
                         
-                        if ([pi getSide] != [t getSide] && [self requireMove:pi to:t] && [self isUnchecked:pi to:t]) {
+                        if ([pi getSide] != [t getSide] && [self validateMove:pi to:t] && [self isUnchecked:pi to:t]) {
                             NSLog(@"*1%@(%d, %d) can be moved to %@(%d, %d) to uncheck", [pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
                             return false;
                         }
@@ -745,7 +753,7 @@
     
 }
 //requrieMove ~ validating moves ?
--(BOOL) requireMove:(Piece *) pi to:(Piece *)t {
+-(BOOL) validateMove:(Piece *) pi to:(Piece *)t {
     //    if (isDebug == 1) {
     //        return true;
     //    }
@@ -809,7 +817,7 @@
     return false;
 }
 
--(BOOL) bot_requireMove:(Piece *) p to:(Piece *)t {
+-(BOOL) bot_validateMove:(Piece *) p to:(Piece *)t {
     return true;
 }
 -(Piece *) getPieceAt:(int)X with:(int)Y {

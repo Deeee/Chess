@@ -20,17 +20,19 @@
 @property int isInCheck;
 @property NSMutableArray *undecidedMove;
 @property int undecidedReturnTrue;
+@property NSMutableArray *isCastlePiecesMoved;
+
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
--(BOOL) requireMove:(Piece *) pi to:(Piece *)t;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
--(NSMutableArray *) getPieceSet;
--(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
--(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
--(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
--(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
--(Piece *) getPieceAt:(int)X with:(int)Y;
+
 -(void) changeTerms;
 
+-(BOOL) validateMove:(Piece *) pi to:(Piece *)t;
+-(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
+-(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
+-(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
+-(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
+-(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t;
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t;
@@ -46,9 +48,10 @@
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t;
 -(BOOL) isPermaChecked;
 -(void) checkStatus;
--(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
--(NSString *) getImageNameFromPiece:(Piece *)p;
 
+-(NSString *) getImageNameFromPiece:(Piece *)p;
+-(Piece *) getPieceAt:(int)X with:(int)Y;
+-(NSMutableArray *) getPieceSet;
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;

@@ -56,6 +56,7 @@
 		5B7EE4EE1957AB0600BB53CA /* DrawCircles.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */; };
 		5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */; };
 		5B7EE4F21958CD9800BB53CA /* BoardPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4F11958CD9800BB53CA /* BoardPoint.m */; };
+		5B7EE4F4195A258800BB53CA /* clean_newlayout.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7EE4F3195A258800BB53CA /* clean_newlayout.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,7 @@
 		5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IOSCircle.m; path = ../IOSCircle.m; sourceTree = "<group>"; };
 		5B7EE4F01958CD9800BB53CA /* BoardPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardPoint.h; sourceTree = "<group>"; };
 		5B7EE4F11958CD9800BB53CA /* BoardPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardPoint.m; sourceTree = "<group>"; };
+		5B7EE4F3195A258800BB53CA /* clean_newlayout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clean_newlayout.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,10 +219,10 @@
 				5B3B3347194E4FD000068A0B /* Piece.m */,
 				5B3B3349194E7B2400068A0B /* Board.h */,
 				5B3B334A194E7B2400068A0B /* Board.m */,
-				5B0FA0FC194BD5B300DAE166 /* Images.xcassets */,
-				5B0FA0E4194BD5B300DAE166 /* Supporting Files */,
 				1C22177F1954ACDF007081F2 /* EasyBot.h */,
 				1C2217801954ACDF007081F2 /* EasyBot.m */,
+				5B0FA0FC194BD5B300DAE166 /* Images.xcassets */,
+				5B0FA0E4194BD5B300DAE166 /* Supporting Files */,
 			);
 			path = Chess;
 			sourceTree = "<group>";
@@ -257,6 +259,7 @@
 		5B3B331D194D2DB800068A0B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5B7EE4F3195A258800BB53CA /* clean_newlayout.png */,
 				5B3B334C194E9D2200068A0B /* empty.png */,
 				5B3B3320194D3EA800068A0B /* bking.png */,
 				5B3B3322194D3EA800068A0B /* bqueen.png */,
@@ -370,6 +373,7 @@
 				5B3B3340194D3EA800068A0B /* Pawn.psd in Resources */,
 				5B3B3338194D3EA800068A0B /* B_Bishop.psd in Resources */,
 				5B0FA0F1194BD5B300DAE166 /* Main_iPhone.storyboard in Resources */,
+				5B7EE4F4195A258800BB53CA /* clean_newlayout.png in Resources */,
 				5B3B3337194D3EA800068A0B /* bbishop.png in Resources */,
 				5B3B3339194D3EA800068A0B /* bknight.png in Resources */,
 				5B3B3344194D3EA800068A0B /* bishop.png in Resources */,

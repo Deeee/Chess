@@ -103,6 +103,7 @@
 @property NSArray *paths;
 @property NSString *filePath;
 @property (nonatomic)CGPoint drawPoint;
+@property (nonatomic, strong) IBOutlet UIButton *confirmButton;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;

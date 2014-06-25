@@ -53,7 +53,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="GY8-WZ-XUl">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="GY8-WZ-XUl">
                                 <rect key="frame" x="1" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
@@ -186,127 +186,127 @@
                                 <rect key="frame" x="1" y="221" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="RhN-Lh-0c9">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="RhN-Lh-0c9">
                                 <rect key="frame" x="283" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="b7U-9H-ySx">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="b7U-9H-ySx">
                                 <rect key="frame" x="85" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="ioa-XG-oKt">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="ioa-XG-oKt">
                                 <rect key="frame" x="202" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="DvZ-wD-2nG">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="DvZ-wD-2nG">
                                 <rect key="frame" x="43" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ed7-LN-uyY">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ed7-LN-uyY">
                                 <rect key="frame" x="242" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="King.png" translatesAutoresizingMaskIntoConstraints="NO" id="WVz-oQ-aR4">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="king.png" translatesAutoresizingMaskIntoConstraints="NO" id="WVz-oQ-aR4">
                                 <rect key="frame" x="123" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Queen.png" translatesAutoresizingMaskIntoConstraints="NO" id="kbk-vT-llY">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="queen.png" translatesAutoresizingMaskIntoConstraints="NO" id="kbk-vT-llY">
                                 <rect key="frame" x="162" y="23" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="8p4-A1-eGa">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="8p4-A1-eGa">
                                 <rect key="frame" x="1" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-Cy-P6d">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-Cy-P6d">
                                 <rect key="frame" x="43" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="bf1-oh-3vE">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="bf1-oh-3vE">
                                 <rect key="frame" x="84" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y1x-T2-d2W">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y1x-T2-d2W">
                                 <rect key="frame" x="124" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="hFe-Ur-rd7">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="hFe-Ur-rd7">
                                 <rect key="frame" x="162" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="TbS-bU-dgY">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="TbS-bU-dgY">
                                 <rect key="frame" x="201" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="TpA-Xd-v8J">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="TpA-Xd-v8J">
                                 <rect key="frame" x="242" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="l94-yl-olu">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="l94-yl-olu">
                                 <rect key="frame" x="283" y="63" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="soP-Zu-PfR">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bbishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="soP-Zu-PfR">
                                 <rect key="frame" x="83" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Bishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="vau-Gw-asR">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bbishop.png" translatesAutoresizingMaskIntoConstraints="NO" id="vau-Gw-asR">
                                 <rect key="frame" x="201" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="sFC-Pt-VON">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bknight.png" translatesAutoresizingMaskIntoConstraints="NO" id="sFC-Pt-VON">
                                 <rect key="frame" x="242" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Knight.png" translatesAutoresizingMaskIntoConstraints="NO" id="BVJ-Z9-h4B">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bknight.png" translatesAutoresizingMaskIntoConstraints="NO" id="BVJ-Z9-h4B">
                                 <rect key="frame" x="43" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_King.png" translatesAutoresizingMaskIntoConstraints="NO" id="b3c-F7-BMT">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bking.png" translatesAutoresizingMaskIntoConstraints="NO" id="b3c-F7-BMT">
                                 <rect key="frame" x="123" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Queen.png" translatesAutoresizingMaskIntoConstraints="NO" id="bRf-S9-RGH">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bqueen.png" translatesAutoresizingMaskIntoConstraints="NO" id="bRf-S9-RGH">
                                 <rect key="frame" x="162" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="Pna-j9-uc1">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="brock.png" translatesAutoresizingMaskIntoConstraints="NO" id="Pna-j9-uc1">
                                 <rect key="frame" x="1" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Rock.png" translatesAutoresizingMaskIntoConstraints="NO" id="a9O-Uv-pbn">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="brock.png" translatesAutoresizingMaskIntoConstraints="NO" id="a9O-Uv-pbn">
                                 <rect key="frame" x="283" y="304" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="jS8-UI-48N">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="jS8-UI-48N">
                                 <rect key="frame" x="1" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="0Bl-6i-ipi">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="0Bl-6i-ipi">
                                 <rect key="frame" x="43" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="kEG-2H-Y2D">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="kEG-2H-Y2D">
                                 <rect key="frame" x="85" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="9T9-gP-MzJ">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="9T9-gP-MzJ">
                                 <rect key="frame" x="124" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="ltJ-6r-bes">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="ltJ-6r-bes">
                                 <rect key="frame" x="162" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="L7F-AQ-QIV">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="L7F-AQ-QIV">
                                 <rect key="frame" x="201" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="1XE-oA-pFH">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="1XE-oA-pFH">
                                 <rect key="frame" x="242" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="B_Pawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="YRR-9I-DhQ">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="bpawn.png" translatesAutoresizingMaskIntoConstraints="NO" id="YRR-9I-DhQ">
                                 <rect key="frame" x="283" y="265" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
@@ -324,12 +324,11 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG7-ax-0xB">
-                                                <rect key="frame" x="93" y="48" width="97" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG7-ax-0xB">
+                                                <rect key="frame" x="63" y="34" width="180" height="112"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Confirm Move">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                                <state key="normal" image="clean_newlayout.png"/>
                                                 <connections>
                                                     <action selector="clickOnComfirm" destination="oqw-in-Hvu" eventType="touchUpInside" id="6h3-3I-KJI"/>
                                                 </connections>
@@ -371,6 +370,7 @@
                         <outlet property="bqueen" destination="bRf-S9-RGH" id="WZq-9f-L81"/>
                         <outlet property="brock" destination="Pna-j9-uc1" id="thC-u8-731"/>
                         <outlet property="brock2" destination="a9O-Uv-pbn" id="kSz-wu-Ide"/>
+                        <outlet property="confirmButton" destination="FG7-ax-0xB" id="LYj-Ex-PWg"/>
                         <outlet property="debuggingWindow" destination="0UW-2o-Ack" id="COL-BV-SE0"/>
                         <outlet property="kight2" destination="Ed7-LN-uyY" id="ts3-Te-xMl"/>
                         <outlet property="king" destination="WVz-oQ-aR4" id="gVV-AF-3cY"/>
@@ -427,20 +427,21 @@
         </scene>
     </scenes>
     <resources>
-        <image name="B_Bishop.png" width="133" height="126"/>
-        <image name="B_King.png" width="141" height="133"/>
-        <image name="B_Knight.png" width="132" height="132"/>
-        <image name="B_Pawn.png" width="127" height="132"/>
-        <image name="B_Queen.png" width="145" height="140"/>
-        <image name="B_Rock.png" width="134" height="132"/>
-        <image name="Bishop.png" width="106" height="108"/>
         <image name="Chess.board.fabric.png" width="320" height="568"/>
-        <image name="King.png" width="143" height="132"/>
-        <image name="Knight.png" width="133" height="131"/>
-        <image name="Pawn.png" width="137" height="132"/>
-        <image name="Queen.png" width="135" height="123"/>
-        <image name="Rock.png" width="105" height="117"/>
+        <image name="bbishop.png" width="133" height="126"/>
+        <image name="bishop.png" width="106" height="108"/>
+        <image name="bking.png" width="141" height="133"/>
+        <image name="bknight.png" width="132" height="132"/>
+        <image name="bpawn.png" width="127" height="132"/>
+        <image name="bqueen.png" width="145" height="140"/>
+        <image name="brock.png" width="134" height="132"/>
+        <image name="clean_newlayout.png" width="180" height="112"/>
         <image name="empty.png" width="141" height="133"/>
+        <image name="king.png" width="143" height="132"/>
+        <image name="knight.png" width="133" height="131"/>
+        <image name="pawn.png" width="137" height="132"/>
+        <image name="queen.png" width="135" height="123"/>
+        <image name="rock.png" width="105" height="117"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <nil key="statusBar"/>

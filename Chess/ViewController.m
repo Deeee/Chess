@@ -183,6 +183,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize circleViews;
 @synthesize availableMoves;
 @synthesize isSet;
+@synthesize confirmButton;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -197,19 +198,28 @@ GLfloat gCubeVertexData[216] =
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     [self setupGL];
+//    confirmButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 320, 150, 30)];
+    //confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    
+//    [confirmButton setBackgroundImage:[UIImage imageNamed:@"clean_newlayout.png"] forState:UIControlStateNormal];
+//    [confirmButton setImage:[UIImage imageNamed:@"highlight.png"] forState:UIControlStateHighlighted];
     //Gestures setup
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTapGesture];
     
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    singleTapGesture.numberOfTapsRequired = 1;
+    [self.confirmButton addGestureRecognizer:singleTapGesture];
+    [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    [self.view addSubview:confirmButton];
     //Debug window setup
     UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     // Hide keyboard, but show blinking cursor
     debuggingWindow.inputView = dummyView;
     self.debuggingWindow.delegate = self;
     
+
     //Initialize circleViews
     circleViews = [[NSMutableArray alloc] init];
     
@@ -302,6 +312,10 @@ GLfloat gCubeVertexData[216] =
     filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
     debugInfo = [[NSMutableString alloc] init];
     isSet = 0;
+    [confirmButton setFrame:CGRectMake(80, 420, 150, 30)];
+    [confirmButton addTarget:self.confirmButton
+                 action:@selector(clickOnComfirm)
+       forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -660,6 +674,21 @@ GLfloat gCubeVertexData[216] =
     [self showAvailableMoves:temp onView:drawView];
     return;
 }
+-(void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture{
+//    NSLog(@"handleSingleTap triggered");
+    //[confirmButton imageView].image = [UIImage imageNamed:@"brock.png"];
+
+    CGPoint tapPoint = [singleTapGesture locationInView:self.confirmButton];
+        if (tapPoint.x > confirmButton.frame.origin.x &&
+            tapPoint.x < confirmButton.frame.origin.x + confirmButton.frame.size.width &&
+            tapPoint.y > confirmButton.frame.origin.y &&
+            tapPoint.y < confirmButton.frame.origin.y + confirmButton.frame.size.height) {
+            NSLog(@"$$$$$$$settingAlpha");
+            //[confirmButton setAlpha:0.7];
+            [self clickOnComfirm];
+        }
+    
+}
 -(void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture{
     if (doubleTapGesture.state == UIGestureRecognizerStateRecognized) {
         CGPoint tapPoint = [doubleTapGesture locationInView:self.view];
@@ -690,7 +719,7 @@ GLfloat gCubeVertexData[216] =
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide]) {
                 NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
-                if ([myBoard requireMove:pi to:t]) {
+                if ([myBoard validateMove:pi to:t]) {
                     NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
                     CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
                     //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
@@ -875,6 +904,7 @@ GLfloat gCubeVertexData[216] =
 }
 
 - (IBAction)clickOnComfirm {
+    NSLog(@"^^clickOnConfirm");
     if (isDebug == 0) {
         [myBoard changeTerms];
     }
