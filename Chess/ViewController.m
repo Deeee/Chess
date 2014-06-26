@@ -313,9 +313,9 @@ GLfloat gCubeVertexData[216] =
     debugInfo = [[NSMutableString alloc] init];
     isSet = 0;
     [confirmButton setFrame:CGRectMake(80, 420, 150, 30)];
-    [confirmButton addTarget:self.confirmButton
-                 action:@selector(clickOnComfirm)
-       forControlEvents:UIControlEventTouchUpInside];
+    [confirmButton addTarget:self
+                      action:@selector(clickOnComfirm)
+       forControlEvents:UIControlEventTouchDown];
     
 }
 
