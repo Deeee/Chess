@@ -311,6 +311,24 @@
     return NULL;
 }
 
-
+// finds a random move given the bot's color.
+-(NSMutableArray *) findRandomMove :(int) color {
+    for (NSMutableArray *i in [self getPieceSet]) {
+        for (Piece *pi in i) {
+            //check pieces only of the same color as the bot.
+            if([pi getSide] == color) {
+                NSMutableArray *availableMoves = [self AvailableMovesForOnePiece:pi];
+                // if availableMoves has size of 0, move to the next piece in the for loop.
+                if([availableMoves count] == 0)
+                    continue;
+                NSMutableArray *randomMove = [[NSMutableArray alloc] init];
+                [randomMove addObject:[availableMoves  objectAtIndex:0]];
+                [randomMove addObject:[availableMoves objectAtIndex:1]];                
+                return randomMove;
+            }
+        }
+    }
+    return NULL;
+}
 
 @end
