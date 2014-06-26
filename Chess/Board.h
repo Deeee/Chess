@@ -30,7 +30,7 @@
 -(BOOL) validateMove:(Piece *) pi to:(Piece *)t;
 -(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
 -(BOOL) isOppColor: (Piece *) pi and :(Piece *)t;
--(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t;
+-(BOOL) isAbleToPromote:(Piece *) pi to:(Piece *) t;
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
 

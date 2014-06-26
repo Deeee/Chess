@@ -217,22 +217,16 @@
     a.image = b.image;
     b.image = c;
 }
--(BOOL) isAbleToBecomeQueenFor:(Piece *) pi to:(Piece *) t{
-    if ([pi getSide] == 1) {
-        if ([t getY] == 7) {
-            [pi setName:[NSMutableString stringWithFormat: @"queen"]];
+-(BOOL) isAbleToPromote:(Piece *) pi to:(Piece *) t{
+    if (([pi getSide] == 1) && ([t getY] == 7))
             return true;
-        }
-    }
-    else if ([pi getSide] == 2) {
-        if ([t getY] == 0) {
-            [pi setName:[NSMutableString stringWithFormat: @"queen"]];
+    else if (([pi getSide] == 2) && ([t getY] == 0))
             return true;
-        }
-    }
+    
     else {
         
     }
+//    NSLog(@"last is not able to promote");
     return false;
 }
 //return king from the board
@@ -358,36 +352,34 @@
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t {
     if ([pi getY] == 6) {
         if ([self isOppColor:pi and:t]) {
-            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                //[self isAbleToBecomeQueenFor:pi to:t];
+            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1)))
                 return true;
-            }
+            
             else return false;
         }
-        if ((([t getY] - [pi getY]) >= -2) && ([t getY] - [pi getY] < 0)&& ([t getX] - [pi getX] == 0)) {
-            //[self isAbleToBecomeQueenFor:pi to:t];
+        if ((([t getY] - [pi getY]) >= -2) && ([t getY] - [pi getY] < 0)&& ([t getX] - [pi getX] == 0))
             return true;
-        }
-        else return false;
+        
+        else
+            return false;
     }
     else {
         if ([self isOppColor:pi and:t]) {
-            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                //[self isAbleToBecomeQueenFor:pi to:t];
+            if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1)))
                 return true;
-            }
-            else return false;
+            
+            else
+                return false;
         }
         if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
-            //[self isAbleToBecomeQueenFor:pi to:t];
             NSLog(@"regular move by black");
             return true;
         }
-        else return false;
+        else
+            return false;
     }
     NSLog(@"unexpected!");
     return false;
-    
 }
 
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t {
@@ -396,17 +388,14 @@
         if ([self isOppColor:pi and:t]) {
             
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                //[self isAbleToBecomeQueenFor:pi to:t];
                 NSLog(@"valid white pawn move");
                 return true;
             }
             else {
-                //NSLog(@"not able to eat");
                 return false;
             }
         }
         else if ((([t getY] - [pi getY]) <= 2) && ([t getY] - [pi getY] > 0)&& ([t getX] - [pi getX] == 0)) {
-            //[self isAbleToBecomeQueenFor:pi to:t];
             NSLog(@"valid white pawn move to skewed side");
             return true;
         }
@@ -420,7 +409,6 @@
         if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 // attacks diagonally up one square.
-                //[self isAbleToBecomeQueenFor:pi to:t];
                 NSLog(@"valid white pawn eating move to skewed side");
                 return true;
             }
@@ -430,7 +418,6 @@
             }
         }
         if ([t getY] - [pi getY] == 1 && ([t getX] - [pi getX] == 0)) {
-            //[self isAbleToBecomeQueenFor:pi to:t];
             NSLog(@"valid white pawn eating move");
             return true;
         }
@@ -575,7 +562,6 @@
     }
 }
 
-// valid knight moves for both colors
 // helper function to knightMove()
 -(BOOL)isValidKnightMove:(Piece *)pi to :(Piece*)t {
     
@@ -604,7 +590,6 @@
     return false;
 }
 
-//knightMove works for both colors
 -(BOOL)knightMove:(Piece *)pi to:(Piece *)t {
     if(([pi getSide] != [t getSide]) && [self isValidKnightMove:pi to:t]) {
         NSLog(@"valid knight move ");
@@ -639,7 +624,7 @@
     }
     return false;
 }
-//helpful function for bishop moves
+//helper function for bishop moves
 -(BOOL)isValidBishopMove1:(Piece *)pi to:(Piece *)t {
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
@@ -757,7 +742,6 @@
     //    if (isDebug == 1) {
     //        return true;
     //    }
-    // moves for all pieces except pawns are color independent.
 
     if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
         if([pi getSide] == 1) {
