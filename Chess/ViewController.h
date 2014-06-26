@@ -12,6 +12,7 @@
 #import "Piece.h"
 #import "Board.h"
 #import "DrawCircles.h"
+#import "EasyBot.h"
 @interface ViewController : GLKViewController<UITextFieldDelegate>
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -109,6 +110,7 @@
 @property int isDebug;
 @property int isTapped;
 @property int isSet;
+@property NSInteger mode;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
@@ -125,7 +127,7 @@
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)clickOnComfirm;
-- (IBAction)clickOnBot;
+- (IBAction)clickOnBot:(UIButton *) sender;
 - (void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
 + (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end

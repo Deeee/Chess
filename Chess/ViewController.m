@@ -184,6 +184,7 @@ GLfloat gCubeVertexData[216] =
 @synthesize availableMoves;
 @synthesize isSet;
 @synthesize confirmButton;
+@synthesize mode;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -229,8 +230,32 @@ GLfloat gCubeVertexData[216] =
     //    [mainViewLayer addSublayer:dummyView.layer];
     //    [mainViewLayer addSublayer:v.layer];
     //    [mainViewLayer]
+    //Basic Setup for board
+    X = 0;
+    Y = 0;
+    isTouched = 0;
+    isMoved = 0;
+    isDebug = 0;
+    isTapped = 0;
+    availableMoves = 1;
+    paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
+    filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
+    debugInfo = [[NSMutableString alloc] init];
+    isSet = 0;
+    mode = 0;
+    [confirmButton setFrame:CGRectMake(80, 420, 150, 30)];
+    [confirmButton addTarget:self
+                      action:@selector(clickOnComfirm)
+            forControlEvents:UIControlEventTouchDown];
+    
     NSLog(@"in viewdidload");
+    if (mode == 1) {
+        NSLog(@"***In bot mode");
+        myBoard = [[EasyBot alloc] init];
+    }
+    else {
     myBoard = [[Board alloc] init];
+    }
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:knight and:[NSMutableString stringWithString:@"knight"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:0] setImg:bishop and:[NSMutableString stringWithString:@"bishop"] and:1];
@@ -301,21 +326,7 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:5] setImg:space31 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:5] setImg:space32 and:[NSMutableString stringWithString:@"empty"]and:0];
     
-    X = 0;
-    Y = 0;
-    isTouched = 0;
-    isMoved = 0;
-    isDebug = 0;
-    isTapped = 0;
-    availableMoves = 1;
-    paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
-    filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
-    debugInfo = [[NSMutableString alloc] init];
-    isSet = 0;
-    [confirmButton setFrame:CGRectMake(80, 420, 150, 30)];
-    [confirmButton addTarget:self
-                      action:@selector(clickOnComfirm)
-       forControlEvents:UIControlEventTouchDown];
+
     
 }
 
@@ -909,8 +920,9 @@ GLfloat gCubeVertexData[216] =
 }
 
 
-- (IBAction)clickOnBot {
-    
+- (IBAction)clickOnBot:(UIButton *) sender{
+    NSLog(@"!!clickonbot");
+    mode = sender.tag;
 }
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
