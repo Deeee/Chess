@@ -52,6 +52,7 @@
 -(NSString *) getImageNameFromPiece:(Piece *)p;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 -(NSMutableArray *) getPieceSet;
+-(NSMutableArray *) AvailableMovesForOnePiece:(Piece *)pi;
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;
