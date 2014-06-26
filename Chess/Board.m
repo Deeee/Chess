@@ -844,4 +844,24 @@
     }
     
 }
+
+-(NSMutableArray *)AvailableMovesForOnePiece:(Piece *)pi{
+    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+    NSLog(@"in availabie moves %@ requiring ava moves", [pi getName]);
+    for (NSMutableArray *i in [self getPieceSet]) {
+        for (Piece *t in i) {
+            if ([t getSide] != [pi getSide]) {
+//                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                if ([self validateMove:pi to:t]) {
+//                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                    //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
+                    [availableMovesArray addObject:pi];
+                    [availableMovesArray addObject:t];
+                    
+                }
+            }
+        }
+    }
+    return availableMovesArray;
+}
 @end

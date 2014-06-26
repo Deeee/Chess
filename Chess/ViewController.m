@@ -712,8 +712,7 @@ GLfloat gCubeVertexData[216] =
 }
 
 
--(NSMutableArray *)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
-    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+-(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
     NSLog(@"in show availabie moves %@ requiring ava moves", [pi getName]);
     for (NSMutableArray *i in [myBoard getPieceSet]) {
         for (Piece *t in i) {
@@ -723,15 +722,14 @@ GLfloat gCubeVertexData[216] =
                     NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
                     CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
                     //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
-                    [availableMovesArray addObject:pi];
-                    [availableMovesArray addObject:t];
+
                     [drawView drawOnSpot:pt withSide:[pi getSide]];
                     
                 }
             }
         }
     }
-    return availableMovesArray;
+    return ;
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -910,6 +908,10 @@ GLfloat gCubeVertexData[216] =
     }
 }
 
+
+- (IBAction)clickOnBot {
+    
+}
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

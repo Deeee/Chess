@@ -54,14 +54,7 @@
 @property (nonatomic, assign) IBOutlet UIImageView *space31;
 @property (nonatomic, assign) IBOutlet UIImageView *space32;
 
-@property (nonatomic, strong) Board *myBoard;
 
-@property Piece *tempPiece;
-@property int X, Y, isTouched;
-@property int isMoved;
-@property int isDebug;
-@property int isTapped;
-@property int isSet;
 
 @property (nonatomic, assign) IBOutlet UIImageView *rock;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
@@ -95,15 +88,27 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn5;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn6;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn7;
+
+
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
 @property NSMutableString *debugInfo;
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
+
 @property (nonatomic, strong) NSMutableArray *circleViews;
 @property int availableMoves;
+@property (nonatomic)CGPoint drawPoint;
+
 @property NSArray *paths;
 @property NSString *filePath;
-@property (nonatomic)CGPoint drawPoint;
 @property (nonatomic, strong) IBOutlet UIButton *confirmButton;
+@property (nonatomic, strong) Board *myBoard;
+
+@property Piece *tempPiece;
+@property int X, Y, isTouched;
+@property int isMoved;
+@property int isDebug;
+@property int isTapped;
+@property int isSet;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
@@ -120,6 +125,7 @@
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)clickOnComfirm;
--(NSMutableArray *)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
+- (IBAction)clickOnBot;
+- (void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
 + (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end
