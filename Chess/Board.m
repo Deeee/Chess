@@ -96,13 +96,6 @@
     else return false;
 }
 
--(BOOL) isOnBoard : (Piece*) p {
-    if(([p getX] < 0) || ([p getY] > 8))
-        return false;
-    else
-        return true;
-}
-
 -(NSString *) getImageNameFromPiece:(Piece *)p {
     if ([[p getName] rangeOfString:@"bpawn"].location != NSNotFound) {
         return @"bpawn.png";
@@ -341,6 +334,211 @@
     }
 }
 
+
+-(BOOL) isValidCoordinate:(int)x and :(int)y {
+    if((x < 0) || (x > 7) || (y < 0) || (y > 7))
+        return false;
+    else return true;
+}
+
+-(BOOL) isCheckedHorizontal:(Piece*)king {
+    //CHECKING FOR HORIZONTALS -> QUEEN OR ROOK.
+    
+    // left of king.
+    for(int i = [king getX]; i > -1; i--) {
+        Piece* p = [self getPieceAt:i with:[king getY]];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+            NSLog(@"is checked 1");
+            return true;
+        }
+    }
+    // right of king.
+    for(int i = [king getX]; i < 8; i++) {
+        Piece* p = [self getPieceAt:i with:[king getY]];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+            NSLog(@"is checked 2");
+            return true;
+        }
+    }
+    //        // up of king.
+    for(int i = [king getY]; i > -1; i--) {
+        Piece* p = [self getPieceAt:[king getX] with:i];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+            NSLog(@"is checked 3");
+            return true;
+        }
+    }
+    // down of king.
+    for(int i = [king getY]; i < 8; i++) {
+        Piece* p = [self getPieceAt:[king getX] with:i];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+            NSLog(@"is checked 4");
+            return true;
+        }
+    }
+    return false;
+}
+
+-(BOOL) isCheckedDiagonal:(Piece*)king {
+    //CHECKING FOR DIAGONALS
+    
+    // up left attacks
+    int tempY = [king getY];
+    for(int i = [king getX]; i > -1; i--) {
+        int place = tempY--;
+        if(place < 0)
+            break;
+        Piece *p = [self getPieceAt:i with:place];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
+            NSLog(@"is checked 5");
+            return true;
+        }
+    }
+    
+    // up right attacks
+    
+    tempY = [king getY];
+    for(int i = [king getX]; i < 8; i++) {
+        int place = tempY++;
+        if(place > 7)
+            break;
+        Piece * p = [self getPieceAt:i with:place];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
+            NSLog(@"is checked 6");
+            return true;
+        }
+    }
+    
+    // down left attacks
+    int tempX = [king getX];
+    for(int i = [king getY]; i < 8; i++) {
+        int place = tempX --;
+        if(place < 0)
+            break;
+        Piece* p = [self getPieceAt:place with:i];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
+            NSLog(@"is checked 7");
+            return true;
+        }
+    }
+    
+    // down right attacks
+    tempX = [king getX];
+    for(int i = [king getY]; i > -1; i--) {
+        int place = tempX++;
+        if(place > 7)
+            break;
+        Piece* p = [self getPieceAt:place++ with:i];
+        if([self isSameColor:king and:p])
+            break;
+        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
+            NSLog(@"is checked 8");
+            return true;
+        }
+    }
+
+    //CHECKING FOR PAWNS
+    Piece* pawn;
+    // black king against white pawns.
+    if([king getSide] == 2) {
+        
+        int x = [king getX] + 1;
+        int y = [king getY] -1;
+        if([self isValidCoordinate:x and:y]) {
+            pawn = [self getPieceAt:x with:y];
+            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+                NSLog(@"is checked 9");
+                return true;
+            }
+        }
+        
+        x = [king getX] - 1;
+        y = [king getY] -1;
+        if([self isValidCoordinate:x and:y]) {
+            pawn = [self getPieceAt:x with:y];
+            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+                NSLog(@"is checked 10");
+                return true;
+            }
+        }
+    }
+    // white king against black pawns.
+    else if([king getSide] == 1) {
+        
+        int x = [king getX] + 1;
+        int y = [king getY] + 1;
+        
+        if([self isValidCoordinate:x and:y]) {
+            pawn = [self getPieceAt:x with:y];
+            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+                NSLog(@"is checked 11");
+                return true;
+            }
+        }
+        x = [king getX] - 1;
+        y = [king getY] + 1;
+        
+        if([self isValidCoordinate:x and:y]) {
+            pawn = [self getPieceAt:x with:y];
+            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+                NSLog(@"is checked 12");
+                return true;
+            }
+        }
+    }
+    else
+        ;
+    return false;
+}
+
+
+-(BOOL) isChckedByKnight:(Piece*)king {
+    
+    //CHECKING FOR KNIGHTS , there can be at most 8 knight locations that can attack one square.
+    int kingY = [king getY];
+    int kingX = [king getX];
+    
+    NSMutableArray * possibleKnights = [[NSMutableArray alloc] init];
+    
+    if([self isValidCoordinate:kingX + 1 and:kingY])
+        [possibleKnights addObject:[self getPieceAt:kingX + 1 with:kingY]];
+    if([self isValidCoordinate:kingX - 1 and:kingY])
+        [possibleKnights addObject:[self getPieceAt:kingX - 1 with:kingY]];
+    if([self isValidCoordinate:kingX and:kingY + 1])
+        [possibleKnights addObject:[self getPieceAt:kingX with:kingY + 1]];
+    if([self isValidCoordinate:kingX and:kingY - 1])
+        [possibleKnights addObject:[self getPieceAt:kingX with:kingY - 1]];
+    if([self isValidCoordinate:kingX + 1 and:kingY + 1])
+        [possibleKnights addObject:[self getPieceAt:kingX + 1 with:kingY + 1]];
+    if([self isValidCoordinate:kingX + 1 and:kingY - 1])
+        [possibleKnights addObject:[self getPieceAt:kingX + 1 with:kingY - 1]];
+    if([self isValidCoordinate:kingX - 1 and:kingY + 1])
+        [possibleKnights addObject:[self getPieceAt:kingX - 1 with:kingY + 1]];
+    if([self isValidCoordinate:kingX - 1 and:kingY - 1])
+        [possibleKnights addObject:[self getPieceAt:kingX - 1 with:kingY - 1]];
+    
+
+    for(int i = 0; i < [possibleKnights count]; i++)
+        if([self isKnight:possibleKnights[i]])
+            return true;
+
+    return false;
+}
+
 -(BOOL) isChecked {
     
     Piece* king;
@@ -354,129 +552,19 @@
     
     //whenever we encounter a piece of the same color, we must break out of the respective for loop.
     
-    //CHECKING FOR HORIZONTALS -> QUEEN OR ROOK.
-    
-        // left of king.
-    for(int i = [king getX]; i > -1; i--) {
-        Piece* p = [self getPieceAt:i with:[king getY]];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p]))
+    if([self isCheckedHorizontal:king])
+        return true;
+    else {
+        if([self isCheckedHorizontal:king])
             return true;
+        else {
+            if([self isChckedByKnight:king])
+                    return true;
+            else
+                return false;
+        }
     }
-        // right of king.
-    for(int i = [king getX]; i < 9; i++) {
-        Piece* p = [self getPieceAt:i with:[king getY]];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p]))
-            return true;
-    }
-        // up of king.
-    for(int i = [king getY]; i > -1; i--) {
-        Piece* p = [self getPieceAt:[king getX] with:i];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p]))
-            return true;
-    }
-        // down of king.
-    for(int i = [king getY]; i < 9; i++) {
-        Piece* p = [self getPieceAt:[king getX] with:i];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p]))
-            return true;
-    }
-    
-    //CHECKING FOR DIAGONALS
-    
-        // up left attacks
-    int tempY = [king getY];
-    for(int i = [king getX]; i > -1; i--) {
-        Piece *p = [self getPieceAt:i with:tempY--];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p]))
-           return true;
-    }
-    
-        // up right attacks
-    
-    tempY = [king getY];
-    for(int i = [king getX]; i < 9; i++) {
-        Piece * p = [self getPieceAt:i with:tempY++];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p]))
-            return true;
-    }
-    
-        // down left attacks
-    int tempX = [king getX];
-    for(int i = [king getY]; i < 9; i++) {
-        Piece* p = [self getPieceAt:tempX-- with:i];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p]))
-            return true;
-    }
-    
-        // down right attacks
-    tempX = [king getX];
-    for(int i = [king getY]; i > -1; i--) {
-        Piece* p = [self getPieceAt:tempX++ with:i];
-        if([self isSameColor:king and:p])
-            break;
-        else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p]))
-            return true;
-    }
-    
-    //CHECKING FOR PAWNS
-    Piece* pawn;
-    // black king against white pawns.
-    if([king getSide] == 2) {
-        pawn = [self getPieceAt:[king getX] + 1 with:[king getY] -1];
-        if([self isOnBoard:pawn] && [self isPawn:pawn])
-            return true;
-        
-        pawn = [self getPieceAt:[king getX] - 1 with:[king getY] -1];
-        if([self isOnBoard:pawn] && [self isPawn:pawn])
-            return true;
-        
-    }
-    // white king against black pawns.
-    else if([king getSide] == 1) {
-        pawn = [self getPieceAt:[king getX] + 1 with:[king getY] + 1];
-        if([self isOnBoard:pawn] && [self isPawn:pawn])
-            return true;
-        
-        pawn = [self getPieceAt:[king getX] - 1 with:[king getY] + 1];
-        if([self isOnBoard:pawn] && [self isPawn:pawn])
-            return true;
-    }
-    else
-        ;
-    
-    //CHECKING FOR KNIGHTS , there can be at most 8 knight locations that can attack one square.
-    int kingY = [king getY];
-    int kingX = [king getX];
-    
-    Piece* possibleKnights[] = {
-        [self getPieceAt:kingX + 1 with:kingY],
-        [self getPieceAt:kingX - 1 with:kingY],
-        [self getPieceAt:kingX with:kingY + 1],
-        [self getPieceAt:kingX with:kingY - 1],
-        [self getPieceAt:kingX +1 with:kingY + 1],
-        [self getPieceAt:kingX +1 with:kingY - 1],
-        [self getPieceAt:kingX -1 with:kingY + 1],
-        [self getPieceAt:kingX -1 with:kingY - 1],
-    };
-    
-    for(int i = 0; i < 8; i++)
-        if([self isOnBoard:possibleKnights[i]] && [self isKnight:possibleKnights[i]])
-            return true;
-    
+    NSLog(@"returning false, king is not in check");
     return false;
 }
 // if piece colors are different and not empty.
