@@ -20,7 +20,6 @@
 		5B0FA0F4194BD5B300DAE166 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA0F2194BD5B300DAE166 /* Main_iPad.storyboard */; };
 		5B0FA0F6194BD5B300DAE166 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA0F5194BD5B300DAE166 /* Shader.fsh */; };
 		5B0FA0F8194BD5B300DAE166 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA0F7194BD5B300DAE166 /* Shader.vsh */; };
-		5B0FA0FB194BD5B300DAE166 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0FA0FA194BD5B300DAE166 /* ViewController.m */; };
 		5B0FA0FD194BD5B300DAE166 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA0FC194BD5B300DAE166 /* Images.xcassets */; };
 		5B0FA104194BD5B300DAE166 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA103194BD5B300DAE166 /* XCTest.framework */; };
 		5B0FA105194BD5B300DAE166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0D9194BD5B300DAE166 /* Foundation.framework */; };
@@ -30,6 +29,8 @@
 		5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B0F1952A3C600AC9190 /* LinearEquation.m */; };
 		5B322B131953599B00AC9190 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B121953599B00AC9190 /* Player.m */; };
 		5B322B151953E1CD00AC9190 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B322B141953E1CD00AC9190 /* highlight.png */; };
+		5B340D51195D3F330042ADA2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D50195D3F330042ADA2 /* MainViewController.m */; };
+		5B340D54195DC9B20042ADA2 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D53195DC9B20042ADA2 /* BoardViewController.m */; };
 		5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */; };
 		5B3B3333194D3EA800068A0B /* bking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3320194D3EA800068A0B /* bking.png */; };
 		5B3B3334194D3EA800068A0B /* B_King.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3321194D3EA800068A0B /* B_King.psd */; };
@@ -57,6 +58,7 @@
 		5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */; };
 		5B7EE4F21958CD9800BB53CA /* BoardPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7EE4F11958CD9800BB53CA /* BoardPoint.m */; };
 		5B7EE4F4195A258800BB53CA /* clean_newlayout.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B7EE4F3195A258800BB53CA /* clean_newlayout.png */; };
+		5BFF26A5195CEBA80033F2A8 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,8 +90,6 @@
 		5B0FA0F3194BD5B300DAE166 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		5B0FA0F5194BD5B300DAE166 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
 		5B0FA0F7194BD5B300DAE166 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
-		5B0FA0F9194BD5B300DAE166 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5B0FA0FA194BD5B300DAE166 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5B0FA0FC194BD5B300DAE166 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B0FA102194BD5B300DAE166 /* ChessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0FA103194BD5B300DAE166 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -101,6 +101,10 @@
 		5B322B111953599B00AC9190 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		5B322B121953599B00AC9190 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		5B322B141953E1CD00AC9190 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
+		5B340D4F195D3F330042ADA2 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		5B340D50195D3F330042ADA2 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		5B340D52195DC9B20042ADA2 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
+		5B340D53195DC9B20042ADA2 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
 		5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chess.board.fabric.png; sourceTree = "<group>"; };
 		5B3B3320194D3EA800068A0B /* bking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bking.png; sourceTree = "<group>"; };
 		5B3B3321194D3EA800068A0B /* B_King.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_King.psd; sourceTree = "<group>"; };
@@ -133,6 +137,13 @@
 		5B7EE4F01958CD9800BB53CA /* BoardPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardPoint.h; sourceTree = "<group>"; };
 		5B7EE4F11958CD9800BB53CA /* BoardPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardPoint.m; sourceTree = "<group>"; };
 		5B7EE4F3195A258800BB53CA /* clean_newlayout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clean_newlayout.png; sourceTree = "<group>"; };
+		5BFF269B195CE6A50033F2A8 /* king.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = king.png; sourceTree = "<group>"; };
+		5BFF269C195CE6A50033F2A8 /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
+		5BFF269D195CE6A50033F2A8 /* pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pawn.png; sourceTree = "<group>"; };
+		5BFF269E195CE6A50033F2A8 /* queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queen.png; sourceTree = "<group>"; };
+		5BFF269F195CE6A50033F2A8 /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
+		5BFF26A3195CEBA80033F2A8 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = ../MenuViewController.h; sourceTree = "<group>"; };
+		5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = ../MenuViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,12 +209,18 @@
 			children = (
 				5B3B331D194D2DB800068A0B /* images */,
 				5B0FA0EC194BD5B300DAE166 /* AppDelegate.h */,
+				5B0FA0ED194BD5B300DAE166 /* AppDelegate.m */,
 				5B322B111953599B00AC9190 /* Player.h */,
 				5B322B121953599B00AC9190 /* Player.m */,
-				5B0FA0ED194BD5B300DAE166 /* AppDelegate.m */,
 				5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */,
 				5B7EE4F01958CD9800BB53CA /* BoardPoint.h */,
 				5B7EE4F11958CD9800BB53CA /* BoardPoint.m */,
+				5B340D4F195D3F330042ADA2 /* MainViewController.h */,
+				5B340D50195D3F330042ADA2 /* MainViewController.m */,
+				5BFF26A3195CEBA80033F2A8 /* MenuViewController.h */,
+				5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */,
+				5B340D52195DC9B20042ADA2 /* BoardViewController.h */,
+				5B340D53195DC9B20042ADA2 /* BoardViewController.m */,
 				5B7EE4EB1957AB0600BB53CA /* DrawCircles.h */,
 				5B7EE4EC1957AB0600BB53CA /* IOSCircle.h */,
 				5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */,
@@ -213,8 +230,6 @@
 				5B0FA0F7194BD5B300DAE166 /* Shader.vsh */,
 				5B322B0E1952A3C600AC9190 /* LinearEquation.h */,
 				5B322B0F1952A3C600AC9190 /* LinearEquation.m */,
-				5B0FA0F9194BD5B300DAE166 /* ViewController.h */,
-				5B0FA0FA194BD5B300DAE166 /* ViewController.m */,
 				5B3B3346194E4FD000068A0B /* Piece.h */,
 				5B3B3347194E4FD000068A0B /* Piece.m */,
 				5B3B3349194E7B2400068A0B /* Board.h */,
@@ -259,6 +274,11 @@
 		5B3B331D194D2DB800068A0B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5BFF269B195CE6A50033F2A8 /* king.png */,
+				5BFF269C195CE6A50033F2A8 /* knight.png */,
+				5BFF269D195CE6A50033F2A8 /* pawn.png */,
+				5BFF269E195CE6A50033F2A8 /* queen.png */,
+				5BFF269F195CE6A50033F2A8 /* rock.png */,
 				5B7EE4F3195A258800BB53CA /* clean_newlayout.png */,
 				5B3B334C194E9D2200068A0B /* empty.png */,
 				5B3B3320194D3EA800068A0B /* bking.png */,
@@ -364,9 +384,7 @@
 			files = (
 				5B3B3334194D3EA800068A0B /* B_King.psd in Resources */,
 				5B3B3336194D3EA800068A0B /* B_Queen.psd in Resources */,
-				5B3B3341194D3EA800068A0B /* knight.png in Resources */,
 				5B3B333E194D3EA800068A0B /* B_Pawn.psd in Resources */,
-				5B3B3345194D3EA800068A0B /* rock.png in Resources */,
 				5B3B334D194E9D2200068A0B /* empty.png in Resources */,
 				5B0FA0F6194BD5B300DAE166 /* Shader.fsh in Resources */,
 				5B0FA0F4194BD5B300DAE166 /* Main_iPad.storyboard in Resources */,
@@ -378,17 +396,19 @@
 				5B3B3339194D3EA800068A0B /* bknight.png in Resources */,
 				5B3B3344194D3EA800068A0B /* bishop.png in Resources */,
 				5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */,
-				5B3B3343194D3EA800068A0B /* king.png in Resources */,
 				5B3B333A194D3EA800068A0B /* B_Knight.psd in Resources */,
 				5B0FA0FD194BD5B300DAE166 /* Images.xcassets in Resources */,
 				5B0FA0E8194BD5B300DAE166 /* InfoPlist.strings in Resources */,
 				5B3B333D194D3EA800068A0B /* bpawn.png in Resources */,
 				5B3B333C194D3EA800068A0B /* B_Rock.psd in Resources */,
 				5B3B3335194D3EA800068A0B /* bqueen.png in Resources */,
-				5B3B333B194D3EA800068A0B /* brock.png in Resources */,
+				5B3B3343194D3EA800068A0B /* king.png in Resources */,
+				5B3B3341194D3EA800068A0B /* knight.png in Resources */,
 				5B3B333F194D3EA800068A0B /* pawn.png in Resources */,
-				5B322B151953E1CD00AC9190 /* highlight.png in Resources */,
 				5B3B3342194D3EA800068A0B /* queen.png in Resources */,
+				5B3B3345194D3EA800068A0B /* rock.png in Resources */,
+				5B3B333B194D3EA800068A0B /* brock.png in Resources */,
+				5B322B151953E1CD00AC9190 /* highlight.png in Resources */,
 				5B0FA0F8194BD5B300DAE166 /* Shader.vsh in Resources */,
 				5B3B3333194D3EA800068A0B /* bking.png in Resources */,
 			);
@@ -413,9 +433,11 @@
 				5B7EE4F21958CD9800BB53CA /* BoardPoint.m in Sources */,
 				5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */,
 				5B3B3348194E4FD000068A0B /* Piece.m in Sources */,
-				5B0FA0FB194BD5B300DAE166 /* ViewController.m in Sources */,
+				5B340D51195D3F330042ADA2 /* MainViewController.m in Sources */,
 				1C2217811954ACDF007081F2 /* EasyBot.m in Sources */,
+				5B340D54195DC9B20042ADA2 /* BoardViewController.m in Sources */,
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
+				5BFF26A5195CEBA80033F2A8 /* MenuViewController.m in Sources */,
 				5B0FA0EA194BD5B300DAE166 /* main.m in Sources */,
 				5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */,
 				5B322B131953599B00AC9190 /* Player.m in Sources */,
