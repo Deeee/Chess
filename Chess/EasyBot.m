@@ -351,14 +351,7 @@
             break;
     }
     
-    int randNum = 1;
-    // nasty way to get even randomNumber.
-    while(true) {
-        NSLog(@"in while loop 2");
-        randNum = arc4random_uniform(numMoves);
-        if(randNum % 2 == 0)
-            break;
-    }
+    int randNum = 2 * arc4random_uniform( numMoves/ 2);
     
     [randomMove addObject:[availableMoves objectAtIndex:randNum]];
     [randomMove addObject:[availableMoves objectAtIndex:randNum + 1]];
