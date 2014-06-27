@@ -904,13 +904,22 @@
 }
 
 -(BOOL)kingMove:(Piece *)pi to:(Piece *)t {
+    //isCastlePiecesMoved --> initialized all to 1, if 1, meaning it has not moved yet.
+        // LWR, WK, RWR
+        // LBR, BK, RBR
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1)) {
+    
+    
+    if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
         NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
     }
-    else return false;
+    
+    //check for castling.
+    
+    
+    return false;
 }
 
 -(BOOL) isPermaChecked{
