@@ -328,22 +328,41 @@
 
 // finds a random move given the bot's color.
 -(NSMutableArray *) findRandomMove :(int) color {
-    for (NSMutableArray *i in [self getPieceSet]) {
-        for (Piece *pi in i) {
+    
+    NSMutableArray * randomMove = [[NSMutableArray alloc]init];
+    NSMutableArray * botPieces = [[NSMutableArray alloc]init];
+    
+    for (NSMutableArray *i in [self getPieceSet])
+        for (Piece *pi in i)
             //check pieces only of the same color as the bot.
-            if([pi getSide] == color) {
-                NSMutableArray *availableMoves = [self AvailableMovesForOnePiece:pi];
-                // if availableMoves has size of 0, move to the next piece in the for loop.
-                if([availableMoves count] == 0)
-                    continue;
-                NSMutableArray *randomMove = [[NSMutableArray alloc] init];
-                [randomMove addObject:[availableMoves  objectAtIndex:0]];
-                [randomMove addObject:[availableMoves objectAtIndex:1]];                
-                return randomMove;
-            }
-        }
+            if([pi getSide] == color)
+                [botPieces addObject:pi];
+    
+    Piece* randomPiece;
+    NSMutableArray *availableMoves;
+    int numMoves = 1;
+    // while loop will get a randomPiece and set available moves, making sure that the randomPiece has available moves.
+    while(true) {
+        NSLog(@"in while loop 1");
+        randomPiece = [botPieces objectAtIndex:arc4random_uniform([botPieces count])];
+        availableMoves = [self AvailableMovesForOnePiece:randomPiece];
+        numMoves = [availableMoves count];
+        if(numMoves > 0)
+            break;
     }
-    return NULL;
+    
+    int randNum = 1;
+    // nasty way to get even randomNumber.
+    while(true) {
+        NSLog(@"in while loop 2");
+        randNum = arc4random_uniform(numMoves);
+        if(randNum % 2 == 0)
+            break;
+    }
+    
+    [randomMove addObject:[availableMoves objectAtIndex:randNum]];
+    [randomMove addObject:[availableMoves objectAtIndex:randNum + 1]];
+    return randomMove;
 }
 
 @end
