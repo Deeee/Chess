@@ -33,6 +33,7 @@
 -(BOOL) isAbleToPromote:(Piece *) pi to:(Piece *) t;
 -(void) imageTakeOver:(UIImageView *) a takeOver:(UIImageView *)b;
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b;
+-(BOOL) isValidCoordinate:(int)x and :(int)y;
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t;
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t;

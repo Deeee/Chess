@@ -76,7 +76,10 @@
     // up left attacks
     int tempY = [bishop getY];
     for(int i = [bishop getX]; i > -1; i--) {
-        Piece *p = [self getPieceAt:i with:tempY--];
+        int place = tempY --;
+        if(place < 0)
+            break;
+        Piece *p = [self getPieceAt:i with:place];
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
@@ -85,8 +88,11 @@
     }
     // up right attacks
     tempY = [bishop getY];
-    for(int i = [bishop getX]; i < 9; i++) {
-        Piece * p = [self getPieceAt:i with:tempY++];
+    for(int i = [bishop getX]; i < 8; i++) {
+        int place = tempY++;
+        if(place > 7)
+            break;
+        Piece * p = [self getPieceAt:i with:place];
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
@@ -96,8 +102,11 @@
     }
     // down left attacks
     int tempX = [bishop getX];
-    for(int i = [bishop getY]; i < 9; i++) {
-        Piece* p = [self getPieceAt:tempX-- with:i];
+    for(int i = [bishop getY]; i < 8; i++) {
+        int place = tempX --;
+        if(place < 0)
+            break;
+        Piece* p = [self getPieceAt:place with:i];
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
@@ -108,7 +117,10 @@
     // down right attacks
     tempX = [bishop getX];
     for(int i = [bishop getY]; i > -1; i--) {
-        Piece* p = [self getPieceAt:tempX++ with:i];
+        int place = tempX ++;
+        if(place < 7)
+            break;
+        Piece* p = [self getPieceAt:place with:i];
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
@@ -133,7 +145,7 @@
         }
     }
     // right horizontal attacks
-    for(int i = [rook getX]; i < 9; i++) {
+    for(int i = [rook getX]; i <8; i++) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
@@ -153,7 +165,7 @@
     }
     
     // down vertical attacks
-    for(int i = [rook getY]; i < 9; i++) {
+    for(int i = [rook getY]; i < 8; i++) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
@@ -176,24 +188,33 @@
     
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
     [attackCombo addObject:king];
+    NSMutableArray* kingMoves = [[NSMutableArray alloc] init];
     
-    int kingY = [king getY]; int kingX = [king getX];
     
-    Piece* kingMoves[] = {
-        [self getPieceAt:kingX + 1 with:kingY],
-        [self getPieceAt:kingX - 1 with:kingY],
-        [self getPieceAt:kingX with:kingY + 1],
-        [self getPieceAt:kingX with:kingY - 1],
-        [self getPieceAt:kingX +1 with:kingY + 1],
-        [self getPieceAt:kingX +1 with:kingY - 1],
-        [self getPieceAt:kingX -1 with:kingY + 1],
-        [self getPieceAt:kingX -1 with:kingY - 1],
-    };
+    int kingX = [king getX];
+    int kingY = [king getY];
     
-    for(int i = 0; i < 8; i++) {
-        if([self isOnBoard:kingMoves[i]] && [self isOppColor:king and:kingMoves[i]]) {
+    if([self isValidCoordinate:kingX + 1 and:kingY])
+        [kingMoves addObject:[self getPieceAt:kingX + 1 with:kingY]];
+    if([self isValidCoordinate:kingX - 1 and:kingY])
+        [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY]];
+    if([self isValidCoordinate:kingX and:kingY + 1])
+        [kingMoves addObject:[self getPieceAt:kingX with:kingY + 1]];
+    if([self isValidCoordinate:kingX and:kingY - 1])
+        [kingMoves addObject:[self getPieceAt:kingX with:kingY - 1]];
+    if([self isValidCoordinate:kingX + 1 and:kingY + 1])
+        [kingMoves addObject:[self getPieceAt:kingX + 1 with:kingY + 1]];
+    if([self isValidCoordinate:kingX + 1 and:kingY - 1])
+        [kingMoves addObject:[self getPieceAt:kingX + 1 with:kingY - 1]];
+    if([self isValidCoordinate:kingX - 1 and:kingY + 1])
+        [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY + 1]];
+    if([self isValidCoordinate:kingX - 1 and:kingY - 1])
+        [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY - 1]];
+
+    for(int i = 0; i < [kingMoves count]; i++) {
+        if([self isOppColor:king and:[kingMoves objectAtIndex:i]]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
-            [attackCombo addObject:kingMoves[i]];
+            [attackCombo addObject:[kingMoves objectAtIndex:i]];
             return attackCombo;
         }
     }
@@ -201,30 +222,39 @@
 }
 
 -(NSMutableArray *)findKnightAttack : (Piece*) knight {
-    
-    int knightY = [knight getY]; int knightX = [knight getX];
+
+    int knightX = [knight getX];
+    int knightY = [knight getY];
+
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
     [attackCombo addObject:knight];
-    Piece* knightMoves[] = {
-        [self getPieceAt:knightX + 2 with:knightY + 1],
-        [self getPieceAt:knightX + 2 with:knightY - 1],
-        [self getPieceAt:knightX - 2 with:knightY + 1],
-        [self getPieceAt:knightX - 2 with:knightY - 1],
-        
-        [self getPieceAt:knightX + 1 with:knightY + 2],
-        [self getPieceAt:knightX + 1 with:knightY - 2],
-        [self getPieceAt:knightX - 1 with:knightY + 2],
-        [self getPieceAt:knightX - 1 with:knightY - 2],
-    };
+    NSMutableArray* knightMoves = [[NSMutableArray alloc] init];
+    
+    if([self isValidCoordinate:knightX + 1 and:knightY])
+        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY]];
+    if([self isValidCoordinate:knightX - 1 and:knightY])
+        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY]];
+    if([self isValidCoordinate:knightX and:knightY + 1])
+        [knightMoves addObject:[self getPieceAt:knightX with:knightY + 1]];
+    if([self isValidCoordinate:knightX and:knightY - 1])
+        [knightMoves addObject:[self getPieceAt:knightX with:knightY - 1]];
+    if([self isValidCoordinate:knightX + 1 and:knightY + 1])
+        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY + 1]];
+    if([self isValidCoordinate:knightX + 1 and:knightY - 1])
+        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY - 1]];
+    if([self isValidCoordinate:knightX - 1 and:knightY + 1])
+        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY + 1]];
+    if([self isValidCoordinate:knightX - 1 and:knightY - 1])
+        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY - 1]];
 
-    for(int i = 0; i < 8; i++) {
-        if([self isOnBoard:knightMoves[i]] && [self isOppColor:knight and:knightMoves[i]]) {
+    
+    for(int i = 0; i < [knightMoves count]; i++)
+        if([self isOppColor:knight and:[knightMoves objectAtIndex:i]]){
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",knightMoves[i], [knightMoves[i] getX], [knightMoves[i] getY],knight, [knight getX], [knight getY]);
-//            return knightMoves[i];
             [attackCombo addObject:knightMoves[i]];
             return attackCombo;
+
         }
-    }
     return NULL;
 }
 
@@ -232,37 +262,30 @@
     
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
     [attackCombo addObject:pawn];
+    int x, y;
     
-    if([pawn getX] == 0) {
-        // upper right pawn
-        Piece* leftDiag = [self getPieceAt:[pawn getX] + 1 with:[pawn getY] + 1];
-        if([self isOppColor:pawn and:leftDiag] || [self isOnBoard:leftDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:leftDiag];
+    // check eating to right.
+    x = [pawn getX] + 1;
+    y = [pawn getY] + 1;
+    
+    if([self isValidCoordinate:x and:y]){
+        Piece * p = [self getPieceAt:x with:y];
+        if([self isOppColor:pawn and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],pawn, [pawn getX], [pawn getY]);
+            [attackCombo addObject:p];
             return attackCombo;
         }
     }
-    else if([pawn getX] == 7) {
-        // upper left pawn
-        Piece* rightDiag = [self getPieceAt:[pawn getX] - 1 with: [pawn getY] + 1];
-        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:rightDiag];
-            return attackCombo;
-        }
-    }
-    else {
-        // all other pawns.
-        Piece* leftDiag = [self getPieceAt:[pawn getX] + 1 with:[pawn getY] + 1];
-        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:leftDiag];
-            return attackCombo;
-        }
-        Piece* rightDiag = [self getPieceAt:[pawn getX] - 1 with: [pawn getY] + 1];
-        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:rightDiag];
+    
+    // check eating to left
+    x = [pawn getX] - 1;
+    y = [pawn getY] + 1;
+    
+    if([self isValidCoordinate:x and:y]){
+        Piece * p = [self getPieceAt:x with:y];
+        if([self isOppColor:pawn and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],pawn, [pawn getX], [pawn getY]);
+            [attackCombo addObject:p];
             return attackCombo;
         }
     }
@@ -272,41 +295,33 @@
     
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
     [attackCombo addObject:pawn];
+    int x, y;
     
-    if([pawn getX] == 0) {
-        //bottom right pawn
-        Piece* rightDiag = [self getPieceAt:[pawn getX] + 1 with: [pawn getY] -1 ];
-        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:rightDiag];
+    //check eating to right.
+    x = [pawn getX] + 1;
+    y = [pawn getY] - 1;
+    if([self isValidCoordinate:x and:y]){
+        Piece * p = [self getPieceAt:x with:y];
+        if([self isOppColor:pawn and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],pawn, [pawn getX], [pawn getY]);
+            [attackCombo addObject:p];
             return attackCombo;
         }
     }
-    else if([pawn getX] == 7) {
-        //bottom left pawn
-        Piece* leftDiag = [self getPieceAt:[pawn getX] - 1 with:[pawn getY] - 1];
-        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:leftDiag];
+    
+    //check eating to left.
+     x = [pawn getX] - 1;
+     y = [pawn getY] - 1;
+    
+    if([self isValidCoordinate:x and:y]){
+        Piece * p = [self getPieceAt:x with:y];
+        if([self isOppColor:pawn and:p]) {
+            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],pawn, [pawn getX], [pawn getY]);
+            [attackCombo addObject:p];
             return attackCombo;
         }
     }
-    else {
-        // all other pawns.
-        Piece* rightDiag = [self getPieceAt:[pawn getX] + 1 with: [pawn getY] -1 ];
-        if([self isOppColor:pawn and:rightDiag] && [self isOnBoard:rightDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",rightDiag, [rightDiag getX], [rightDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:rightDiag];
-            return attackCombo;
-        }
-        
-        Piece* leftDiag = [self getPieceAt:[pawn getX] - 1 with:[pawn getY] - 1];
-        if([self isOppColor:pawn and:leftDiag] && [self isOnBoard:leftDiag]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",leftDiag, [leftDiag getX], [leftDiag getY],pawn, [pawn getX], [pawn getY]);
-            [attackCombo addObject:leftDiag];
-            return attackCombo;
-        }
-    }
+    
     
     return NULL;
 }
