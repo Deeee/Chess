@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 Liu Di. All rights reserved.
 //
 
-#import "Board.h"
 #import <Foundation/Foundation.h>
 #import "Piece.h"
-
+#import "Board.h"
 @interface EasyBot : Board
 -(NSMutableArray *) findAttack : (int) color;
 -(NSMutableArray *) findWhitePawnAttack : (Piece*) pawn;
@@ -20,4 +19,7 @@
 -(BOOL) isOnBoard : (Piece*) p;
 -(NSMutableArray *)findKnightAttack : (Piece*) knight;
 -(NSMutableArray*) findKingAttack : (Piece*) king;
+-(void) botMoveFrom:(Piece *)p to:(Piece *)t;
+-(void) changeTerms:(NSMutableArray *)attackMoves;
+
 @end

@@ -158,9 +158,11 @@
     if (mode1 == 1) {
         NSLog(@"***In bot mode");
         myBoard = [[EasyBot alloc] init];
+        [myBoard setMode:1];
     }
     else {
         myBoard = [[Board alloc] init];
+        [myBoard setMode:0];
     }
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:knight and:[NSMutableString stringWithString:@"knight"] and:1];

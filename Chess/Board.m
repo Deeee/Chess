@@ -16,6 +16,7 @@
 @synthesize undecidedMove;
 @synthesize undecidedReturnTrue;
 @synthesize isCastlePiecesMoved;
+@synthesize mode;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -50,7 +51,9 @@
     return pieceSet;
 }
 
+
 -(void) changeTerms {
+    //If there are unconfirmed move, reject term changing request.
     if ([undecidedMove count] == 0) {
         return;
     }

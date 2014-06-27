@@ -357,5 +357,38 @@
     [randomMove addObject:[availableMoves objectAtIndex:randNum + 1]];
     return randomMove;
 }
-
+-(void) changeTerms:(NSMutableArray *)attackMoves {
+    NSLog(@"in easy bot attack moves");
+    //If there are unconfirmed move, reject term changing request.
+    if ([self.undecidedMove count] == 0) {
+        return;
+    }
+    if (self.terms == 1) {
+        self.undecidedReturnTrue = 0;
+        [self.undecidedMove removeAllObjects];
+        self.terms = 2;
+        NSMutableArray *attackMoves = [self findAttack:2];
+        [self botMoveFrom:[attackMoves objectAtIndex:0] to:[attackMoves objectAtIndex:1]];
+        self.terms = 1;
+        return;
+    }
+    NSLog(@"change term error!");
+//    else {
+//        self.undecidedReturnTrue = 0;
+//        [self.undecidedMove removeAllObjects];
+//        self.terms = 1;
+//    }
+}
+-(void) botMoveFrom:(Piece *)p to:(Piece *)t {
+    NSLog(@"in bot move");
+    UIImageView *tempImage2 = [t getImage];
+    UIImageView *tempImage = [p getImage];
+    NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
+    [self imageTakeOver:tempImage takeOver:tempImage2];
+    [t setName:[p getName]];
+    [p setName: [NSMutableString stringWithFormat: @"empty"]];
+    [t setSide:[p getSide]];
+    [p setSide:0];
+    
+}
 @end

@@ -99,7 +99,7 @@
 @property NSArray *paths;
 @property NSString *filePath;
 @property (nonatomic, strong) IBOutlet UIButton *confirmButton;
-@property (nonatomic, strong) Board *myBoard;
+@property (nonatomic, strong) EasyBot *myBoard;
 
 @property Piece *tempPiece;
 @property int X, Y, isTouched;
