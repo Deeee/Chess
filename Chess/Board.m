@@ -248,6 +248,13 @@
     a.image = b.image;
     b.image = c;
 }
+
+-(BOOL) isValidCoordinate:(int)x and :(int)y {
+    if((x < 0) || (x > 7) || (y < 0) || (y > 7))
+        return false;
+    else return true;
+}
+
 -(BOOL) isAbleToPromote:(Piece *) pi to:(Piece *) t{
     if (([pi getSide] == 1) && ([t getY] == 7))
             return true;
@@ -332,12 +339,6 @@
     else {
         NSLog(@"terms erro!");
     }
-}
-
--(BOOL) isValidCoordinate:(int)x and :(int)y {
-    if((x < 0) || (x > 7) || (y < 0) || (y > 7))
-        return false;
-    else return true;
 }
 
 -(BOOL) isAttackedHorizontal:(Piece*)king {

@@ -1,103 +1,18 @@
 //
-//  ViewController.m
+//  BoardViewController.m
 //  Chess
 //
-//  Created by Liu Di on 6/13/14.
+//  Created by Liu Di on 6/27/14.
 //  Copyright (c) 2014 Liu Di. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "BoardViewController.h"
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-#define MINRADIUS 10
+@interface BoardViewController ()
 
-#define MAXRADIUS 30
-// Uniform index.
-enum
-{
-    UNIFORM_MODELVIEWPROJECTION_MATRIX,
-    UNIFORM_NORMAL_MATRIX,
-    NUM_UNIFORMS
-};
-GLint uniforms[NUM_UNIFORMS];
-
-// Attribute index.
-enum
-{
-    ATTRIB_VERTEX,
-    ATTRIB_NORMAL,
-    NUM_ATTRIBUTES
-};
-
-GLfloat gCubeVertexData[216] =
-{
-    // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
-    
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
-    
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
-    
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
-    
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
-};
-
-@interface ViewController () {
-    GLuint _program;
-    
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
-    float _rotation;
-    
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
-}
-
-
-- (void)setupGL;
-- (void)tearDownGL;
-
-- (BOOL)loadShaders;
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
-- (BOOL)linkProgram:(GLuint)prog;
-- (BOOL)validateProgram:(GLuint)prog;
 @end
 
-@implementation ViewController
+@implementation BoardViewController
 @synthesize dragObject;
 @synthesize touchOffset;
 @synthesize homePosition;
@@ -184,27 +99,21 @@ GLfloat gCubeVertexData[216] =
 @synthesize availableMoves;
 @synthesize isSet;
 @synthesize confirmButton;
-@synthesize mode;
+@synthesize mode1;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
-    }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    [self setupGL];
-//    confirmButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 320, 150, 30)];
-    //confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-//    [confirmButton setBackgroundImage:[UIImage imageNamed:@"clean_newlayout.png"] forState:UIControlStateNormal];
-//    [confirmButton setImage:[UIImage imageNamed:@"highlight.png"] forState:UIControlStateHighlighted];
-    //Gestures setup
+    // Do any additional setup after loading the view.
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTapGesture];
@@ -220,7 +129,6 @@ GLfloat gCubeVertexData[216] =
     debuggingWindow.inputView = dummyView;
     self.debuggingWindow.delegate = self;
     
-
     //Initialize circleViews
     circleViews = [[NSMutableArray alloc] init];
     
@@ -242,19 +150,17 @@ GLfloat gCubeVertexData[216] =
     filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
     debugInfo = [[NSMutableString alloc] init];
     isSet = 0;
-    mode = 0;
     [confirmButton setFrame:CGRectMake(80, 420, 150, 30)];
     [confirmButton addTarget:self
                       action:@selector(clickOnComfirm)
             forControlEvents:UIControlEventTouchDown];
-    
-    NSLog(@"in viewdidload");
-    if (mode == 1) {
+    NSLog(@"mode is: %ld",(long)mode1);
+    if (mode1 == 1) {
         NSLog(@"***In bot mode");
         myBoard = [[EasyBot alloc] init];
     }
     else {
-    myBoard = [[Board alloc] init];
+        myBoard = [[Board alloc] init];
     }
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:knight and:[NSMutableString stringWithString:@"knight"] and:1];
@@ -326,282 +232,27 @@ GLfloat gCubeVertexData[216] =
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:5] setImg:space31 and:[NSMutableString stringWithString:@"empty"]and:0];
     [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:5] setImg:space32 and:[NSMutableString stringWithString:@"empty"]and:0];
     
-
     
-}
-
-- (void)dealloc
-{
-    [self tearDownGL];
     
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
+
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
-    if ([self isViewLoaded] && ([[self view] window] == nil)) {
-        self.view = nil;
-        
-        [self tearDownGL];
-        
-        if ([EAGLContext currentContext] == self.context) {
-            [EAGLContext setCurrentContext:nil];
-        }
-        self.context = nil;
-    }
-    
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupGL
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [EAGLContext setCurrentContext:self.context];
-    
-    [self loadShaders];
-    
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
-    
-    glEnable(GL_DEPTH_TEST);
-    
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
 }
-
-- (void)tearDownGL
-{
-    [EAGLContext setCurrentContext:self.context];
-    
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArraysOES(1, &_vertexArray);
-    
-    self.effect = nil;
-    
-    if (_program) {
-        glDeleteProgram(_program);
-        _program = 0;
-    }
-}
-
-#pragma mark - GLKView and GLKViewController delegate methods
-
-- (void)update
-{
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
-    
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    _rotation += self.timeSinceLastUpdate * 0.5f;
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-
-#pragma mark -  OpenGL ES 2 shader compilation
-
-- (BOOL)loadShaders
-{
-    GLuint vertShader, fragShader;
-    NSString *vertShaderPathname, *fragShaderPathname;
-    
-    // Create shader program.
-    _program = glCreateProgram();
-    
-    // Create and compile vertex shader.
-    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"vsh"];
-    if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
-        NSLog(@"Failed to compile vertex shader");
-        return NO;
-    }
-    
-    // Create and compile fragment shader.
-    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"fsh"];
-    if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
-        NSLog(@"Failed to compile fragment shader");
-        return NO;
-    }
-    
-    // Attach vertex shader to program.
-    glAttachShader(_program, vertShader);
-    
-    // Attach fragment shader to program.
-    glAttachShader(_program, fragShader);
-    
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    glBindAttribLocation(_program, GLKVertexAttribPosition, "position");
-    glBindAttribLocation(_program, GLKVertexAttribNormal, "normal");
-    
-    // Link program.
-    if (![self linkProgram:_program]) {
-        NSLog(@"Failed to link program: %d", _program);
-        
-        if (vertShader) {
-            glDeleteShader(vertShader);
-            vertShader = 0;
-        }
-        if (fragShader) {
-            glDeleteShader(fragShader);
-            fragShader = 0;
-        }
-        if (_program) {
-            glDeleteProgram(_program);
-            _program = 0;
-        }
-        
-        return NO;
-    }
-    
-    // Get uniform locations.
-    uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
-    uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
-    
-    // Release vertex and fragment shaders.
-    if (vertShader) {
-        glDetachShader(_program, vertShader);
-        glDeleteShader(vertShader);
-    }
-    if (fragShader) {
-        glDetachShader(_program, fragShader);
-        glDeleteShader(fragShader);
-    }
-    
-    return YES;
-}
-
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file
-{
-    GLint status;
-    const GLchar *source;
-    
-    source = (GLchar *)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
-    if (!source) {
-        NSLog(@"Failed to load vertex shader");
-        return NO;
-    }
-    
-    *shader = glCreateShader(type);
-    glShaderSource(*shader, 1, &source, NULL);
-    glCompileShader(*shader);
-    
-#if defined(DEBUG)
-    GLint logLength;
-    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetShaderInfoLog(*shader, logLength, &logLength, log);
-        NSLog(@"Shader compile log:\n%s", log);
-        free(log);
-    }
-#endif
-    
-    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
-    if (status == 0) {
-        glDeleteShader(*shader);
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)linkProgram:(GLuint)prog
-{
-    GLint status;
-    glLinkProgram(prog);
-    
-#if defined(DEBUG)
-    GLint logLength;
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetProgramInfoLog(prog, logLength, &logLength, log);
-        NSLog(@"Program link log:\n%s", log);
-        free(log);
-    }
-#endif
-    
-    glGetProgramiv(prog, GL_LINK_STATUS, &status);
-    if (status == 0) {
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)validateProgram:(GLuint)prog
-{
-    GLint logLength, status;
-    
-    glValidateProgram(prog);
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetProgramInfoLog(prog, logLength, &logLength, log);
-        NSLog(@"Program validate log:\n%s", log);
-        free(log);
-    }
-    
-    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
-    if (status == 0) {
-        return NO;
-    }
-    
-    return YES;
-}
+*/
 +(void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack
 {
     // Prepare the animation from the old size to the new size
@@ -685,22 +336,22 @@ GLfloat gCubeVertexData[216] =
     [self showAvailableMoves:temp onView:drawView];
     return;
 }
--(void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture{
-//    NSLog(@"handleSingleTap triggered");
+- (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture{
+    //    NSLog(@"handleSingleTap triggered");
     //[confirmButton imageView].image = [UIImage imageNamed:@"brock.png"];
-
+    
     CGPoint tapPoint = [singleTapGesture locationInView:self.confirmButton];
-        if (tapPoint.x > confirmButton.frame.origin.x &&
-            tapPoint.x < confirmButton.frame.origin.x + confirmButton.frame.size.width &&
-            tapPoint.y > confirmButton.frame.origin.y &&
-            tapPoint.y < confirmButton.frame.origin.y + confirmButton.frame.size.height) {
-            NSLog(@"$$$$$$$settingAlpha");
-            //[confirmButton setAlpha:0.7];
-            [self clickOnComfirm];
-        }
+    if (tapPoint.x > confirmButton.frame.origin.x &&
+        tapPoint.x < confirmButton.frame.origin.x + confirmButton.frame.size.width &&
+        tapPoint.y > confirmButton.frame.origin.y &&
+        tapPoint.y < confirmButton.frame.origin.y + confirmButton.frame.size.height) {
+        NSLog(@"$$$$$$$settingAlpha");
+        //[confirmButton setAlpha:0.7];
+        [self clickOnComfirm];
+    }
     
 }
--(void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture{
+- (void)handleDoubleTap: (UITapGestureRecognizer *)doubleTapGesture{
     if (doubleTapGesture.state == UIGestureRecognizerStateRecognized) {
         CGPoint tapPoint = [doubleTapGesture locationInView:self.view];
         for (UIImageView *iView in self.view.subviews) {
@@ -723,7 +374,7 @@ GLfloat gCubeVertexData[216] =
 }
 
 
--(void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView{
+- (void)showAvailableMoves: (Piece *)pi onView:(DrawCircles *)drawView{
     NSLog(@"in show availabie moves %@ requiring ava moves", [pi getName]);
     for (NSMutableArray *i in [myBoard getPieceSet]) {
         for (Piece *t in i) {
@@ -733,7 +384,7 @@ GLfloat gCubeVertexData[216] =
                     NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
                     CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
                     //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
-
+                    
                     [drawView drawOnSpot:pt withSide:[pi getSide]];
                     
                 }
@@ -742,7 +393,7 @@ GLfloat gCubeVertexData[216] =
     }
     return ;
 }
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan: (NSSet *)touches withEvent:(UIEvent *)event
 {
     if ([touches count] == 1) {
         // one finger
@@ -797,7 +448,7 @@ GLfloat gCubeVertexData[216] =
     
     
 }
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesMoved: (NSSet *)touches withEvent:(UIEvent *)event
 {
     if (isMoved == 0 && isTouched == 1) {
         NSLog(@"expanding");
@@ -827,7 +478,7 @@ GLfloat gCubeVertexData[216] =
     }
 }
 
--(void) endGame {
+- (void) endGame {
     NSLog(@"game over");
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -864,12 +515,12 @@ GLfloat gCubeVertexData[216] =
                     if ([myBoard setMove:tempPiece to:t and:isDebug]) {
                         [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
                         
-//                        if (isDebug == 0) {
-//                            [myBoard changeTerms];
-//                        }
+                        //                        if (isDebug == 0) {
+                        //                            [myBoard changeTerms];
+                        //                        }
                         [self removeAllCircles];
                     }
-
+                    
                     
                 }
                 //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
@@ -920,10 +571,7 @@ GLfloat gCubeVertexData[216] =
 }
 
 
-- (IBAction)clickOnBot:(UIButton *) sender{
-    NSLog(@"!!clickonbot");
-    mode = sender.tag;
-}
+
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -996,4 +644,5 @@ GLfloat gCubeVertexData[216] =
     debuggingWindow.text = @"";
     return YES;
 }
+
 @end

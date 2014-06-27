@@ -1,8 +1,8 @@
 //
-//  ViewController.h
+//  BoardViewController.h
 //  Chess
 //
-//  Created by Liu Di on 6/13/14.
+//  Created by Liu Di on 6/27/14.
 //  Copyright (c) 2014 Liu Di. All rights reserved.
 //
 
@@ -13,10 +13,7 @@
 #import "Board.h"
 #import "DrawCircles.h"
 #import "EasyBot.h"
-@interface ViewController : GLKViewController<UITextFieldDelegate>
-@property (strong, nonatomic) EAGLContext *context;
-@property (strong, nonatomic) GLKBaseEffect *effect;
-//@property (nonatomic, strong) IBOutlet UIView *dropTarget;
+@interface BoardViewController : UIViewController
 @property (nonatomic, strong) UIImageView *dragObject;
 @property (nonatomic, assign) CGPoint touchOffset;
 @property (nonatomic, assign) CGPoint homePosition;
@@ -110,7 +107,7 @@
 @property int isDebug;
 @property int isTapped;
 @property int isSet;
-@property NSInteger mode;
+@property NSInteger mode1;
 - (Piece *)getMove:(UIImageView *) iView;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
@@ -127,7 +124,6 @@
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)clickOnComfirm;
-- (IBAction)clickOnBot:(UIButton *) sender;
 - (void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
 + (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
 @end
