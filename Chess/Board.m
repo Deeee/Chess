@@ -442,7 +442,7 @@
         int place = tempX++;
         if(place > 7)
             break;
-        Piece* p = [self getPieceAt:place++ with:i];
+        Piece* p = [self getPieceAt:place with:i];
         if([self isSameColor:king and:p])
             break;
         else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {

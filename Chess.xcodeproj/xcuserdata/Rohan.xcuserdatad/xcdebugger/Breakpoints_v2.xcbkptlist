@@ -42,22 +42,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/EasyBot.m"
-            timestampString = "425094006.432573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "-findKnightAttack:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chess/EasyBot.m"
             timestampString = "425505489.55695"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
