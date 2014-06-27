@@ -389,7 +389,7 @@
             return true;
     }
     
-    //CHECKING FOR DIAGONALS -> QUEEN OR BISHOP OR PAWN.
+    //CHECKING FOR DIAGONALS
     
         // up left attacks
     int tempY = [king getY];
@@ -402,6 +402,7 @@
     }
     
         // up right attacks
+    
     tempY = [king getY];
     for(int i = [king getX]; i < 9; i++) {
         Piece * p = [self getPieceAt:i with:tempY++];
@@ -431,6 +432,32 @@
             return true;
     }
     
+    //CHECKING FOR PAWNS
+    Piece* pawn;
+    // black king against white pawns.
+    if([king getSide] == 2) {
+        pawn = [self getPieceAt:[king getX] + 1 with:[king getY] -1];
+        if([self isOnBoard:pawn] && [self isPawn:pawn])
+            return true;
+        
+        pawn = [self getPieceAt:[king getX] - 1 with:[king getY] -1];
+        if([self isOnBoard:pawn] && [self isPawn:pawn])
+            return true;
+        
+    }
+    // white king against black pawns.
+    else if([king getSide] == 1) {
+        pawn = [self getPieceAt:[king getX] + 1 with:[king getY] + 1];
+        if([self isOnBoard:pawn] && [self isPawn:pawn])
+            return true;
+        
+        pawn = [self getPieceAt:[king getX] - 1 with:[king getY] + 1];
+        if([self isOnBoard:pawn] && [self isPawn:pawn])
+            return true;
+    }
+    else
+        ;
+    
     //CHECKING FOR KNIGHTS , there can be at most 8 knight locations that can attack one square.
     int kingY = [king getY];
     int kingX = [king getX];
@@ -446,7 +473,7 @@
         [self getPieceAt:kingX -1 with:kingY - 1],
     };
     
-    for(int i = 0; i < 8; i++) 
+    for(int i = 0; i < 8; i++)
         if([self isOnBoard:possibleKnights[i]] && [self isKnight:possibleKnights[i]])
             return true;
     
