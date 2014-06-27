@@ -334,14 +334,13 @@
     }
 }
 
-
 -(BOOL) isValidCoordinate:(int)x and :(int)y {
     if((x < 0) || (x > 7) || (y < 0) || (y > 7))
         return false;
     else return true;
 }
 
--(BOOL) isCheckedHorizontal:(Piece*)king {
+-(BOOL) isAttackedHorizontal:(Piece*)king {
     //CHECKING FOR HORIZONTALS -> QUEEN OR ROOK.
     
     // left of king.
@@ -387,7 +386,7 @@
     return false;
 }
 
--(BOOL) isCheckedDiagonal:(Piece*)king {
+-(BOOL) isAttackedDiagonal:(Piece*)king {
     //CHECKING FOR DIAGONALS
     
     // up left attacks
@@ -505,8 +504,7 @@
     return false;
 }
 
-
--(BOOL) isChckedByKnight:(Piece*)king {
+-(BOOL) isAttackedByKnight:(Piece*)king {
     
     //CHECKING FOR KNIGHTS , there can be at most 8 knight locations that can attack one square.
     int kingY = [king getY];
@@ -550,15 +548,13 @@
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
     
-    //whenever we encounter a piece of the same color, we must break out of the respective for loop.
-    
-    if([self isCheckedHorizontal:king])
+    if([self isAttackedHorizontal:king])
         return true;
     else {
-        if([self isCheckedHorizontal:king])
+        if([self isAttackedDiagonal:king])
             return true;
         else {
-            if([self isChckedByKnight:king])
+            if([self isAttackedByKnight:king])
                     return true;
             else
                 return false;
