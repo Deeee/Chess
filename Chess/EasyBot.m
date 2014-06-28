@@ -357,17 +357,20 @@
     [randomMove addObject:[availableMoves objectAtIndex:randNum + 1]];
     return randomMove;
 }
--(void) changeTerms:(NSMutableArray *)attackMoves {
+-(void) changeTerms {
     NSLog(@"in easy bot attack moves");
     //If there are unconfirmed move, reject term changing request.
     if ([self.undecidedMove count] == 0) {
         return;
     }
     if (self.terms == 1) {
+        NSLog(@"yes term equals to 1");
         self.undecidedReturnTrue = 0;
         [self.undecidedMove removeAllObjects];
         self.terms = 2;
-        NSMutableArray *attackMoves = [self findAttack:2];
+        NSMutableArray *attackMoves = [self findRandomMove:2];
+        [[attackMoves objectAtIndex:0] printInformation];
+        [[attackMoves objectAtIndex:1] printInformation];
         [self botMoveFrom:[attackMoves objectAtIndex:0] to:[attackMoves objectAtIndex:1]];
         self.terms = 1;
         return;

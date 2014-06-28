@@ -20,6 +20,7 @@
 -(NSMutableArray *)findKnightAttack : (Piece*) knight;
 -(NSMutableArray*) findKingAttack : (Piece*) king;
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;
--(void) changeTerms:(NSMutableArray *)attackMoves;
+-(void) changeTerms;
+
 
 @end

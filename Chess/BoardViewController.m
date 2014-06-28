@@ -12,7 +12,10 @@
 
 @end
 
-@implementation BoardViewController
+@implementation BoardViewController{
+    EasyBot *myBoard;
+
+}
 @synthesize dragObject;
 @synthesize touchOffset;
 @synthesize homePosition;
@@ -52,7 +55,7 @@
 @synthesize space30;
 @synthesize space31;
 @synthesize space32;
-@synthesize myBoard;
+//@synthesize myBoard;
 @synthesize X, Y, isTouched;
 @synthesize tempPiece;
 @synthesize isTapped;
