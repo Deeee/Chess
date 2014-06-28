@@ -551,20 +551,31 @@
     else
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
+//
+//    if([self isAttackedHorizontal:king])
+//        return true;
+//    else {
+//        if([self isAttackedDiagonal:king])
+//            return true;
+//        else {
+//            if([self isAttackedByKnight:king])
+//                    return true;
+//            else
+//                return false;
+//        }
+//    }
+//    NSLog(@"returning false, king is not in check");
     
-    if([self isAttackedHorizontal:king])
-        return true;
-    else {
-        if([self isAttackedDiagonal:king])
-            return true;
-        else {
-            if([self isAttackedByKnight:king])
+    for (NSMutableArray *i in pieceSet) {
+        for (Piece * p in i){
+            if([p getSide] == [king getSide]){
+                if([self validateMove:p to:king]){
+                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
                     return true;
-            else
-                return false;
+                }
+            }
         }
     }
-    NSLog(@"returning false, king is not in check");
     return false;
 }
 // if piece colors are different and not empty.
