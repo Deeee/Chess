@@ -552,6 +552,20 @@
     else
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
+//
+//    if([self isAttackedHorizontal:king])
+//        return true;
+//    else {
+//        if([self isAttackedDiagonal:king])
+//            return true;
+//        else {
+//            if([self isAttackedByKnight:king])
+//                    return true;
+//            else
+//                return false;
+//        }
+//    }
+//    NSLog(@"returning false, king is not in check");
     
     if([self isAttackedHorizontal:king]) {
         NSLog(@"isAttackedHorizontal return true");
@@ -570,10 +584,16 @@
             else {
                 NSLog(@"isChecked return false");
                 return false;
+//    for (NSMutableArray *i in pieceSet) {
+//        for (Piece * p in i){
+//            if([p getSide] == [king getSide]){
+//                if([self validateMove:p to:king]){
+//                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+//                    return true;
+//                }
             }
         }
     }
-    NSLog(@"returning false, king is not in check");
     return false;
 }
 // if piece colors are different and not empty.
@@ -679,7 +699,7 @@
     int xDiff = endX - startX;
     int yDiff = endY - startY;
     
-    NSLog(@"xDiff : %d \t yDiff : %d -- isValidRockMove\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidRockMove\n",xDiff, yDiff);
     
     // all for loops within the inner if blocks are used to make sure that the piece is only going through
     // empty squares to reach the destination square.
@@ -723,11 +743,11 @@
 //rockMove for both colors
 -(BOOL)rockMove:(Piece *)pi to :(Piece*)t {
     if(([pi getSide] != [t getSide]) && [self isValidRockMove:pi to:t]) {
-        NSLog(@"valid rock move ");
+//        NSLog(@"valid rock move ");
         return true;
     }
     else {
-        NSLog(@"invalid rock move");
+//        NSLog(@"invalid rock move");
         return false;
     }
 }
@@ -743,7 +763,7 @@
     int xDiff = endX - startX;
     int yDiff = endY - startY;
     
-    NSLog(@"xDiff : %d \t yDiff : %d -- isValidBishopMove\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidBishopMove\n",xDiff, yDiff);
     //    NSLog(@"from (%d,%d) to (%d,%d)\n",startX,startY,endX,endY);
     
     //moving diagonally means that the abs of diff for both axis must be same.
@@ -790,11 +810,11 @@
 
 -(BOOL)bishopMove:(Piece *)pi to :(Piece*)t {
     if(([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
-        NSLog(@"valid bishop move ");
+        //NSLog(@"valid bishop move ");
         return true;
     }
     else {
-        NSLog(@"invalid bishop move");
+//        NSLog(@"invalid bishop move");
         return false;
     }
 }
@@ -804,7 +824,7 @@
     
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"xDiff : %d \t yDiff : %d -- isValidKnightMove\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidKnightMove\n",xDiff, yDiff);
     
     if(xDiff == 2 && yDiff == 1)
         return true;
@@ -829,11 +849,11 @@
 
 -(BOOL)knightMove:(Piece *)pi to:(Piece *)t {
     if(([pi getSide] != [t getSide]) && [self isValidKnightMove:pi to:t]) {
-        NSLog(@"valid knight move ");
+//        NSLog(@"valid knight move ");
         return true;
     }
     else {
-        NSLog(@"invalid knight move");
+//        NSLog(@"invalid knight move");
         return false;
     }
 }
@@ -865,23 +885,23 @@
 -(BOOL)isValidBishopMove1:(Piece *)pi to:(Piece *)t {
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d\n",xDiff, yDiff);
     if (ABS(xDiff) == ABS(yDiff) && ![self isPieceBlocked:pi to:t]) {
         return true;
     }
     else {
-        NSLog(@"invalid bishop move");
+//        NSLog(@"invalid bishop move");
         return false;
     }
 }
 //main function for checking bishop moves
 -(BOOL)bishopMove1:(Piece *)pi to :(Piece *)t {
     if (([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
-        NSLog(@"valid bishop move");
+//        NSLog(@"valid bishop move");
         return true;
     }
     else {
-        NSLog(@"invalid bishop move");
+//        NSLog(@"invalid bishop move");
         return false;
     }
 }
@@ -890,7 +910,7 @@
 -(BOOL) isValidQueenMove:(Piece *)pi to: (Piece *)t {
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"xDiff : %d \t yDiff : %d -- isValidQueenMove\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidQueenMove\n",xDiff, yDiff);
     
     if(![self isValidKnightMove:pi to:t]) {
         if(ABS(xDiff) == ABS(yDiff))
@@ -899,18 +919,18 @@
             return [self isValidRockMove:pi to:t];
     }
     else {
-        NSLog(@"invalid queen move -- isValidQueenMove");
+//        NSLog(@"invalid queen move -- isValidQueenMove");
         return false;
     }
 }
 
 -(BOOL)queenMove:(Piece *)pi to :(Piece *)t {
     if (([pi getSide] != [t getSide]) && [self isValidQueenMove:pi to:t]) {
-        NSLog(@"valid queen move");
+//        NSLog(@"valid queen move");
         return true;
     }
     else {
-        NSLog(@"invalid queen move -- queenMove");
+//        NSLog(@"invalid queen move -- queenMove");
         return false;
     }
 }
@@ -924,7 +944,7 @@
     
     
     if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
-        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
+//        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
     }
     
