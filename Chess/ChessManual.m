@@ -51,8 +51,8 @@
     [_currentScript addObject:[self makeBoardPointX:5 andY:7]];
     [_currentScript addObject:[self makeBoardPointX:3 andY:5]];
     
-    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:3 andY:4]];
+//    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
+//    [_currentScript addObject:[self makeBoardPointX:3 andY:4]];
     
     [_currentScript addObject:[self makeBoardPointX:5 andY:6]];
     [_currentScript addObject:[self makeBoardPointX:5 andY:4]];

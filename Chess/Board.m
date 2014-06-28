@@ -199,7 +199,8 @@
     }
     if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self validateMove:p to:t]) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
-
+        [undecidedMove addObject:[p copyWithSelf]];
+        [undecidedMove addObject:[t copyWithSelf]];
         if ([[t getName] isEqualToString:@"empty"] ) {
             //NSLog(@"yes it is equal to empty");
 
@@ -212,8 +213,7 @@
             [t setSide:[p getSide]];
             [p setSide:0];
             NSLog(@"adding undecidedmoves");
-            [undecidedMove addObject:[p copyWithSelf]];
-            [undecidedMove addObject:[t copyWithSelf]];
+
             return true;
             
         }
@@ -228,8 +228,7 @@
             [t setSide:[p getSide]];
             [p setSide:0];
             NSLog(@"adding undecidedmoves");
-            [undecidedMove addObject:[p copyWithSelf]];
-            [undecidedMove addObject:[t copyWithSelf]];
+
             return true;
             
         }
@@ -567,30 +566,30 @@
 //    }
 //    NSLog(@"returning false, king is not in check");
     
-    if([self isAttackedHorizontal:king]) {
-        NSLog(@"isAttackedHorizontal return true");
-        return true;
-    }
-    else {
-        if([self isAttackedDiagonal:king]) {
-            NSLog(@"isAttackedDiagonal return true");
-            return true;
-        }
-        else {
-            if([self isAttackedByKnight:king]) {
-                NSLog(@"isAttackedByKnight return true");
-                return true;
-            }
-            else {
-                NSLog(@"isChecked return false");
-                return false;
-//    for (NSMutableArray *i in pieceSet) {
-//        for (Piece * p in i){
-//            if([p getSide] == [king getSide]){
-//                if([self validateMove:p to:king]){
-//                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
-//                    return true;
-//                }
+//    if([self isAttackedHorizontal:king]) {
+//        NSLog(@"isAttackedHorizontal return true");
+//        return true;
+//    }
+//    else {
+//        if([self isAttackedDiagonal:king]) {
+//            NSLog(@"isAttackedDiagonal return true");
+//            return true;
+//        }
+//        else {
+//            if([self isAttackedByKnight:king]) {
+//                NSLog(@"isAttackedByKnight return true");
+//                return true;
+//            }
+//            else {
+//                NSLog(@"isChecked return false");
+//                return false;
+    for (NSMutableArray *i in pieceSet) {
+        for (Piece * p in i){
+            if([p getSide] == [king getSide]){
+                if([self validateMove:p to:king]){
+                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+                    return true;
+                }
             }
         }
     }
