@@ -24,48 +24,57 @@
 -(NSMutableArray *) findAttack : (int) color {
     
     NSMutableArray* attack = [[NSMutableArray alloc] init];
-    
+    NSLog(@"checking for an attack with ...");
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *pi in i) {
             if([pi getSide] == color) {
                 if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
                     if([pi getSide] == 1) {
+
+                        [pi printInformation];
                         attack = [self findWhitePawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                     else {
+
+                        [pi printInformation];
                         attack =  [self findBlackPawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-                    
+
+                    [pi printInformation];
                     attack =[self findKingAttack:pi];
                     if(attack != NULL)
                         return attack;
-
-
                 }
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+
+                    [pi printInformation];
                     attack =  [self findQueenAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+
+                    [pi printInformation];
                     attack =  [self findBishopAttack:pi];
                     if(attack != NULL)
                         return attack;
-
                 }
                 else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
+
+                    [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
                         return attack;
-
                 }
                 else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
+
+                    [pi printInformation];
                     attack =  [self findKnightAttack:pi];
                     if(attack != NULL)
                         return attack;
@@ -76,6 +85,7 @@
             }
         }
     }
+    NSLog(@"Did not find any attack ! - returning NULL");
     return NULL;
 }
 
@@ -95,7 +105,6 @@
 -(NSMutableArray*)findBishopAttack :(Piece*)bishop {
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
     [attackCombo addObject:bishop];
-    
     
     // up left attacks
     int tempY = [bishop getY];
@@ -262,26 +271,30 @@
     int knightX = [knight getX];
     int knightY = [knight getY];
 
-    NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
+    NSMutableArray* attackCombo = [[NSMutableArray alloc] init];
     [attackCombo addObject:knight];
     NSMutableArray* knightMoves = [[NSMutableArray alloc] init];
     
-    if([self isValidCoordinate:knightX + 1 and:knightY])
-        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY]];
-    if([self isValidCoordinate:knightX - 1 and:knightY])
-        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY]];
-    if([self isValidCoordinate:knightX and:knightY + 1])
-        [knightMoves addObject:[self getPieceAt:knightX with:knightY + 1]];
-    if([self isValidCoordinate:knightX and:knightY - 1])
-        [knightMoves addObject:[self getPieceAt:knightX with:knightY - 1]];
-    if([self isValidCoordinate:knightX + 1 and:knightY + 1])
-        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY + 1]];
-    if([self isValidCoordinate:knightX + 1 and:knightY - 1])
-        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY - 1]];
-    if([self isValidCoordinate:knightX - 1 and:knightY + 1])
-        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY + 1]];
-    if([self isValidCoordinate:knightX - 1 and:knightY - 1])
-        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY - 1]];
+    if([self isValidCoordinate:knightX + 1 and:knightY + 2])
+        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY + 2]];
+    if([self isValidCoordinate:knightX + 1 and:knightY - 2])
+        [knightMoves addObject:[self getPieceAt:knightX + 1 with:knightY - 2]];
+    
+    if([self isValidCoordinate:knightX - 1 and:knightY + 2])
+        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY + 2]];
+    if([self isValidCoordinate:knightX - 1 and:knightY - 2])
+        [knightMoves addObject:[self getPieceAt:knightX - 1 with:knightY - 2]];
+    
+    if([self isValidCoordinate:knightX + 2 and:knightY + 1])
+        [knightMoves addObject:[self getPieceAt:knightX + 2 with:knightY + 1]];
+    if([self isValidCoordinate:knightX + 2 and:knightY - 1])
+        [knightMoves addObject:[self getPieceAt:knightX + 2 with:knightY - 1]];
+    
+    if([self isValidCoordinate:knightX - 2 and:knightY + 1])
+        [knightMoves addObject:[self getPieceAt:knightX - 2 with:knightY + 1]];
+    
+    if([self isValidCoordinate:knightX - 2 and:knightY - 1])
+        [knightMoves addObject:[self getPieceAt:knightX - 2 with:knightY - 1]];
 
     
     for(int i = 0; i < [knightMoves count]; i++)
@@ -379,7 +392,6 @@
     int numMoves = 1;
     // while loop will get a randomPiece and set available moves, making sure that the randomPiece has available moves.
     while(true) {
-        NSLog(@"in while loop 1");
         randomPiece = [botPieces objectAtIndex:arc4random_uniform([botPieces count])];
         availableMoves = [self AvailableMovesForOnePiece:randomPiece];
         numMoves = [availableMoves count];
