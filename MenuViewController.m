@@ -13,7 +13,6 @@
 @end
 
 @implementation MenuViewController
-@synthesize mode;
 @synthesize boardViewController;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,12 +38,17 @@
 }
 - (IBAction)clickOnBot:(UIButton *) sender{
     NSLog(@"!!clickonbot");
-    mode = sender.tag;
 
 //    boardViewController = [[ViewController alloc] initWithNibName:@"boardView" bundle:nil];
     self.boardViewController.mode1 = 1;
     [self presentViewController:boardViewController animated:YES completion:nil];
 //    [self.navigationController pushViewController:secondView animated:YES];
+}
+
+- (IBAction)clickOnHardBot:(UIButton *)sender{
+    NSLog(@"!!clickonHardBot");
+    self.boardViewController.mode1 = 2;
+    [self presentViewController:boardViewController animated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation

@@ -25,4 +25,13 @@
     return self;
 }
 
+-(int) boardPointGetX {
+    return _x;
+    
+}
+
+-(int) boardPointGetY {
+    return _y;
+}
+
 @end

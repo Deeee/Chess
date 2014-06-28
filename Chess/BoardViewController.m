@@ -13,7 +13,7 @@
 @end
 
 @implementation BoardViewController{
-    EasyBot *myBoard;
+    Board *myBoard;
 
 }
 @synthesize dragObject;
@@ -162,6 +162,9 @@
         NSLog(@"***In bot mode");
         myBoard = [[EasyBot alloc] init];
         [myBoard setMode:1];
+    }
+    else if (mode1 == 2) {
+        myBoard = [[HardBot alloc] init];
     }
     else {
         myBoard = [[Board alloc] init];
@@ -485,6 +488,17 @@
 
 - (void) endGame {
     NSLog(@"game over");
+    [self alertStatus:@"Sign in Failed." :@"Error!" :0];
+}
+- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil, nil];
+    alertView.tag = tag;
+    [alertView show];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {

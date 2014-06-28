@@ -190,11 +190,6 @@
     }
     else {
         NSLog(@"undecidedmove is empty");
-        if ([self validateMove:p to:t]) {
-            [undecidedMove addObject:[p copyWithSelf]];
-            [undecidedMove addObject:[t copyWithSelf]];
-        }
-        else return false;
 
 //        NSLog(@"saved piece p:");
 //        [[undecidedMove objectAtIndex:0] printInformation];
@@ -216,6 +211,9 @@
             [p setName:[NSMutableString stringWithString:@"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
+            NSLog(@"adding undecidedmoves");
+            [undecidedMove addObject:[p copyWithSelf]];
+            [undecidedMove addObject:[t copyWithSelf]];
             return true;
             
         }
@@ -229,6 +227,9 @@
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
+            NSLog(@"adding undecidedmoves");
+            [undecidedMove addObject:[p copyWithSelf]];
+            [undecidedMove addObject:[t copyWithSelf]];
             return true;
             
         }
@@ -552,16 +553,24 @@
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
     
-    if([self isAttackedHorizontal:king])
+    if([self isAttackedHorizontal:king]) {
+        NSLog(@"isAttackedHorizontal return true");
         return true;
+    }
     else {
-        if([self isAttackedDiagonal:king])
+        if([self isAttackedDiagonal:king]) {
+            NSLog(@"isAttackedDiagonal return true");
             return true;
+        }
         else {
-            if([self isAttackedByKnight:king])
-                    return true;
-            else
+            if([self isAttackedByKnight:king]) {
+                NSLog(@"isAttackedByKnight return true");
+                return true;
+            }
+            else {
+                NSLog(@"isChecked return false");
                 return false;
+            }
         }
     }
     NSLog(@"returning false, king is not in check");
@@ -963,6 +972,7 @@
         [t setName:tempNameT];
         [pi setSide:tempSideP];
         [pi setName:tempNameP];
+        NSLog(@"ischecked return false");
         return false;
     }
     else {
@@ -970,6 +980,7 @@
         [t setName:tempNameT];
         [pi setSide:tempSideP];
         [pi setName:tempNameP];
+        NSLog(@"isunchecked return true");
         return true;
     }
     

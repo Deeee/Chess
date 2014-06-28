@@ -14,4 +14,6 @@
 
 -(id) initWith:(int)x and:(int)y;
 -(id) initWith:(Piece *)pi;
+-(int) boardPointGetX;
+-(int) boardPointGetY;
 @end

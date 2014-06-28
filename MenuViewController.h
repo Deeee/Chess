@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BoardViewController.h"
 @interface MenuViewController : UIViewController
-@property NSInteger mode;
+@property (nonatomic, strong) BoardViewController *boardViewController;
 
 - (IBAction)clickOnBot:(UIButton *) sender;
-@property (nonatomic, strong) BoardViewController *boardViewController;
+- (IBAction)clickOnHardBot:(UIButton *)sender;
 @end

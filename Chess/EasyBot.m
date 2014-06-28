@@ -363,6 +363,7 @@
     if ([self.undecidedMove count] == 0) {
         return;
     }
+
     if (self.terms == 1) {
         NSLog(@"yes term equals to 1");
         self.undecidedReturnTrue = 0;

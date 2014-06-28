@@ -31,6 +31,8 @@
 		5B322B151953E1CD00AC9190 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B322B141953E1CD00AC9190 /* highlight.png */; };
 		5B340D51195D3F330042ADA2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D50195D3F330042ADA2 /* MainViewController.m */; };
 		5B340D54195DC9B20042ADA2 /* BoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D53195DC9B20042ADA2 /* BoardViewController.m */; };
+		5B340D57195F46640042ADA2 /* HardBot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D56195F46640042ADA2 /* HardBot.m */; };
+		5B340D5A195F4AEB0042ADA2 /* ChessManual.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B340D59195F4AEB0042ADA2 /* ChessManual.m */; };
 		5B3B331F194D2DB800068A0B /* Chess.board.fabric.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */; };
 		5B3B3333194D3EA800068A0B /* bking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3320194D3EA800068A0B /* bking.png */; };
 		5B3B3334194D3EA800068A0B /* B_King.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3321194D3EA800068A0B /* B_King.psd */; };
@@ -105,6 +107,10 @@
 		5B340D50195D3F330042ADA2 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5B340D52195DC9B20042ADA2 /* BoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardViewController.h; sourceTree = "<group>"; };
 		5B340D53195DC9B20042ADA2 /* BoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardViewController.m; sourceTree = "<group>"; };
+		5B340D55195F46640042ADA2 /* HardBot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardBot.h; sourceTree = "<group>"; };
+		5B340D56195F46640042ADA2 /* HardBot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HardBot.m; sourceTree = "<group>"; };
+		5B340D58195F4AEB0042ADA2 /* ChessManual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChessManual.h; sourceTree = "<group>"; };
+		5B340D59195F4AEB0042ADA2 /* ChessManual.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChessManual.m; sourceTree = "<group>"; };
 		5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chess.board.fabric.png; sourceTree = "<group>"; };
 		5B3B3320194D3EA800068A0B /* bking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bking.png; sourceTree = "<group>"; };
 		5B3B3321194D3EA800068A0B /* B_King.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_King.psd; sourceTree = "<group>"; };
@@ -212,7 +218,6 @@
 				5B0FA0ED194BD5B300DAE166 /* AppDelegate.m */,
 				5B322B111953599B00AC9190 /* Player.h */,
 				5B322B121953599B00AC9190 /* Player.m */,
-				5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */,
 				5B7EE4F01958CD9800BB53CA /* BoardPoint.h */,
 				5B7EE4F11958CD9800BB53CA /* BoardPoint.m */,
 				5B340D4F195D3F330042ADA2 /* MainViewController.h */,
@@ -221,7 +226,12 @@
 				5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */,
 				5B340D52195DC9B20042ADA2 /* BoardViewController.h */,
 				5B340D53195DC9B20042ADA2 /* BoardViewController.m */,
+				5B340D55195F46640042ADA2 /* HardBot.h */,
+				5B340D56195F46640042ADA2 /* HardBot.m */,
+				5B340D58195F4AEB0042ADA2 /* ChessManual.h */,
+				5B340D59195F4AEB0042ADA2 /* ChessManual.m */,
 				5B7EE4EB1957AB0600BB53CA /* DrawCircles.h */,
+				5B7EE4EA1957AB0600BB53CA /* DrawCircles.m */,
 				5B7EE4EC1957AB0600BB53CA /* IOSCircle.h */,
 				5B7EE4ED1957AB0600BB53CA /* IOSCircle.m */,
 				5B0FA0EF194BD5B300DAE166 /* Main_iPhone.storyboard */,
@@ -431,10 +441,12 @@
 			files = (
 				5B7EE4EE1957AB0600BB53CA /* DrawCircles.m in Sources */,
 				5B7EE4F21958CD9800BB53CA /* BoardPoint.m in Sources */,
+				5B340D5A195F4AEB0042ADA2 /* ChessManual.m in Sources */,
 				5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */,
 				5B3B3348194E4FD000068A0B /* Piece.m in Sources */,
 				5B340D51195D3F330042ADA2 /* MainViewController.m in Sources */,
 				1C2217811954ACDF007081F2 /* EasyBot.m in Sources */,
+				5B340D57195F46640042ADA2 /* HardBot.m in Sources */,
 				5B340D54195DC9B20042ADA2 /* BoardViewController.m in Sources */,
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
 				5BFF26A5195CEBA80033F2A8 /* MenuViewController.m in Sources */,
