@@ -22,33 +22,57 @@
     // Else findAttack() returns NULL which means that there is currently no such attackCombos on the current board scenario.
         // have a randomMove().
 -(NSMutableArray *) findAttack : (int) color {
+    
+    NSMutableArray* attack = [[NSMutableArray alloc] init];
+    
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *pi in i) {
-            if([pi getSide] == 3 - color) {
+            if([pi getSide] == color) {
                 if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
-                    if([pi getSide] == 1)
-                        return [self findWhitePawnAttack:pi];
-                    else
-                        return [self findBlackPawnAttack:pi];
+                    if([pi getSide] == 1) {
+                        attack = [self findWhitePawnAttack:pi];
+                        if(attack != NULL)
+                            return attack;
+                    }
+                    else {
+                        attack =  [self findBlackPawnAttack:pi];
+                        if(attack != NULL)
+                            return attack;
+                    }
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-                    return [self findKingAttack:pi];
+                    
+                    attack =[self findKingAttack:pi];
+                    if(attack != NULL)
+                        return attack;
+
+
                 }
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-                    return [self findQueenAttack:pi];
+                    attack =  [self findQueenAttack:pi];
+                    if(attack != NULL)
+                        return attack;
                 }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-                    return [self findBishopAttack:pi];
+                    attack =  [self findBishopAttack:pi];
+                    if(attack != NULL)
+                        return attack;
+
                 }
                 else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
-                    return [self findRookAttack:pi];
+                    attack =  [self findRookAttack:pi];
+                    if(attack != NULL)
+                        return attack;
+
                 }
                 else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-                    return [self findKnightAttack:pi];
+                    attack =  [self findKnightAttack:pi];
+                    if(attack != NULL)
+                        return attack;
                 }
             }
             else {
-                // this piece has same color as Color, do not search
+                // this piece has different color as Color, do not search
             }
         }
     }
@@ -85,6 +109,8 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else
+            break;
     }
     // up right attacks
     tempY = [bishop getY];
@@ -97,8 +123,9 @@
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
-
         }
+        else
+            break;
     }
     // down left attacks
     int tempX = [bishop getX];
@@ -111,8 +138,8 @@
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
-
         }
+        else break;
     }
     // down right attacks
     tempX = [bishop getX];
@@ -126,6 +153,7 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else break;
     }
     return NULL;
 }
@@ -143,6 +171,9 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else
+            break;
+            
     }
     // right horizontal attacks
     for(int i = [rook getX]; i <8; i++) {
@@ -152,6 +183,8 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else
+            break;
     }
     // up vertical attacks
     
@@ -162,6 +195,8 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else
+            break;
     }
     
     // down vertical attacks
@@ -172,6 +207,7 @@
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else break;
     }
     return NULL;
 }
@@ -368,10 +404,22 @@
         self.undecidedReturnTrue = 0;
         [self.undecidedMove removeAllObjects];
         self.terms = 2;
-        NSMutableArray *attackMoves = [self findRandomMove:2];
-        [[attackMoves objectAtIndex:0] printInformation];
-        [[attackMoves objectAtIndex:1] printInformation];
-        [self botMoveFrom:[attackMoves objectAtIndex:0] to:[attackMoves objectAtIndex:1]];
+        
+        NSMutableArray *botMoves = [self findAttack:2];
+        if(botMoves == NULL) {
+            NSLog(@"botMoves is null");
+            botMoves = [self findRandomMove:2];
+            [[botMoves objectAtIndex:0] printInformation];
+            [[botMoves objectAtIndex:1] printInformation];
+            [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];
+        }
+        else  {
+            NSLog(@"botMoves is not null");
+            [[botMoves objectAtIndex:0] printInformation];
+            [[botMoves objectAtIndex:1] printInformation];
+            [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];
+        }
+        
         self.terms = 1;
         return;
     }
