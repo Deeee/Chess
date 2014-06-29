@@ -60,7 +60,7 @@
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
+                else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
                     [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
