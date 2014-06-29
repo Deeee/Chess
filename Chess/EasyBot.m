@@ -24,50 +24,50 @@
 -(NSMutableArray *) findAttack : (int) color {
     
     NSMutableArray* attack = [[NSMutableArray alloc] init];
-    NSLog(@"checking for an attack with ...");
+//    NSLog(@"checking for an attack with ...");
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *pi in i) {
             if([pi getSide] == color) {
                 if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
                     if([pi getSide] == 1) {
-                        [pi printInformation];
+//                        [pi printInformation];
                         attack = [self findWhitePawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                     else {
-                        [pi printInformation];
+//                        [pi printInformation];
                         attack =  [self findBlackPawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-                    [pi printInformation];
+//                    [pi printInformation];
                     attack =[self findKingAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-                    [pi printInformation];
+//                    [pi printInformation];
                     attack =  [self findQueenAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-                    [pi printInformation];
+//                    [pi printInformation];
                     attack =  [self findBishopAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-                    [pi printInformation];
+//                    [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-                    [pi printInformation];
+//                    [pi printInformation];
                     attack =  [self findKnightAttack:pi];
                     if(attack != NULL)
                         return attack;
@@ -433,14 +433,12 @@
         
         NSMutableArray *botMoves = [self findAttack:2];
         if(botMoves == NULL) {
-            NSLog(@"botMoves is null");
             botMoves = [self findRandomMove:2];
             [[botMoves objectAtIndex:0] printInformation];
             [[botMoves objectAtIndex:1] printInformation];
             [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];
         }
         else  {
-            NSLog(@"botMoves is not null");
             [[botMoves objectAtIndex:0] printInformation];
             [[botMoves objectAtIndex:1] printInformation];
             [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];

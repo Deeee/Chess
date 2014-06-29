@@ -348,7 +348,7 @@
     //CHECKING FOR HORIZONTALS -> QUEEN OR ROOK.
     
     // left of king.
-    for(int i = [king getX]; i > -1; i--) {
+    for(int i = [king getX] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:i with:[king getY]];
         if([self isSameColor:king and:p])
             break;
@@ -356,9 +356,11 @@
             NSLog(@"is checked 1");
             return true;
         }
+        else if([self isOppColor:king and:p])
+            break;
     }
     // right of king.
-    for(int i = [king getX]; i < 8; i++) {
+    for(int i = [king getX] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:i with:[king getY]];
         if([self isSameColor:king and:p])
             break;
@@ -366,9 +368,11 @@
             NSLog(@"is checked 2");
             return true;
         }
+        else if([self isOppColor:king and:p])
+            break;
     }
-    //        // up of king.
-    for(int i = [king getY]; i > -1; i--) {
+   // up of king.
+    for(int i = [king getY] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:[king getX] with:i];
         if([self isSameColor:king and:p])
             break;
@@ -376,9 +380,11 @@
             NSLog(@"is checked 3");
             return true;
         }
+        else if([self isOppColor:king and:p])
+            break;
     }
     // down of king.
-    for(int i = [king getY]; i < 8; i++) {
+    for(int i = [king getY] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:[king getX] with:i];
         if([self isSameColor:king and:p])
             break;
@@ -386,6 +392,8 @@
             NSLog(@"is checked 4");
             return true;
         }
+        else if([self isOppColor:king and:p])
+            break;
     }
     return false;
 }
@@ -394,12 +402,14 @@
     //CHECKING FOR DIAGONALS
     
     // up left attacks
+    NSLog(@"  UP LEFT");
     int tempY = [king getY];
-    for(int i = [king getX]; i > -1; i--) {
-        int place = tempY--;
+    for(int i = [king getX] - 1; i > -1; i--) {
+        int place = --tempY;
         if(place < 0)
             break;
         Piece *p = [self getPieceAt:i with:place];
+        NSLog(@"      (%d,%d)\n",[p getX], [p getY]);
         if([self isSameColor:king and:p])
             break;
         else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
@@ -409,13 +419,14 @@
     }
     
     // up right attacks
-    
+    NSLog(@"  UP RIGHT");
     tempY = [king getY];
-    for(int i = [king getX]; i < 8; i++) {
-        int place = tempY++;
+    for(int i = [king getX] + 1; i < 8; i++) {
+        int place = ++tempY;
         if(place > 7)
             break;
         Piece * p = [self getPieceAt:i with:place];
+        NSLog(@"      (%d,%d)\n",[p getX], [p getY]);
         if([self isSameColor:king and:p])
             break;
         else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
@@ -425,12 +436,14 @@
     }
     
     // down left attacks
+    NSLog(@"  DOWN LEFT");
     int tempX = [king getX];
     for(int i = [king getY]; i < 8; i++) {
-        int place = tempX --;
+        int place = --tempX;
         if(place < 0)
             break;
         Piece* p = [self getPieceAt:place with:i];
+        NSLog(@"      (%d,%d)\n",[p getX], [p getY]);
         if([self isSameColor:king and:p])
             break;
         else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
@@ -440,12 +453,14 @@
     }
     
     // down right attacks
+    NSLog(@"  DOWN RIGHT");
     tempX = [king getX];
     for(int i = [king getY]; i > -1; i--) {
-        int place = tempX++;
+        int place = ++tempX;
         if(place > 7)
             break;
         Piece* p = [self getPieceAt:place with:i];
+            NSLog(@"      (%d,%d)\n",[p getX], [p getY]);
         if([self isSameColor:king and:p])
             break;
         else if([self isSameColor:king and:p] && ([self isBishop:p] || [self isQueen:p])) {
@@ -551,48 +566,32 @@
     else
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
-//
-//    if([self isAttackedHorizontal:king])
-//        return true;
-//    else {
-//        if([self isAttackedDiagonal:king])
-//            return true;
-//        else {
-//            if([self isAttackedByKnight:king])
-//                    return true;
-//            else
-//                return false;
-//        }
-//    }
-//    NSLog(@"returning false, king is not in check");
-    
-//    if([self isAttackedHorizontal:king]) {
-//        NSLog(@"isAttackedHorizontal return true");
-//        return true;
-//    }
-//    else {
-//        if([self isAttackedDiagonal:king]) {
-//            NSLog(@"isAttackedDiagonal return true");
-//            return true;
-//        }
-//        else {
-//            if([self isAttackedByKnight:king]) {
-//                NSLog(@"isAttackedByKnight return true");
-//                return true;
-//            }
-//            else {
-//                NSLog(@"isChecked return false");
-//                return false;
-    for (NSMutableArray *i in pieceSet) {
-        for (Piece * p in i){
-            if([p getSide] == [king getSide]){
-                if([self validateMove:p to:king]){
-                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+
+    if([self isAttackedHorizontal:king])
+        return true;
+    else {
+        if([self isAttackedDiagonal:king])
+            return true;
+        else {
+            if([self isAttackedByKnight:king])
                     return true;
-                }
-            }
+            else
+                return false;
         }
     }
+    NSLog(@"returning false, king is not in check");
+    
+
+//    for (NSMutableArray *i in pieceSet) {
+//        for (Piece * p in i){
+//            if([p getSide] == [king getSide]){
+//                if([self validateMove:p to:king]){
+//                    NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
+//                    return true;
+//                }
+//            }
+//        }
+//    }
     return false;
 }
 // if piece colors are different and not empty.
@@ -601,7 +600,7 @@
 }
 
 -(BOOL) isSameColor: (Piece *)pi and :(Piece *)t {
-    return ([t getSide] != [pi getSide] && ([t getSide] != 0));
+    return [t getSide] == [pi getSide] ;
 }
 
 
