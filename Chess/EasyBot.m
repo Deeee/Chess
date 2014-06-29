@@ -30,14 +30,12 @@
             if([pi getSide] == color) {
                 if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
                     if([pi getSide] == 1) {
-
                         [pi printInformation];
                         attack = [self findWhitePawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                     else {
-
                         [pi printInformation];
                         attack =  [self findBlackPawnAttack:pi];
                         if(attack != NULL)
@@ -45,35 +43,30 @@
                     }
                 }
                 else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-
                     [pi printInformation];
                     attack =[self findKingAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-
                     [pi printInformation];
                     attack =  [self findQueenAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-
                     [pi printInformation];
                     attack =  [self findBishopAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
-
                     [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
                 else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-
                     [pi printInformation];
                     attack =  [self findKnightAttack:pi];
                     if(attack != NULL)
@@ -107,61 +100,73 @@
     [attackCombo addObject:bishop];
     
     // up left attacks
+//    NSLog(@"  UP LEFT ATTACKS");
+    
     int tempY = [bishop getY];
-    for(int i = [bishop getX]; i > -1; i--) {
-        int place = tempY --;
+    for(int i = [bishop getX] - 1; i > -1; i--) {
+        int place = --tempY;
         if(place < 0)
             break;
         Piece *p = [self getPieceAt:i with:place];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else
             break;
     }
     // up right attacks
+//    NSLog(@"  UP RIGHT ATTACKS");
     tempY = [bishop getY];
-    for(int i = [bishop getX]; i < 8; i++) {
-        int place = tempY++;
-        if(place > 7)
+    for(int i = [bishop getX] + 1; i < 8; i++) {
+        int place = --tempY;
+        if(place < 0)
             break;
         Piece * p = [self getPieceAt:i with:place];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0){}
+        else break;
     }
     // down left attacks
+//    NSLog(@"  DOWN LEFT ATTACKS");
     int tempX = [bishop getX];
-    for(int i = [bishop getY]; i < 8; i++) {
-        int place = tempX --;
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = --tempX;
         if(place < 0)
             break;
         Piece* p = [self getPieceAt:place with:i];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else break;
     }
     // down right attacks
+//    NSLog(@"  DOWN RIGHT ATTACKS");
     tempX = [bishop getX];
-    for(int i = [bishop getY]; i > -1; i--) {
-        int place = tempX ++;
-        if(place < 7)
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = ++tempX;
+        if(place > 7)
             break;
         Piece* p = [self getPieceAt:place with:i];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0){}
         else break;
     }
     return NULL;
