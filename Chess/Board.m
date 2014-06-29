@@ -578,6 +578,22 @@
     return false;
 }
 
+-(BOOL) isAttacked:(Piece*) p {
+    if([self isAttackedHorizontal:p])
+        return true;
+    else {
+        if([self isAttackedDiagonal:p])
+            return true;
+        else {
+            if([self isAttackedByKnight:p])
+                return true;
+            else
+                return false;
+        }
+    }
+    return false;
+}
+
 -(BOOL) isChecked {
     
     Piece* king;
@@ -588,21 +604,7 @@
     else
         ;
     NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
-
-    if([self isAttackedHorizontal:king])
-        return true;
-    else {
-        if([self isAttackedDiagonal:king])
-            return true;
-        else {
-            if([self isAttackedByKnight:king])
-                    return true;
-            else
-                return false;
-        }
-    }
-    NSLog(@"returning false, king is not in check");
-    
+    return [self isAttacked:king];
 
 //    for (NSMutableArray *i in pieceSet) {
 //        for (Piece * p in i){
@@ -614,7 +616,7 @@
 //            }
 //        }
 //    }
-    return false;
+//    return false;
 }
 
 // if piece colors are different and not empty.
