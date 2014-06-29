@@ -178,10 +178,10 @@
     [attackCombo addObject:rook];
     
     // left horizontal attacks
-    NSLog(@"  LEFT HORIZON ATTACKS");
+//    NSLog(@"  LEFT HORIZON ATTACKS");
     for(int i = [rook getX] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
-        NSLog(@"    (%d,%d)",[p getX],[p getY]);
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
@@ -192,10 +192,10 @@
             
     }
     // right horizontal attacks
-    NSLog(@"  RIGHT HORIZON ATTACKS");
+//    NSLog(@"  RIGHT HORIZON ATTACKS");
     for(int i = [rook getX] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
-        NSLog(@"    (%d,%d)",[p getX],[p getY]);
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
@@ -205,10 +205,10 @@
         else break;
     }
     // up vertical attacks
-    NSLog(@"  UP VERTICAL ATTACKS");
+//    NSLog(@"  UP VERTICAL ATTACKS");
     for(int i = [rook getY] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
-        NSLog(@"    (%d,%d)",[p getX],[p getY]);
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
@@ -219,12 +219,12 @@
     }
     
     // down vertical attacks
-    NSLog(@"  DOWN VERTICAL ATTACKS");
+//    NSLog(@"  DOWN VERTICAL ATTACKS");
     for(int i = [rook getY] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
-        NSLog(@"    (%d,%d)",[p getX],[p getY]);
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+//            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
