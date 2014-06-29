@@ -178,49 +178,57 @@
     [attackCombo addObject:rook];
     
     // left horizontal attacks
-    for(int i = [rook getX]; i > -1; i--) {
+    NSLog(@"  LEFT HORIZON ATTACKS");
+    for(int i = [rook getX] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
+        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
             
     }
     // right horizontal attacks
-    for(int i = [rook getX]; i <8; i++) {
+    NSLog(@"  RIGHT HORIZON ATTACKS");
+    for(int i = [rook getX] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
+        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
     }
     // up vertical attacks
-    
-    for(int i = [rook getY]; i > -1; i--) {
+    NSLog(@"  UP VERTICAL ATTACKS");
+    for(int i = [rook getY] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
+        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
     }
     
     // down vertical attacks
-    for(int i = [rook getY]; i < 8; i++) {
+    NSLog(@"  DOWN VERTICAL ATTACKS");
+    for(int i = [rook getY] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
+        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else break;
     }
     return NULL;
