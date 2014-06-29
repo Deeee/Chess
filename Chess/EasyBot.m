@@ -28,7 +28,7 @@
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *pi in i) {
             if([pi getSide] == color) {
-                if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+                if([pi isPawn]) {
                     if([pi getSide] == 1) {
 //                        [pi printInformation];
                         attack = [self findWhitePawnAttack:pi];
@@ -42,31 +42,31 @@
                             return attack;
                     }
                 }
-                else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
+                else if([pi isKing]) {
 //                    [pi printInformation];
                     attack =[self findKingAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+                else if([pi isQueen]) {
 //                    [pi printInformation];
                     attack =  [self findQueenAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+                else if([pi isBishop]) {
 //                    [pi printInformation];
                     attack =  [self findBishopAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
+                else if([pi isRook]) {
 //                    [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
+                else if([pi isKnight]) {
 //                    [pi printInformation];
                     attack =  [self findKnightAttack:pi];
                     if(attack != NULL)
@@ -234,14 +234,6 @@
     return NULL;
 }
 
-// returns true if piece p has valid board coordinates : (9,1) is invald and returns false.
--(BOOL) isOnBoard : (Piece*) p {
-    if(([p getX] < 0) || ([p getY] > 8))
-        return false;
-    else
-        return true;
-}
-
 -(NSMutableArray*) findKingAttack : (Piece*) king {
     
     NSMutableArray* attackCombo = [[NSMutableArray alloc] initWithCapacity:2];
@@ -270,7 +262,7 @@
         [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY - 1]];
 
     for(int i = 0; i < [kingMoves count]; i++) {
-        if([self isOppColor:king and:[kingMoves objectAtIndex:i]]) {
+        if([self isOppColor:king and:[kingMoves objectAtIndex:i]] && (![self isAttacked:kingMoves[i]])) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
             [attackCombo addObject:[kingMoves objectAtIndex:i]];
             return attackCombo;
