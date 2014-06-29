@@ -70,7 +70,7 @@
 }
 
 -(BOOL) isRook:(Piece*)p {
-     if([p.getName rangeOfString:@"rook"].location != NSNotFound)
+     if([p.getName rangeOfString:@"rock"].location != NSNotFound)
          return true;
      else return false;
 }
