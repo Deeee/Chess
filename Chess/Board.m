@@ -69,36 +69,6 @@
     }
 }
 
--(BOOL) isRook:(Piece*)p {
-     if([p.getName rangeOfString:@"rock"].location != NSNotFound)
-         return true;
-     else return false;
-}
-
--(BOOL) isQueen:(Piece*)p {
-    if([p.getName rangeOfString:@"queen"].location != NSNotFound)
-        return true;
-    else return false;
-}
-
--(BOOL) isPawn:(Piece*)p {
-     if([p.getName rangeOfString:@"pawn"].location != NSNotFound)
-         return true;
-     else return false;
-}
-
--(BOOL) isBishop:(Piece*)p {
-    if([p.getName rangeOfString:@"bishop"].location != NSNotFound)
-        return true;
-    else return false;
-}
-
--(BOOL) isKnight:(Piece*)p {
-    if([p.getName rangeOfString:@"knight"].location != NSNotFound)
-        return true;
-    else return false;
-}
-
 -(NSString *) getImageNameFromPiece:(Piece *)p {
     if ([[p getName] rangeOfString:@"bpawn"].location != NSNotFound) {
         return @"bpawn.png";
@@ -354,7 +324,7 @@
         //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         if([self isSameColor:king and:p])
             break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+        else if([self isOppColor:king and:p] && ([p isRook] || [p isQueen])) {
             NSLog(@"is checked 1");
             return true;
         }
@@ -368,7 +338,7 @@
         //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         if([self isSameColor:king and:p])
             break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+        else if([self isOppColor:king and:p] && ([p isRook] || [p isQueen])) {
             NSLog(@"is checked 2");
             return true;
         }
@@ -382,7 +352,7 @@
         //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         if([self isSameColor:king and:p])
             break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+        else if([self isOppColor:king and:p] && ([p isRook] || [p isQueen])) {
             NSLog(@"is checked 3");
             return true;
         }
@@ -396,7 +366,7 @@
         //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         if([self isSameColor:king and:p])
             break;
-        else if([self isOppColor:king and:p] && ([self isRook:p] || [self isQueen:p])) {
+        else if([self isOppColor:king and:p] && ([p isRook] || [p isQueen])) {
             NSLog(@"is checked 4");
             return true;
         }
@@ -419,7 +389,7 @@
             //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
-            else if(([self isOppColor:king and:p] && [self isBishop:p]) || ([self isOppColor:king and:p] && [self isBishop:p])) {
+            else if(([self isOppColor:king and:p] && [p isBishop]) || ([self isOppColor:king and:p] && [p isQueen])) {
                 NSLog(@"is checked 5");
                 return true;
             }
@@ -438,7 +408,7 @@
             //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
-            else if(([self isOppColor:king and:p] && [self isBishop:p]) || ([self isOppColor:king and:p] && [self isBishop:p])) {
+             else if(([self isOppColor:king and:p] && [p isBishop]) || ([self isOppColor:king and:p] && [p isQueen])) {
                 NSLog(@"is checked 6");
                 return true;
             }
@@ -457,7 +427,7 @@
             //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
-            else if(([self isOppColor:king and:p] && [self isBishop:p]) || ([self isOppColor:king and:p] && [self isBishop:p])) {
+             else if(([self isOppColor:king and:p] && [p isBishop]) || ([self isOppColor:king and:p] && [p isQueen])) {
                 NSLog(@"is checked 7");
                 return true;
             }
@@ -476,7 +446,7 @@
             //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
-            else if(([self isOppColor:king and:p] && [self isBishop:p]) || ([self isOppColor:king and:p] && [self isBishop:p])) {
+            else if(([self isOppColor:king and:p] && [p isBishop]) || ([self isOppColor:king and:p] && [p isQueen])) {
                 NSLog(@"is checked 8");
                 return true;
             }
@@ -494,7 +464,7 @@
         int y = [king getY] -1;
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
-            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+            if([pawn isPawn] && [self isOppColor:king and:pawn]) {
                 NSLog(@"is checked 9");
                 return true;
             }
@@ -504,7 +474,7 @@
         y = [king getY] -1;
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
-            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+            if([pawn isPawn] && [self isOppColor:king and:pawn]) {
                 NSLog(@"is checked 10");
                 return true;
             }
@@ -518,7 +488,7 @@
         
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
-            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+            if([pawn isPawn] && [self isOppColor:king and:pawn]) {
                 NSLog(@"is checked 11");
                 return true;
             }
@@ -528,7 +498,7 @@
         
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
-            if([self isPawn:pawn] && [self isOppColor:king and:pawn]) {
+            if([pawn isPawn] && [self isOppColor:king and:pawn]) {
                 NSLog(@"is checked 12");
                 return true;
             }
@@ -572,7 +542,7 @@
     
     
     for(int i = 0; i < [possibleKnights count]; i++)
-        if([self isKnight:possibleKnights[i]] && [self isOppColor:king and:possibleKnights[i]])
+        if([possibleKnights[i] isKnight] && [self isOppColor:king and:possibleKnights[i]])
             return true;
     
     return false;
@@ -1034,7 +1004,7 @@
     //        return true;
     //    }
 
-    if ([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+    if ([pi isPawn]) {
         if([pi getSide] == 1) {
             if([self whitePawnMove:pi to:t]) {
                 //NSLog(@"valid white pawn move");
@@ -1052,33 +1022,33 @@
         else
             ;
     }
-    else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
+    else if ([pi isKing]) {
         if ([self kingMove:pi to:t]) {
             return true;
         }
         return false;
     }
-    else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
+    else if([pi isQueen]) {
         if ([self queenMove:pi to:t]) {
 
             return true;
         }
         else return false;
     }
-    else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
+    else if([pi isBishop]) {
         if ([self bishopMove:pi to:t]) {
 
             return true;
         }
         return false;
     }
-    else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
+    else if([pi isKnight]) {
         if ([self knightMove:pi to:t]) {
             return true;
         }
         return false;
     }
-    else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
+    else if([pi isRook]) {
         if ([self rockMove:pi to:t]) {
 
             return true;

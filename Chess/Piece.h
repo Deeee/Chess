@@ -28,4 +28,11 @@
 -(Piece *)copyWithSelf;
 -(int) getSide;
 -(void) printInformation;
+
+-(BOOL) isPawn;
+-(BOOL) isRook;
+-(BOOL) isQueen;
+-(BOOL) isBishop;
+-(BOOL) isKnight;
+-(BOOL) isKing;
 @end

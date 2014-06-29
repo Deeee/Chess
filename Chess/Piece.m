@@ -71,4 +71,41 @@
     NSLog(@"%@(%d,%d) side %d",[self getName], [self getX],[self getY], [self getSide]);
 }
 
+
+-(BOOL) isRook {
+    if([self.getName rangeOfString:@"rock"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
+-(BOOL) isQueen {
+    if([self.getName rangeOfString:@"queen"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
+-(BOOL) isPawn {
+    if([self.getName rangeOfString:@"pawn"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
+-(BOOL) isBishop {
+    if([self.getName rangeOfString:@"bishop"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
+-(BOOL) isKnight {
+    if([self.getName rangeOfString:@"knight"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
+-(BOOL) isKing {
+    if([self.getName rangeOfString:@"king"].location != NSNotFound)
+        return true;
+    else return false;
+}
+
 @end
