@@ -17,6 +17,7 @@
 @synthesize undecidedReturnTrue;
 @synthesize isCastlePiecesMoved;
 @synthesize mode;
+@synthesize checkingPieces;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -39,6 +40,7 @@
     undecidedReturnTrue = 0;
     [white setSide:1];
     [black setSide:2];
+    checkingPieces = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -61,6 +63,7 @@
         undecidedReturnTrue = 0;
         [undecidedMove removeAllObjects];
         terms = 2;
+        
     }
     else {
         undecidedReturnTrue = 0;
@@ -278,7 +281,7 @@
                     if ([self validateMove:p to:temp]) {
                         NSLog(@"white king checked by %@(%d,%d)",[p getName],[p getX],[p getY]);
                         isInCheck = 1;
-                        return;
+                        [checkingPieces addObject:p];
                     }
                     else {
                         isInCheck = 0;
@@ -299,7 +302,7 @@
                     if ([self validateMove:p to:temp]) {
                         NSLog(@"black king checked");
                         isInCheck = 2;
-                        return;
+                        [checkingPieces addObject:p];
                     }
                     else {
                         isInCheck = 0;

@@ -22,6 +22,7 @@
 @property int undecidedReturnTrue;
 @property NSMutableArray *isCastlePiecesMoved;
 @property int mode;
+@property NSMutableArray *checkingPieces;
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
