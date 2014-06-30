@@ -73,7 +73,7 @@
 
 
 -(BOOL) isRook {
-    if([self.getName rangeOfString:@"rock"].location != NSNotFound)
+    if([self.getName rangeOfString:@"rook"].location != NSNotFound)
         return true;
     else return false;
 }

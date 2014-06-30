@@ -1049,7 +1049,7 @@
         return false;
     }
     else if([pi isRook]) {
-        if ([self rockMove:pi to:t]) {
+        if ([self rookMove:pi to:t]) {
             return true;
         }
         return false;
