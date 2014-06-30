@@ -13,7 +13,7 @@
 @property ChessManual *manual;
 @property NSMutableArray *pawnValue;
 -(void) botMove;
--(void) scriptMove;
+-(BOOL) scriptMove;
 -(void) changeTerms;
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;
 -(void) addRelativeValue;

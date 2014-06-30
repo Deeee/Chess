@@ -12,13 +12,73 @@
 @synthesize manual;
 @synthesize pawnValue;
 -(void) botMove {
-    [self scriptMove];
+    if ([self isInCheck] == 2) {
+        [self eliminateThreate];
+    }
+    if ([self scriptMove]) {
+        
+    }
+    else {
+        
+    }
 }
--(void) scriptMove {
+-(void) normalMove {
+    NSMutableArray *edible = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *p in i) {
+            if ([p getSide] == 2) {
+                for (NSMutableArray *j in self.pieceSet) {
+                    for (Piece *t in j) {
+                        if ([t getSide] == 1) {
+                            if ([self validateMove:p to:t] && [self isUnchecked:p to:t]) {
+                                [edible addObject:p];
+                                [edible addObject:t];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    NSMutableArray *beEaten = [[NSMutableArray alloc]init];
+}
+
+-(void)eliminateThreate {
+    if ([self.checkingPieces count] == 1) {
+        Piece *cp = [self.checkingPieces objectAtIndex:0];
+        for (NSMutableArray *i in self.pieceSet) {
+            for (Piece *p in i) {
+                if ([p getSide] == 2) {
+                    if ([self validateMove:p to:cp]) {
+                        [self botMoveFrom:p to:cp];
+                    }
+                }
+            }
+        }
+    }
+    else {
+        Piece *myKing = [self getBlackKing];
+        for (NSMutableArray *i in self.pieceSet) {
+            for (Piece *t in i) {
+                if ([t getSide] != 2) {
+                    if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
+                        [self botMoveFrom:myKing to:t];
+                    }
+                }
+            }
+        }
+    }
+
+}
+-(BOOL) scriptMove {
     NSArray *readin = [manual outputScript];
     Piece *pi = [self getPieceAt:[[readin objectAtIndex:0] boardPointGetX] with:[[readin objectAtIndex:0] boardPointGetY]];
     Piece *t = [self getPieceAt:[[readin objectAtIndex:1] boardPointGetX] with:[[readin objectAtIndex:1] boardPointGetY]];
-    [self botMoveFrom:pi to:t];
+    if ([self validateMove:pi to:t]) {
+        [self botMoveFrom:pi to:t];
+        return true;
+    }
+    return false;
 }
 
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t {
@@ -52,6 +112,7 @@
         self.undecidedReturnTrue = 0;
         [self.undecidedMove removeAllObjects];
         self.terms = 2;
+        [self checkStatus];
         [self botMove];
         self.terms = 1;
         return;
