@@ -24,57 +24,50 @@
 -(NSMutableArray *) findAttack : (int) color {
     
     NSMutableArray* attack = [[NSMutableArray alloc] init];
-    NSLog(@"checking for an attack with ...");
+//    NSLog(@"checking for an attack with ...");
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *pi in i) {
             if([pi getSide] == color) {
-                if([pi.getName rangeOfString:@"pawn"].location != NSNotFound) {
+                if([pi isPawn]) {
                     if([pi getSide] == 1) {
-
-                        [pi printInformation];
+//                        [pi printInformation];
                         attack = [self findWhitePawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                     else {
-
-                        [pi printInformation];
+//                        [pi printInformation];
                         attack =  [self findBlackPawnAttack:pi];
                         if(attack != NULL)
                             return attack;
                     }
                 }
-                else if([pi.getName rangeOfString:@"king"].location != NSNotFound) {
-
-                    [pi printInformation];
+                else if([pi isKing]) {
+//                    [pi printInformation];
                     attack =[self findKingAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"queen"].location != NSNotFound) {
-
-                    [pi printInformation];
+                else if([pi isQueen]) {
+//                    [pi printInformation];
                     attack =  [self findQueenAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"bishop"].location != NSNotFound) {
-
-                    [pi printInformation];
+                else if([pi isBishop]) {
+//                    [pi printInformation];
                     attack =  [self findBishopAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
-
-                    [pi printInformation];
+                else if([pi isRook]) {
+//                    [pi printInformation];
                     attack =  [self findRookAttack:pi];
                     if(attack != NULL)
                         return attack;
                 }
-                else if([pi.getName rangeOfString:@"knight"].location != NSNotFound) {
-
-                    [pi printInformation];
+                else if([pi isKnight]) {
+//                    [pi printInformation];
                     attack =  [self findKnightAttack:pi];
                     if(attack != NULL)
                         return attack;
@@ -107,61 +100,73 @@
     [attackCombo addObject:bishop];
     
     // up left attacks
+//    NSLog(@"  UP LEFT ATTACKS");
+    
     int tempY = [bishop getY];
-    for(int i = [bishop getX]; i > -1; i--) {
-        int place = tempY --;
+    for(int i = [bishop getX] - 1; i > -1; i--) {
+        int place = --tempY;
         if(place < 0)
             break;
         Piece *p = [self getPieceAt:i with:place];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else
             break;
     }
     // up right attacks
+//    NSLog(@"  UP RIGHT ATTACKS");
     tempY = [bishop getY];
-    for(int i = [bishop getX]; i < 8; i++) {
-        int place = tempY++;
-        if(place > 7)
+    for(int i = [bishop getX] + 1; i < 8; i++) {
+        int place = --tempY;
+        if(place < 0)
             break;
         Piece * p = [self getPieceAt:i with:place];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0){}
+        else break;
     }
     // down left attacks
+//    NSLog(@"  DOWN LEFT ATTACKS");
     int tempX = [bishop getX];
-    for(int i = [bishop getY]; i < 8; i++) {
-        int place = tempX --;
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = --tempX;
         if(place < 0)
             break;
         Piece* p = [self getPieceAt:place with:i];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else break;
     }
     // down right attacks
+//    NSLog(@"  DOWN RIGHT ATTACKS");
     tempX = [bishop getX];
-    for(int i = [bishop getY]; i > -1; i--) {
-        int place = tempX ++;
-        if(place < 7)
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = ++tempX;
+        if(place > 7)
             break;
         Piece* p = [self getPieceAt:place with:i];
+//        NSLog(@"    (%d,%d",[p getX],[p getY]);
         if([self isOppColor:bishop and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],bishop, [bishop getX], [bishop getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0){}
         else break;
     }
     return NULL;
@@ -173,60 +178,60 @@
     [attackCombo addObject:rook];
     
     // left horizontal attacks
-    for(int i = [rook getX]; i > -1; i--) {
+//    NSLog(@"  LEFT HORIZON ATTACKS");
+    for(int i = [rook getX] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
             
     }
     // right horizontal attacks
-    for(int i = [rook getX]; i <8; i++) {
+//    NSLog(@"  RIGHT HORIZON ATTACKS");
+    for(int i = [rook getX] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:i with:[rook getY]];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
     }
     // up vertical attacks
-    
-    for(int i = [rook getY]; i > -1; i--) {
+//    NSLog(@"  UP VERTICAL ATTACKS");
+    for(int i = [rook getY] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
-        else
-            break;
+        else if([p getSide] == 0) {}
+        else break;
     }
     
     // down vertical attacks
-    for(int i = [rook getY]; i < 8; i++) {
+//    NSLog(@"  DOWN VERTICAL ATTACKS");
+    for(int i = [rook getY] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:[rook getX] with:i];
+//        NSLog(@"    (%d,%d)",[p getX],[p getY]);
         if([self isOppColor:rook and:p]) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
+//            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",p, [p getX], [p getY],rook, [rook getX], [rook getY]);
             [attackCombo addObject:p];
             return attackCombo;
         }
+        else if([p getSide] == 0) {}
         else break;
     }
     return NULL;
-}
-
-// returns true if piece p has valid board coordinates : (9,1) is invald and returns false.
--(BOOL) isOnBoard : (Piece*) p {
-    if(([p getX] < 0) || ([p getY] > 8))
-        return false;
-    else
-        return true;
 }
 
 -(NSMutableArray*) findKingAttack : (Piece*) king {
@@ -257,7 +262,7 @@
         [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY - 1]];
 
     for(int i = 0; i < [kingMoves count]; i++) {
-        if([self isOppColor:king and:[kingMoves objectAtIndex:i]]) {
+        if([self isOppColor:king and:[kingMoves objectAtIndex:i]] && (![self isAttacked:kingMoves[i]])) {
             NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
             [attackCombo addObject:[kingMoves objectAtIndex:i]];
             return attackCombo;
@@ -420,14 +425,12 @@
         
         NSMutableArray *botMoves = [self findAttack:2];
         if(botMoves == NULL) {
-            NSLog(@"botMoves is null");
             botMoves = [self findRandomMove:2];
             [[botMoves objectAtIndex:0] printInformation];
             [[botMoves objectAtIndex:1] printInformation];
             [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];
         }
         else  {
-            NSLog(@"botMoves is not null");
             [[botMoves objectAtIndex:0] printInformation];
             [[botMoves objectAtIndex:1] printInformation];
             [self botMoveFrom:[botMoves objectAtIndex:0] to:[botMoves objectAtIndex:1]];

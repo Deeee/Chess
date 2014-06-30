@@ -16,7 +16,6 @@
 -(NSMutableArray *)findRookAttack : (Piece*)rook;
 -(NSMutableArray*)findBishopAttack :(Piece*)bishop;
 -(NSMutableArray*)findQueenAttack: (Piece*)queen;
--(BOOL) isOnBoard : (Piece*) p;
 -(NSMutableArray *)findKnightAttack : (Piece*) knight;
 -(NSMutableArray*) findKingAttack : (Piece*) king;
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;

@@ -45,6 +45,7 @@
 -(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t;
 -(BOOL)bishopMove:(Piece *)pi to :(Piece *)t;
 
+-(BOOL) isAttacked:(Piece*) p;
 -(BOOL) isAttackedHorizontal:(Piece*)king;
 -(BOOL) isAttackedDiagonal:(Piece*)king;
 -(BOOL) isAttackedByKnight:(Piece*)king;
