@@ -60,14 +60,14 @@
 @synthesize tempPiece;
 @synthesize isTapped;
 
-@synthesize rock;
+@synthesize rook;
 @synthesize knight;
 @synthesize bishop;
 @synthesize king;
 @synthesize queen;
 @synthesize bishop2;
 @synthesize kight2;
-@synthesize rock2;
+@synthesize rook2;
 @synthesize pawn1;
 @synthesize pawn2;
 @synthesize pawn3;
@@ -77,14 +77,14 @@
 @synthesize pawn7;
 @synthesize pawn8;
 
-@synthesize brock;
+@synthesize brook;
 @synthesize bknight;
 @synthesize bbishop;
 @synthesize bking;
 @synthesize bqueen;
 @synthesize bbishop2;
 @synthesize bkight2;
-@synthesize brock2;
+@synthesize brook2;
 @synthesize bpawn1;
 @synthesize bpawn2;
 @synthesize bpawn3;
@@ -170,14 +170,14 @@
         myBoard = [[Board alloc] init];
         [myBoard setMode:0];
     }
-    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rock and:[NSMutableString stringWithString:@"rock"] and:1];
+    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rook and:[NSMutableString stringWithString:@"rook"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:knight and:[NSMutableString stringWithString:@"knight"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:0] setImg:bishop and:[NSMutableString stringWithString:@"bishop"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:0] setImg:king and:[NSMutableString stringWithString:@"king"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:0] setImg:queen and:[NSMutableString stringWithString:@"queen"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:0] setImg:bishop2 and:[NSMutableString stringWithString:@"bishop2"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:0] setImg:kight2 and:[NSMutableString stringWithString:@"knight2"]and:1];
-    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:0] setImg:rock2 and:[NSMutableString stringWithString:@"rock2"]and:1];
+    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:0] setImg:rook2 and:[NSMutableString stringWithString:@"rook2"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:1] setImg:pawn1 and:[NSMutableString stringWithString:@"pawn1"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:1] setImg:pawn2 and:[NSMutableString stringWithString:@"pawn2"]and:1];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:1] setImg:pawn3 and:[NSMutableString stringWithString:@"pawn3"]and:1];
@@ -189,14 +189,14 @@
     
     
     
-    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:7] setImg:brock and:[NSMutableString stringWithString:@"brock"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:7] setImg:brook and:[NSMutableString stringWithString:@"brook"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:7] setImg:bknight and:[NSMutableString stringWithString:@"bknight"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:7] setImg:bbishop and:[NSMutableString stringWithString:@"bbishop"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:3] objectAtIndex:7] setImg:bking and:[NSMutableString stringWithString:@"bking"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:4] objectAtIndex:7] setImg:bqueen and:[NSMutableString stringWithString:@"bqueen"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:5] objectAtIndex:7] setImg:bbishop2 and:[NSMutableString stringWithString:@"bbishop2"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:6] objectAtIndex:7] setImg:bkight2 and:[NSMutableString stringWithString:@"bknight2"]and:2];
-    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:7] setImg:brock2 and:[NSMutableString stringWithString:@"brock2"]and:2];
+    [[[[myBoard getPieceSet] objectAtIndex:7] objectAtIndex:7] setImg:brook2 and:[NSMutableString stringWithString:@"brook2"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:6] setImg:bpawn1 and:[NSMutableString stringWithString:@"bpawn1"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:6] setImg:bpawn2 and:[NSMutableString stringWithString:@"bpawn2"]and:2];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:6] setImg:bpawn3 and:[NSMutableString stringWithString:@"bpawn3"]and:2];
@@ -346,7 +346,7 @@
 }
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture{
     //    NSLog(@"handleSingleTap triggered");
-    //[confirmButton imageView].image = [UIImage imageNamed:@"brock.png"];
+    //[confirmButton imageView].image = [UIImage imageNamed:@"brook.png"];
     
     CGPoint tapPoint = [singleTapGesture locationInView:self.confirmButton];
     if (tapPoint.x > confirmButton.frame.origin.x &&

@@ -55,14 +55,14 @@
 
 
 
-@property (nonatomic, assign) IBOutlet UIImageView *rock;
+@property (nonatomic, assign) IBOutlet UIImageView *rook;
 @property (nonatomic, assign) IBOutlet UIImageView *knight;
 @property (nonatomic, assign) IBOutlet UIImageView *bishop;
 @property (nonatomic, assign) IBOutlet UIImageView *king;
 @property (nonatomic, assign) IBOutlet UIImageView *queen;
 @property (nonatomic, assign) IBOutlet UIImageView *bishop2;
 @property (nonatomic, assign) IBOutlet UIImageView *kight2;
-@property (nonatomic, assign) IBOutlet UIImageView *rock2;
+@property (nonatomic, assign) IBOutlet UIImageView *rook2;
 @property (nonatomic, assign) IBOutlet UIImageView *pawn1;
 @property (nonatomic, assign) IBOutlet UIImageView *pawn2;
 @property (nonatomic, assign) IBOutlet UIImageView *pawn3;
@@ -72,14 +72,14 @@
 @property (nonatomic, assign) IBOutlet UIImageView *pawn7;
 @property (nonatomic, assign) IBOutlet UIImageView *pawn8;
 
-@property (nonatomic, assign) IBOutlet UIImageView *brock;
+@property (nonatomic, assign) IBOutlet UIImageView *brook;
 @property (nonatomic, assign) IBOutlet UIImageView *bknight;
 @property (nonatomic, assign) IBOutlet UIImageView *bbishop;
 @property (nonatomic, assign) IBOutlet UIImageView *bking;
 @property (nonatomic, assign) IBOutlet UIImageView *bqueen;
 @property (nonatomic, assign) IBOutlet UIImageView *bbishop2;
 @property (nonatomic, assign) IBOutlet UIImageView *bkight2;
-@property (nonatomic, assign) IBOutlet UIImageView *brock2;
+@property (nonatomic, assign) IBOutlet UIImageView *brook2;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn1;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn2;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn3;

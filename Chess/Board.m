@@ -106,8 +106,8 @@
     else if ([[p getName] rangeOfString:@"bknight"].location != NSNotFound){
         return @"bknight.png";
     }
-    else if ([[p getName] rangeOfString:@"brock"].location != NSNotFound) {
-        return @"brock.png";
+    else if ([[p getName] rangeOfString:@"brook"].location != NSNotFound) {
+        return @"brook.png";
     }
     else if ([[p getName] rangeOfString:@"bqueen"].location != NSNotFound) {
         return @"bqueen.png";
@@ -124,8 +124,8 @@
     else if ([[p getName] rangeOfString:@"knight"].location != NSNotFound){
         return @"knight.png";
     }
-    else if ([[p getName] rangeOfString:@"rock"].location != NSNotFound) {
-        return @"rock.png";
+    else if ([[p getName] rangeOfString:@"rook"].location != NSNotFound) {
+        return @"rook.png";
     }
     else if ([[p getName] rangeOfString:@"queen"].location != NSNotFound) {
         return @"queen.png";
@@ -686,9 +686,9 @@
     return false;
 }
 
-// helper function to rockMove()
+// helper function to rookMove()
 // TODO : implement queenMove with isPieceBlocked() for clarity.
--(BOOL)isValidRockMove:(Piece *)pi to : (Piece*) t {
+-(BOOL)isValidrookMove:(Piece *)pi to : (Piece*) t {
     
     int startX = [pi getX];
     int startY = [pi getY];
@@ -698,13 +698,13 @@
     int xDiff = endX - startX;
     int yDiff = endY - startY;
     
-//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidRockMove\n",xDiff, yDiff);
+//    NSLog(@"xDiff : %d \t yDiff : %d -- isValidrookMove\n",xDiff, yDiff);
     
     // all for loops within the inner if blocks are used to make sure that the piece is only going through
     // empty squares to reach the destination square.
     
     if((yDiff == 0) && (xDiff != 0)) {
-        // rock is moving horizontal, along x axis
+        // rook is moving horizontal, along x axis
         // debug print statement :  NSLog(@" piece at %d, %d \t %d,%d \t side = %d\n",i,startY, [p getX], [p getY], [p getSide]);
         // need Piece* p = getPiece() etc.
         if(xDiff < 0) {
@@ -720,7 +720,7 @@
         return true;
     }
     else if((xDiff == 0) && (yDiff != 0)) {
-        // rock is moving vertical, along y axis
+        // rook is moving vertical, along y axis
         // debug print statement : NSLog(@" piece at %d,%d \t %d,%d \t side = %d\n",startX,i, [p getX], [p getY], [p getSide]);
         if(yDiff < 0) {
             for(int i = startY - 1; i > endY; i--)
@@ -739,14 +739,14 @@
     
 }
 
-//rockMove for both colors
--(BOOL)rockMove:(Piece *)pi to :(Piece*)t {
-    if(([pi getSide] != [t getSide]) && [self isValidRockMove:pi to:t]) {
-//        NSLog(@"valid rock move ");
+//rookMove for both colors
+-(BOOL)rookMove:(Piece *)pi to :(Piece*)t {
+    if(([pi getSide] != [t getSide]) && [self isValidrookMove:pi to:t]) {
+//        NSLog(@"valid rook move ");
         return true;
     }
     else {
-//        NSLog(@"invalid rock move");
+//        NSLog(@"invalid rook move");
         return false;
     }
 }
@@ -915,7 +915,7 @@
         if(ABS(xDiff) == ABS(yDiff))
             return [self isValidBishopMove:pi to:t];
         else
-            return [self isValidRockMove:pi to:t];
+            return [self isValidrookMove:pi to:t];
     }
     else {
 //        NSLog(@"invalid queen move -- isValidQueenMove");
@@ -1054,8 +1054,8 @@
         }
         return false;
     }
-    else if([pi.getName rangeOfString:@"rock"].location != NSNotFound) {
-        if ([self rockMove:pi to:t]) {
+    else if([pi.getName rangeOfString:@"rook"].location != NSNotFound) {
+        if ([self rookMove:pi to:t]) {
 
             return true;
         }

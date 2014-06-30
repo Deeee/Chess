@@ -10,7 +10,10 @@
 
 @implementation HardBot
 @synthesize manual;
-
+@synthesize pawnValue;
+-(void) botMove {
+    [self scriptMove];
+}
 -(void) scriptMove {
     NSArray *readin = [manual outputScript];
     Piece *pi = [self getPieceAt:[[readin objectAtIndex:0] boardPointGetX] with:[[readin objectAtIndex:0] boardPointGetY]];
@@ -49,7 +52,7 @@
         self.undecidedReturnTrue = 0;
         [self.undecidedMove removeAllObjects];
         self.terms = 2;
-        [self scriptMove];
+        [self botMove];
         self.terms = 1;
         return;
     }
@@ -59,5 +62,103 @@
     //        [self.undecidedMove removeAllObjects];
     //        self.terms = 1;
     //    }
+}
+
+-(void) addRelativeValue {
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece * p in i) {
+            if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
+                [p setRelativeValue:1];
+            }
+            else if ([[p getName] rangeOfString:@"knight"].location != NSNotFound) {
+                [p setRelativeValue:3.2];
+            }
+            else if ([[p getName] rangeOfString:@"bishop"].location != NSNotFound) {
+                [p setRelativeValue:3.33];
+            }
+            else if ([[p getName] rangeOfString:@"rook"].location != NSNotFound) {
+                [p setRelativeValue:5.1];
+            }
+            else if ([[p getName] rangeOfString:@"queen"].location != NSNotFound) {
+                [p setRelativeValue:8.8];
+            }
+            else if([[p getName] rangeOfString:@"king"].location != NSNotFound) {
+                [p setRelativeValue:10];
+            }
+        }
+    }
+    pawnValue = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 8; i++) {
+        NSMutableArray *subArray = [[NSMutableArray alloc] init];
+        for (int j = 1; j < 8; i++) {
+            [subArray addObject:0];
+            if (i == 0 || i == 7) {
+                if (j == 4) {
+                    [subArray addObject:[NSNumber numberWithFloat:0.97]];
+                }
+                else if (j == 5) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.06]];
+                }
+                else {
+                    [subArray addObject:[NSNumber numberWithFloat:0.9]];
+                }
+            }
+            else if (i == 2 || i == 6) {
+                if (j == 4) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.03]];
+                }
+                else if (j == 5) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.12]];
+                }
+                else {
+                    [subArray addObject:[NSNumber numberWithFloat:0.95]];
+                }
+            }
+            else if (i == 3 || i == 5) {
+                if (j == 4) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.17]];
+                }
+                else if (j == 5) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.25]];
+                }
+                else if (j == 3) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.10]];
+                }
+                else {
+                    [subArray addObject:[NSNumber numberWithFloat:1.05]];
+                }
+            }
+            else {
+                if (j == 4) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.27]];
+                }
+                else if (j == 5) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.40]];
+                }
+                else if (j == 3) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.20]];
+                }
+                else if (j == 2) {
+                    [subArray addObject:[NSNumber numberWithFloat:1.15]];
+                }
+                else {
+                    [subArray addObject:[NSNumber numberWithFloat:1.10]];
+                }
+            }
+        }
+    }
+    
+}
+
+-(void) refreshRelativeValue {
+    //depending on opening or ending refreshing pawn's value
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece * p in i) {
+            if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
+                
+            }
+        }
+    }
+    
 }
 @end

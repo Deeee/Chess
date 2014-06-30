@@ -42,7 +42,7 @@
 		5B3B3338194D3EA800068A0B /* B_Bishop.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3325194D3EA800068A0B /* B_Bishop.psd */; };
 		5B3B3339194D3EA800068A0B /* bknight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3326194D3EA800068A0B /* bknight.png */; };
 		5B3B333A194D3EA800068A0B /* B_Knight.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3327194D3EA800068A0B /* B_Knight.psd */; };
-		5B3B333B194D3EA800068A0B /* brock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3328194D3EA800068A0B /* brock.png */; };
+		5B3B333B194D3EA800068A0B /* brook.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3328194D3EA800068A0B /* brook.png */; };
 		5B3B333C194D3EA800068A0B /* B_Rock.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3329194D3EA800068A0B /* B_Rock.psd */; };
 		5B3B333D194D3EA800068A0B /* bpawn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332A194D3EA800068A0B /* bpawn.png */; };
 		5B3B333E194D3EA800068A0B /* B_Pawn.psd in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332B194D3EA800068A0B /* B_Pawn.psd */; };
@@ -52,7 +52,7 @@
 		5B3B3342194D3EA800068A0B /* queen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B332F194D3EA800068A0B /* queen.png */; };
 		5B3B3343194D3EA800068A0B /* king.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3330194D3EA800068A0B /* king.png */; };
 		5B3B3344194D3EA800068A0B /* bishop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3331194D3EA800068A0B /* bishop.png */; };
-		5B3B3345194D3EA800068A0B /* rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3332194D3EA800068A0B /* rock.png */; };
+		5B3B3345194D3EA800068A0B /* rook.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B3332194D3EA800068A0B /* rook.png */; };
 		5B3B3348194E4FD000068A0B /* Piece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B3347194E4FD000068A0B /* Piece.m */; };
 		5B3B334B194E7B2400068A0B /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B334A194E7B2400068A0B /* Board.m */; };
 		5B3B334D194E9D2200068A0B /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B334C194E9D2200068A0B /* empty.png */; };
@@ -120,7 +120,7 @@
 		5B3B3325194D3EA800068A0B /* B_Bishop.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Bishop.psd; sourceTree = "<group>"; };
 		5B3B3326194D3EA800068A0B /* bknight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bknight.png; sourceTree = "<group>"; };
 		5B3B3327194D3EA800068A0B /* B_Knight.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Knight.psd; sourceTree = "<group>"; };
-		5B3B3328194D3EA800068A0B /* brock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brock.png; sourceTree = "<group>"; };
+		5B3B3328194D3EA800068A0B /* brook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brook.png; sourceTree = "<group>"; };
 		5B3B3329194D3EA800068A0B /* B_Rock.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Rock.psd; sourceTree = "<group>"; };
 		5B3B332A194D3EA800068A0B /* bpawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bpawn.png; sourceTree = "<group>"; };
 		5B3B332B194D3EA800068A0B /* B_Pawn.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = B_Pawn.psd; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		5B3B332F194D3EA800068A0B /* queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queen.png; sourceTree = "<group>"; };
 		5B3B3330194D3EA800068A0B /* king.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = king.png; sourceTree = "<group>"; };
 		5B3B3331194D3EA800068A0B /* bishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bishop.png; sourceTree = "<group>"; };
-		5B3B3332194D3EA800068A0B /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
+		5B3B3332194D3EA800068A0B /* rook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rook.png; sourceTree = "<group>"; };
 		5B3B3346194E4FD000068A0B /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
 		5B3B3347194E4FD000068A0B /* Piece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Piece.m; sourceTree = "<group>"; };
 		5B3B3349194E7B2400068A0B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 				5B3B3325194D3EA800068A0B /* B_Bishop.psd */,
 				5B3B3326194D3EA800068A0B /* bknight.png */,
 				5B3B3327194D3EA800068A0B /* B_Knight.psd */,
-				5B3B3328194D3EA800068A0B /* brock.png */,
+				5B3B3328194D3EA800068A0B /* brook.png */,
 				5B3B3329194D3EA800068A0B /* B_Rock.psd */,
 				5B3B332A194D3EA800068A0B /* bpawn.png */,
 				5B3B332B194D3EA800068A0B /* B_Pawn.psd */,
@@ -310,7 +310,7 @@
 				5B3B332F194D3EA800068A0B /* queen.png */,
 				5B3B3330194D3EA800068A0B /* king.png */,
 				5B3B3331194D3EA800068A0B /* bishop.png */,
-				5B3B3332194D3EA800068A0B /* rock.png */,
+				5B3B3332194D3EA800068A0B /* rook.png */,
 				5B3B331E194D2DB800068A0B /* Chess.board.fabric.png */,
 			);
 			path = images;
@@ -416,8 +416,8 @@
 				5B3B3341194D3EA800068A0B /* knight.png in Resources */,
 				5B3B333F194D3EA800068A0B /* pawn.png in Resources */,
 				5B3B3342194D3EA800068A0B /* queen.png in Resources */,
-				5B3B3345194D3EA800068A0B /* rock.png in Resources */,
-				5B3B333B194D3EA800068A0B /* brock.png in Resources */,
+				5B3B3345194D3EA800068A0B /* rook.png in Resources */,
+				5B3B333B194D3EA800068A0B /* brook.png in Resources */,
 				5B322B151953E1CD00AC9190 /* highlight.png in Resources */,
 				5B0FA0F8194BD5B300DAE166 /* Shader.vsh in Resources */,
 				5B3B3333194D3EA800068A0B /* bking.png in Resources */,

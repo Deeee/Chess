@@ -11,8 +11,10 @@
 
 @interface HardBot : Board
 @property ChessManual *manual;
+@property NSMutableArray *pawnValue;
+-(void) botMove;
 -(void) scriptMove;
 -(void) changeTerms;
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;
-
+-(void) addRelativeValue;
 @end

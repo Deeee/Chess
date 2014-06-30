@@ -13,6 +13,7 @@
 @property UIImageView *img;
 @property NSMutableString *name;
 @property int side;
+@property double relativeValue;
 //Init
 -(id) initWithImg:(UIImageView *) image and:(int)X with:(int)Y;
 -(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)X with:(int)Y with:(int)Side;
