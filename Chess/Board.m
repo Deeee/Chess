@@ -1064,9 +1064,9 @@
 }
 
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t {
-    if ([pi getSide] == [t getSide]) {
-        return false;
-    }
+//    if ([pi getSide] == [t getSide]) {
+//        return false;
+//    }
     NSLog(@"isunchecked.");
     int tempSideT = [t getSide];
     int tempSideP = [pi getSide];

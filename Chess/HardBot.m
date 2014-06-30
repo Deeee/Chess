@@ -22,6 +22,66 @@
         
     }
 }
+-(NSMutableArray *)isGettingTaken:(Piece *)pi{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if ([t getSide] == 1) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    [tempArray addObject:t];
+                }
+            }
+        }
+    }
+    return tempArray;
+}
+
+-(NSMutableArray *)isGuardingPiece:(Piece *)pi{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if ([t getSide] == 2) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    [tempArray addObject:t];
+                }
+            }
+        }
+    }
+    return tempArray;
+}
+-(BOOL)isWorthTaken:(Piece *)pi to:(Piece *)t {
+    if ([pi getSide] == [t getSide]) {
+        return false;
+    }
+    NSLog(@"isWorthTaken.");
+    int tempSideT = [t getSide];
+    int tempSideP = [pi getSide];
+    NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
+    NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
+    [t setName:[pi getName]];
+    [pi setName:[NSMutableString stringWithString:@"empty"]];
+    [t setSide:[pi getSide]];
+    [pi setSide:0];
+    NSMutableArray *isTakenArray = [self isGettingTaken:pi];
+    NSMutableArray *isGuardArray = [self isGuardingPiece:pi];
+    if ([isTakenArray count] == 0 ) {
+        [t setSide:tempSideT];
+        [t setName:tempNameT];
+        [pi setSide:tempSideP];
+        [pi setName:tempNameP];
+        NSLog(@"ischecked return false");
+        return false;
+    }
+    else {
+        [t setSide:tempSideT];
+        [t setName:tempNameT];
+        [pi setSide:tempSideP];
+        [pi setName:tempNameP];
+        NSLog(@"isunchecked return true");
+        return true;
+    }
+}
+
 -(void) normalMove {
     NSMutableArray *edible = [[NSMutableArray alloc] init];
     for (NSMutableArray *i in self.pieceSet) {
