@@ -261,13 +261,13 @@
     if([self isValidCoordinate:kingX - 1 and:kingY - 1])
         [kingMoves addObject:[self getPieceAt:kingX - 1 with:kingY - 1]];
 
-    for(int i = 0; i < [kingMoves count]; i++) {
-        if([self isOppColor:king and:[kingMoves objectAtIndex:i]] && (![self isAttacked:kingMoves[i]])) {
-            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
-            [attackCombo addObject:[kingMoves objectAtIndex:i]];
-            return attackCombo;
-        }
-    }
+//    for(int i = 0; i < [kingMoves count]; i++) {
+//        if([self isOppColor:king and:[kingMoves objectAtIndex:i]] && (![self isAttacked:kingMoves[i]])) {
+//            NSLog(@"can attack %@ at (%d,%d)\t by %@ at (%d,%d)\n",kingMoves[i], [kingMoves[i] getX], [kingMoves[i] getY],king, [king getX], [king getY]);
+//            [attackCombo addObject:[kingMoves objectAtIndex:i]];
+//            return attackCombo;
+//        }
+//    }
     return NULL;
 }
 

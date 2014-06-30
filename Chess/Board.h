@@ -45,10 +45,10 @@
 -(BOOL)isValidBishopMove:(Piece *)pi to:(Piece *)t;
 -(BOOL)bishopMove:(Piece *)pi to :(Piece *)t;
 
--(BOOL) isAttacked:(Piece*) p;
--(BOOL) isAttackedHorizontal:(Piece*)king;
--(BOOL) isAttackedDiagonal:(Piece*)king;
--(BOOL) isAttackedByKnight:(Piece*)king;
+-(BOOL) isAttacked:(Piece*)piece and :(int) color;
+-(BOOL) isAttackedHorizontal:(Piece*)piece and :(int) color;
+-(BOOL) isAttackedDiagonal:(Piece*)piece and :(int)color;
+-(BOOL) isAttackedByKnight:(Piece*)piece and :(int) color;
 
 -(void) debugMove:(Piece *)p to:(Piece *)t;
 -(BOOL) isChecked;
