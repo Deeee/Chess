@@ -571,10 +571,17 @@
         [possibleKnights addObject:[self getPieceAt:kingX - 1 with:kingY - 2]];
     
     
-    for(int i = 0; i < [possibleKnights count]; i++)
-        if([self isKnight:possibleKnights[i]] && [self isOppColor:king and:possibleKnights[i]])
-            return true;
-    
+    if([king getSide] == 0) {
+        // account for if paramter piece is empty.
+        for(int i = 0; i < [possibleKnights count]; i++)
+            if([self isKnight:possibleKnights[i]] && ([possibleKnights[i] getSide] > 0))
+                return true;
+    }
+    else {
+        for(int i = 0; i < [possibleKnights count]; i++)
+            if([self isKnight:possibleKnights[i]] && [self isOppColor:king and:possibleKnights[i]])
+                return true;
+    }
     return false;
 }
 
@@ -627,7 +634,6 @@
 -(BOOL) isSameColor: (Piece *)pi and :(Piece *)t {
     return [t getSide] == [pi getSide] ;
 }
-
 
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t {
     if ([pi getY] == 6) {
@@ -958,21 +964,110 @@
     }
 }
 
--(BOOL)kingMove:(Piece *)pi to:(Piece *)t {
+-(BOOL)kingCanCastle:(Piece *)pi to :(Piece *)t {
+    NSLog(@"checking for castling");
     //isCastlePiecesMoved --> initialized all to 1, if 1, meaning it has not moved yet.
-        // LWR, WK, RWR
-        // LBR, BK, RBR
+    // LWR, WK, RWR
+    // LBR, BK, RBR
+    int xDiff = [t getX] - [pi getX];
+    
+    // white king has not moved.
+    if(([pi getSide] == 1) && ([[isCastlePiecesMoved objectAtIndex:1]  isEqual: @(1)])) {
+        
+    // king side castle with left white rook.
+        if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:0] isEqualToValue:@(1)])) {
+            NSLog(@"white king side castle");
+                // rook @ (0,0) and king @ (3,0) - > check (1,0) and (2,0)
+            for(int i = 1; i < 3; i++) {
+                Piece *temp = [self getPieceAt:i with:0];
+                if(!([temp getSide] == 0))
+                    return false;
+                else if([self isAttacked:temp])
+                    return false;
+            }
+            NSLog(@"can castle 1");
+            return true;
+    
+        }
+    // queen side castle with right white rook.
+        else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:2] isEqualToValue:@(1)])) {
+            NSLog(@"white queen side castle");
+                // rook @ (7,0) and king @ (3,0) --> check (4,0) (5,0) and (6,0)
+            for(int i = 4; i < 7; i++) {
+                Piece *temp = [self getPieceAt:i with:0];
+                if(!([temp getSide] == 0))
+                    return false;
+                else if([self isAttacked:temp])
+                    return false;
+            }
+            NSLog(@"can castle 2");
+            return true;
+        }
+        
+    }
+    
+    // black king has not moved.
+    else if(([pi getSide] == 2) && ([[isCastlePiecesMoved objectAtIndex:4]  isEqual: @(1)])) {
+
+    // king side castle with left black rook.
+        if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:3] isEqualToValue:@(1)])) {
+            NSLog(@"black king side castle");
+                // rook @ (0,7) and king @ (3,7) --> (1,7) and (2,7)
+            for(int i = 1; i < 3; i++) {
+                Piece *temp = [self getPieceAt:i with:7];
+                [temp printInformation];
+                if(!([temp getSide] == 0)) {
+                    NSLog(@"1");
+                    return false;
+                }
+                
+                else if([self isAttacked:temp]) {
+                    NSLog(@"2");
+                    return false;
+                }
+            }
+            NSLog(@"can castle 3");
+            return true;
+            
+        }
+        
+        // queen side castle with right black rook.
+        else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:5] isEqualToValue:@(1)])) {
+            NSLog(@"black queen side castle");
+                // rook @ (7,7) and king @ (3,7) --> (4,7) (5,7) (6,7)
+            for(int i = 4; i < 8; i++) {
+                Piece *temp = [self getPieceAt:i with:7];
+                if(!([temp getSide] == 0))
+                    return false;
+                else if([self isAttacked:temp])
+                    return false;
+            }
+            NSLog(@"can castle 4");
+            return true;
+        }
+    }
+    NSLog(@" can not castle");
+    return false;
+}
+
+-(BOOL)kingMove:(Piece *)pi to:(Piece *)t {
+    
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
+    NSLog(@"in kingMove with xDiff == %d\n", xDiff);
+    [pi printInformation];
+    [t printInformation];
     
     
     if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
-//        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
+        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
     }
     
     //check for castling.
-    
+    if((ABS(xDiff) == 2) && (yDiff == 0)) {
+        return [self kingCanCastle:pi to:t];
+    }
     
     return false;
 }
@@ -1028,7 +1123,7 @@
     }
     
 }
-//requrieMove ~ validating moves ?
+
 -(BOOL) validateMove:(Piece *) pi to:(Piece *)t {
     //    if (isDebug == 1) {
     //        return true;
