@@ -1277,7 +1277,7 @@
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide]) {
 //                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
-                if ([self validateMove:pi to:t]) {
+                if ([self validateMove:pi to:t] && [pi getSide] != [t getSide] && [self isUnchecked:pi to:t]) {
 //                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
                     [availableMovesArray addObject:pi];
                     [availableMovesArray addObject:t];

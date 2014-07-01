@@ -42,38 +42,38 @@
 }
 
 -(void) loadScriptStoneOpening {
-    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:3 andY:4]];
-    
     [_currentScript addObject:[self makeBoardPointX:4 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:4 andY:5]];
+    [_currentScript addObject:[self makeBoardPointX:4 andY:4]];
     
-    [_currentScript addObject:[self makeBoardPointX:5 andY:7]];
+    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
     [_currentScript addObject:[self makeBoardPointX:3 andY:5]];
+    
+    [_currentScript addObject:[self makeBoardPointX:2 andY:7]];
+    [_currentScript addObject:[self makeBoardPointX:4 andY:5]];
     
 //    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
 //    [_currentScript addObject:[self makeBoardPointX:3 andY:4]];
     
-    [_currentScript addObject:[self makeBoardPointX:5 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:5 andY:4]];
-    
-    [_currentScript addObject:[self makeBoardPointX:6 andY:7]];
-    [_currentScript addObject:[self makeBoardPointX:5 andY:5]];
-    
-    [_currentScript addObject:[self makeBoardPointX:7 andY:7]];
-    [_currentScript addObject:[self makeBoardPointX:5 andY:7]];
-    
     [_currentScript addObject:[self makeBoardPointX:2 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:2 andY:5]];
-    
-    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
-    [_currentScript addObject:[self makeBoardPointX:3 andY:4]];
-    
-    [_currentScript addObject:[self makeBoardPointX:5 andY:5]];
-    [_currentScript addObject:[self makeBoardPointX:4 andY:3]];
+    [_currentScript addObject:[self makeBoardPointX:2 andY:4]];
     
     [_currentScript addObject:[self makeBoardPointX:1 andY:7]];
-    [_currentScript addObject:[self makeBoardPointX:3 andY:6]];
+    [_currentScript addObject:[self makeBoardPointX:2 andY:5]];
+    
+    [_currentScript addObject:[self makeBoardPointX:3 andY:7]];
+    [_currentScript addObject:[self makeBoardPointX:1 andY:7]];
+    
+    [_currentScript addObject:[self makeBoardPointX:5 andY:6]];
+    [_currentScript addObject:[self makeBoardPointX:5 andY:5]];
+    
+//    [_currentScript addObject:[self makeBoardPointX:4 andY:6]];
+//    [_currentScript addObject:[self makeBoardPointX:4 andY:4]];
+    
+    [_currentScript addObject:[self makeBoardPointX:2 andY:5]];
+    [_currentScript addObject:[self makeBoardPointX:3 andY:3]];
+    
+    [_currentScript addObject:[self makeBoardPointX:6 andY:7]];
+    [_currentScript addObject:[self makeBoardPointX:4 andY:6]];
     if (_side == 1) {
         NSLog(@"side is 1");
         //TODO: add script for white side.

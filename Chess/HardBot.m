@@ -82,21 +82,20 @@
     }
 }
 
+
+
+-(NSMutableArray *) findBestMove:(NSMutableArray *)allMoves {
+    NSMutableArray *bestMoves = [[NSMutableArray alloc] init];
+    
+    return bestMoves;
+}
+
 -(void) normalMove {
-    NSMutableArray *edible = [[NSMutableArray alloc] init];
+    NSMutableArray *avaMoves = [[NSMutableArray alloc] init];
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *p in i) {
             if ([p getSide] == 2) {
-                for (NSMutableArray *j in self.pieceSet) {
-                    for (Piece *t in j) {
-                        if ([t getSide] == 1) {
-                            if ([self validateMove:p to:t] && [self isUnchecked:p to:t]) {
-                                [edible addObject:p];
-                                [edible addObject:t];
-                            }
-                        }
-                    }
-                }
+                [avaMoves addObject:[self AvailableMovesForOnePiece:p]];
             }
         }
     }
@@ -142,6 +141,11 @@
 }
 
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t {
+    if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && [self kingCanCastle:p to:t]) {
+        [self castlingMove:p to:t];
+        return;
+        
+    }
     NSLog(@"in bot move");
     UIImageView *tempImage2 = [t getImage];
     UIImageView *tempImage = [p getImage];
