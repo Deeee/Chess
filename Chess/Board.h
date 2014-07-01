@@ -14,6 +14,8 @@
 
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
+@property Piece *tempRook;
+@property Piece *oriRook;
 @property int terms;
 @property Player *white;
 @property Player *black;
@@ -23,6 +25,7 @@
 @property NSMutableArray *isCastlePiecesMoved;
 @property int mode;
 @property NSMutableArray *checkingPieces;
+@property int isCastled;
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
@@ -61,6 +64,8 @@
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 -(NSMutableArray *) getPieceSet;
 -(NSMutableArray *) AvailableMovesForOnePiece:(Piece *)pi;
+-(BOOL)kingCanCastle:(Piece *)pi to :(Piece *)t;
+-(void) castlingMove:(Piece *)p to:(Piece *)t;
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;

@@ -509,7 +509,6 @@
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
     if (isTouched == 1 && isMoved == 1) {
         for (UIImageView *iView in self.view.subviews) {
-            //NSLog(@"%d, %d",k++, isTouched);
             //enmu for 35 times wired
             if ([iView isMemberOfClass:[UIImageView class]] && iView != backgroud && ![iView.image isEqual:[tempPiece getImage].image] ) {
                 //NSLog(@"%d",k++);
@@ -531,41 +530,18 @@
                             [self endGame];
                         }
                     }
-                    if ([myBoard setMove:tempPiece to:t and:isDebug]) {
+//                    if ([[tempPiece getName] rangeOfString:@"king"].location != NSNotFound) {
+//                        if ([myBoard kingCanCastle:tempPiece to:t]) {
+//                            [myBoard castlingMove:tempPiece to:t];
+//                        }
+//                    }
+                    else if ([myBoard setMove:tempPiece to:t and:isDebug]) {
                         [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-                        
-                        //                        if (isDebug == 0) {
-                        //                            [myBoard changeTerms];
-                        //                        }
+
                         [self removeAllCircles];
                     }
-                    
-                    
                 }
-                //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-                //                                                   self.dragObject.frame.size.width,
-                //                                                   self.dragObject.frame.size.height);
-                
             }
-            //            if (isMoved == 1) {
-            //
-            //
-            //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-            //                                                   self.dragObject.frame.size.width - 20,
-            //                                                   self.dragObject.frame.size.height - 20);
-            //                isMoved = 0;
-            //            }
-            //            else {
-            //                self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-            //                                                   self.dragObject.frame.size.width,
-            //                                                   self.dragObject.frame.size.height);
-            //            }
-            //            if (switcher == 1) {
-            //                //NSLog(@"switching to 0");
-            //                isTouched = 0;
-            //
-            //                return;
-            //            }
         }
         isMoved = 0;
         isTouched = 0;
@@ -573,13 +549,6 @@
                                            self.dragObject.frame.size.width - 20,
                                            self.dragObject.frame.size.height - 20);
     }
-    //    else {
-    //        NSLog(@"in else ");
-    //        self.dragObject.frame = CGRectMake(self.homePosition.x, self.homePosition.y,
-    //                                           self.dragObject.frame.size.width,
-    //                                           self.dragObject.frame.size.height);
-    //    }
-    
 }
 
 - (IBAction)clickOnComfirm {

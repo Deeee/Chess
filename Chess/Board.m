@@ -18,6 +18,9 @@
 @synthesize isCastlePiecesMoved;
 @synthesize mode;
 @synthesize checkingPieces;
+@synthesize tempRook;
+@synthesize oriRook;
+@synthesize isCastled;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -119,6 +122,66 @@
         return nil;
     }
 }
+
+-(void) undoCastling{
+    isCastled = 0;
+    NSLog(@"in undoCastling");
+    Piece *tempP = tempRook;
+    Piece *tempT = oriRook;
+    [tempT setName:[tempP getName]];
+    [tempP setName: [NSMutableString stringWithFormat: @"empty"]];
+    [tempT setSide:[tempP getSide]];
+    [tempP setSide:0];
+    [tempP printInformation];
+    [tempT printInformation];
+    
+    [self imageExchange:[tempP getImage] with:[tempT getImage]];
+
+}
+
+-(Piece *) getAccordingRook:(Piece *)king to:(Piece *)des{
+    int _side = [king getSide];
+    int _x = [des getX];
+    NSLog(@"side is %d, x is %d",_side, _x);
+    if (_x > 4 && _side == 1) {
+        return [self getPieceAt:7 with:0];
+    }
+    else if (_x > 4 && _side == 2) {
+        return [self getPieceAt:7 with:7];
+    }
+    else if (_x < 4 && _side == 1) {
+        return [self getPieceAt:0 with:0];
+    }
+    else if (_x < 4 && _side == 2) {
+        return [self getPieceAt:0 with:7];
+    }
+    else {
+        NSLog(@"IN FIND ACCORDING ROOK FOR CASTLING MOVE ERROR, CANT FIND ROOK");
+        return nil;
+    }
+}
+
+-(void) castlingMove:(Piece *)p to:(Piece *)t{
+    isCastled = 1;
+    Piece *movingRook = [self getAccordingRook:p to:t];
+    tempRook = movingRook;
+    int _x = [t getX];
+    NSLog(@"in castling move t x is %d", [t getX]);
+    if (_x > 4) {
+        NSLog(@"_x bigger > 4");
+        Piece *des = [self getPieceAt:([t getX] - 1) with:[p getY]];
+        oriRook = des;
+        [self debugMove:movingRook to:des];
+    }
+    else {
+        Piece *des = [self getPieceAt:([t getX]+1) with:[p getY]];
+        oriRook = des;
+        [self debugMove:movingRook to:des];
+    }
+    [self debugMove:p to:t];
+
+}
+
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug{
     //NSLog(@"in board setMove");
     if (isDebug == 1) {
@@ -136,6 +199,9 @@
             return false;
         }
         else {
+            if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && isCastled) {
+                [self undoCastling];
+            }
             Piece *tempP = [undecidedMove objectAtIndex:0];
             Piece *tempT = [undecidedMove objectAtIndex:1];
             NSLog(@"tempP");
@@ -164,33 +230,32 @@
     else {
         NSLog(@"undecidedmove is empty");
 
-//        NSLog(@"saved piece p:");
-//        [[undecidedMove objectAtIndex:0] printInformation];
-//        NSLog(@"saved piece t:");
-//        [[undecidedMove objectAtIndex:1] printInformation];
-
     }
     if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self validateMove:p to:t]) {
         //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         [undecidedMove addObject:[p copyWithSelf]];
         [undecidedMove addObject:[t copyWithSelf]];
-        if ([[t getName] isEqualToString:@"empty"] ) {
-            //NSLog(@"yes it is equal to empty");
-
-            UIImageView *tempImage = [t getImage];
-            UIImageView *tempImage2 = [p getImage];
-            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
-            [self imageExchange:tempImage with:tempImage2];
-            [t setName:[p getName]];
-            [p setName:[NSMutableString stringWithString:@"empty"]];
-            [t setSide:[p getSide]];
-            [p setSide:0];
-            NSLog(@"adding undecidedmoves");
-
+//        if ([[t getName] isEqualToString:@"empty"] ) {
+//            //NSLog(@"yes it is equal to empty");
+//
+//            UIImageView *tempImage = [t getImage];
+//            UIImageView *tempImage2 = [p getImage];
+//            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
+//            [self imageExchange:tempImage with:tempImage2];
+//            [t setName:[p getName]];
+//            [p setName:[NSMutableString stringWithString:@"empty"]];
+//            [t setSide:[p getSide]];
+//            [p setSide:0];
+//            NSLog(@"adding undecidedmoves");
+//
+//            return true;
+//            
+//        }
+//        else if([t getSide] != [p getSide]) {
+        if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && [self kingCanCastle:p to:t]) {
+                [self castlingMove:p to:t];
             return true;
-            
         }
-        else if([t getSide] != [p getSide]) {
             NSLog(@"t side isnt same to p side");
             UIImageView *tempImage2 = [t getImage];
             UIImageView *tempImage = [p getImage];
@@ -202,9 +267,10 @@
             [p setSide:0];
             NSLog(@"adding undecidedmoves");
 
+
             return true;
             
-        }
+//        }
     }
     //added this
     else {
@@ -1122,7 +1188,10 @@
         if ([self kingMove:pi to:t]) {
             return true;
         }
-        return false;
+        else {
+            NSLog(@"king validate returns false");
+            return false;
+        }
     }
     else if([pi isQueen]) {
         if ([self queenMove:pi to:t]) {
