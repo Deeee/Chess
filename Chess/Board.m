@@ -1288,4 +1288,194 @@
     }
     return availableMovesArray;
 }
+
+-(NSMutableArray *)getKnightPossibilities:(Piece*)knight {
+    NSMutableArray * possibleKnights = [[NSMutableArray alloc] init];
+    
+    int knightX = [knight getX];
+    int knightY = [knight getY];
+    
+    if([self isValidCoordinate:knightX + 2 and:knightY + 1])
+        [possibleKnights addObject:[self getPieceAt:knightX + 2 with:knightY + 1]];
+    if([self isValidCoordinate:knightX + 2 and:knightY - 1])
+        [possibleKnights addObject:[self getPieceAt:knightX + 2 with:knightY - 1]];
+    if([self isValidCoordinate:knightX -2 and:knightY + 1])
+        [possibleKnights addObject:[self getPieceAt:knightX -2 with:knightY + 1]];
+    if([self isValidCoordinate:knightX -2 and:knightY - 1])
+        [possibleKnights addObject:[self getPieceAt:knightX -2 with:knightY - 1]];
+    if([self isValidCoordinate:knightX + 1 and:knightY + 2])
+        [possibleKnights addObject:[self getPieceAt:knightX + 1 with:knightY + 2]];
+    if([self isValidCoordinate:knightX + 1 and:knightY - 2])
+        [possibleKnights addObject:[self getPieceAt:knightX + 1 with:knightY - 2]];
+    if([self isValidCoordinate:knightX - 1 and:knightY + 2])
+        [possibleKnights addObject:[self getPieceAt:knightX - 1 with:knightY + 2]];
+    if([self isValidCoordinate:knightX - 1 and:knightY - 2])
+        [possibleKnights addObject:[self getPieceAt:knightX - 1 with:knightY - 2]];
+    
+    return possibleKnights;
+}
+
+-(int) getKnightMobility:(Piece *)knight {
+    NSLog(@"in getKnightMobility");
+    NSMutableArray* possibleKnights = [self getKnightPossibilities:knight];
+    int score = 0;
+    for(int i = 0; i < [possibleKnights count]; i++)
+        if([[possibleKnights objectAtIndex:i] getSide] == 0)
+            score++;
+    NSLog(@"Knight at (%d,%d) has mobility score : %d\n",[knight getX],[knight getY],score);
+    return score;
+}
+
+-(int) getBishopMobility:(Piece *)bishop {
+    int score = 0;
+    int oppSide = 3 - [bishop getSide];
+    NSLog(@"in getBishopMobility");
+    
+    // up left mobility
+    //    NSLog(@"  UP LEFT");
+    int tempY = [bishop getY];
+    for(int i = [bishop getX] - 1; i > -1; i--) {
+        int place = --tempY;
+        if([self isValidCoordinate:i and:place]) {
+            Piece *p = [self getPieceAt:i with:place];
+            if([p getSide] == [bishop getSide])
+                break;
+            else if([p getSide] == oppSide) {
+                score++;
+                break;
+            }
+            else if([p getSide] == 0)
+                score++;
+        }
+    }
+    
+    // up right mobility
+    //    NSLog(@"  UP RIGHT");
+    tempY = [bishop getY];
+    for(int i = [bishop getX] + 1; i < 8; i++) {
+        int place = --tempY;
+        if([self isValidCoordinate:i and:place]) {
+            Piece * p = [self getPieceAt:i with:place];
+            if([p getSide] == [bishop getSide])
+                break;
+            else if([p getSide] == oppSide) {
+                score++;
+                break;
+            }
+            else if([p getSide] == 0)
+                score++;
+        }
+    }
+    
+    // down left attacks
+    //    NSLog(@"  DOWN LEFT");
+    int tempX = [bishop getX];
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = --tempX;
+        if([self isValidCoordinate:place and:i]) {
+            Piece* p = [self getPieceAt:place with:i];
+            if([p getSide] == [bishop getSide])
+                break;
+            else if([p getSide] == oppSide) {
+                score++;
+                break;
+            }
+            else if([p getSide] == 0)
+                score++;
+            }
+    }
+    
+    // down right attacks
+    //    NSLog(@"  DOWN RIGHT");
+    tempX = [bishop getX];
+    for(int i = [bishop getY] + 1; i < 8; i++) {
+        int place = ++tempX;
+        if([self isValidCoordinate:place and:i]) {
+            Piece* p = [self getPieceAt:place with:i];
+            if([p getSide] == [bishop getSide])
+                break;
+            else if([p getSide] == oppSide) {
+                score++;
+                break;
+            }
+            else if([p getSide] == 0)
+                score++;
+        }
+    }
+    NSLog(@"bishop at (%d,%d) has mobility score : %d\n",[bishop getX],[bishop getY],score);
+    return score;
+}
+
+- (int) getRookMobility:(Piece *)rook {
+    
+    int score = 0;
+    int oppSide = 3 - [rook getSide];
+    NSLog(@"in getRookMobility");
+    //to left.
+    for(int i = [rook getX] - 1; i > -1; i--) {
+        Piece* p = [self getPieceAt:i with:[rook getY]];
+        if([p getSide] == [rook getSide])
+            break;
+        else if([p getSide] == oppSide) {
+            score++;
+            break;
+        }
+        else if([p getSide] == 0)
+            score++;
+    }
+    //to right.
+    for(int i = [rook getX] + 1; i < 8; i++) {
+        Piece* p = [self getPieceAt:i with:[rook getY]];
+        if([p getSide] == [rook getSide])
+            break;
+        else if([p getSide] == oppSide) {
+            score++;
+            break;
+        }
+        else if([p getSide] == 0)
+            score++;
+    }
+    //to top.
+    //    NSLog(@" UP");
+    for(int i = [rook getY] - 1; i > -1; i--) {
+        Piece* p = [self getPieceAt:[rook getX] with:i];
+        if([p getSide] == [rook getSide])
+            break;
+        else if([p getSide] == oppSide) {
+            score++;
+            break;
+        }
+        else if([p getSide] == 0)
+            score++;
+    }
+    //to bottom.
+    for(int i = [rook getY] + 1; i < 8; i++) {
+        Piece* p = [self getPieceAt:[rook getX] with:i];
+        if([p getSide] == [rook getSide])
+            break;
+        else if([p getSide] == oppSide) {
+            score++;
+            break;
+        }
+        else if([p getSide] == 0)
+            score++;
+    }
+    NSLog(@"rook at (%d,%d) has mobility score : %d\n",[rook getX],[rook getY],score);
+    return score;
+}
+
+-(int) getMobilityScore:(Piece *) p {
+    if([p isPawn]) {}
+    else if([p isQueen])
+        return [self getBishopMobility:p] + [self getRookMobility:p];
+    else if([p isKing]) {}
+    else if([p isBishop])
+        return [self getBishopMobility:p];
+    else if([p isRook])
+        return [self getRookMobility:p];
+    else if([p isKnight])
+        return [self getKnightMobility:p];
+    return -1;
+}
+
 @end

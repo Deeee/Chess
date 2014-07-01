@@ -604,6 +604,7 @@
             int Y1;
             [scanner scanInt:&Y1];
             NSLog(@"%@ side:%d",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide]);
+            NSLog(@"Mobility %d\n", [myBoard getMobilityScore:[myBoard getPieceAt:X1 with:Y1]]);
         }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];

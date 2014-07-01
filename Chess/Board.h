@@ -69,4 +69,8 @@
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;
+
+-(int) getKnightMobility:(Piece *)knight;
+-(int) getMobilityScore:(Piece *) p;
+-(NSMutableArray *)getKnightPossibilities:(Piece*)knight;
 @end
