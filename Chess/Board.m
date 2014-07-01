@@ -1475,7 +1475,7 @@
         return [self getRookMobility:p];
     else if([p isKnight])
         return [self getKnightMobility:p];
-    return -1;
+    return 0;
 }
 
 @end
