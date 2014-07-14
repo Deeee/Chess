@@ -26,6 +26,8 @@
 		5B0FA106194BD5B300DAE166 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0DD194BD5B300DAE166 /* UIKit.framework */; };
 		5B0FA10E194BD5B300DAE166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B0FA10C194BD5B300DAE166 /* InfoPlist.strings */; };
 		5B0FA110194BD5B300DAE166 /* ChessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0FA10F194BD5B300DAE166 /* ChessTests.m */; };
+		5B1DBFBF19704AFE0059A891 /* classic_board.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1DBFBE19704AFE0059A891 /* classic_board.png */; };
+		5B1DBFC119704CCF0059A891 /* classic.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1DBFC019704CCF0059A891 /* classic.png */; };
 		5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B0F1952A3C600AC9190 /* LinearEquation.m */; };
 		5B322B131953599B00AC9190 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B322B121953599B00AC9190 /* Player.m */; };
 		5B322B151953E1CD00AC9190 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B322B141953E1CD00AC9190 /* highlight.png */; };
@@ -98,6 +100,8 @@
 		5B0FA10B194BD5B300DAE166 /* ChessTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ChessTests-Info.plist"; sourceTree = "<group>"; };
 		5B0FA10D194BD5B300DAE166 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5B0FA10F194BD5B300DAE166 /* ChessTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessTests.m; sourceTree = "<group>"; };
+		5B1DBFBE19704AFE0059A891 /* classic_board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classic_board.png; sourceTree = "<group>"; };
+		5B1DBFC019704CCF0059A891 /* classic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classic.png; sourceTree = "<group>"; };
 		5B322B0E1952A3C600AC9190 /* LinearEquation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearEquation.h; sourceTree = "<group>"; };
 		5B322B0F1952A3C600AC9190 /* LinearEquation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearEquation.m; sourceTree = "<group>"; };
 		5B322B111953599B00AC9190 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
@@ -147,7 +151,6 @@
 		5BFF269C195CE6A50033F2A8 /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
 		5BFF269D195CE6A50033F2A8 /* pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pawn.png; sourceTree = "<group>"; };
 		5BFF269E195CE6A50033F2A8 /* queen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = queen.png; sourceTree = "<group>"; };
-		5BFF269F195CE6A50033F2A8 /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
 		5BFF26A3195CEBA80033F2A8 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = ../MenuViewController.h; sourceTree = "<group>"; };
 		5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = ../MenuViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -284,11 +287,12 @@
 		5B3B331D194D2DB800068A0B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5B1DBFC019704CCF0059A891 /* classic.png */,
+				5B1DBFBE19704AFE0059A891 /* classic_board.png */,
 				5BFF269B195CE6A50033F2A8 /* king.png */,
 				5BFF269C195CE6A50033F2A8 /* knight.png */,
 				5BFF269D195CE6A50033F2A8 /* pawn.png */,
 				5BFF269E195CE6A50033F2A8 /* queen.png */,
-				5BFF269F195CE6A50033F2A8 /* rock.png */,
 				5B7EE4F3195A258800BB53CA /* clean_newlayout.png */,
 				5B3B334C194E9D2200068A0B /* empty.png */,
 				5B3B3320194D3EA800068A0B /* bking.png */,
@@ -414,9 +418,11 @@
 				5B3B3335194D3EA800068A0B /* bqueen.png in Resources */,
 				5B3B3343194D3EA800068A0B /* king.png in Resources */,
 				5B3B3341194D3EA800068A0B /* knight.png in Resources */,
+				5B1DBFC119704CCF0059A891 /* classic.png in Resources */,
 				5B3B333F194D3EA800068A0B /* pawn.png in Resources */,
 				5B3B3342194D3EA800068A0B /* queen.png in Resources */,
 				5B3B3345194D3EA800068A0B /* rook.png in Resources */,
+				5B1DBFBF19704AFE0059A891 /* classic_board.png in Resources */,
 				5B3B333B194D3EA800068A0B /* brook.png in Resources */,
 				5B322B151953E1CD00AC9190 /* highlight.png in Resources */,
 				5B0FA0F8194BD5B300DAE166 /* Shader.vsh in Resources */,

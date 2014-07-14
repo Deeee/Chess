@@ -13,7 +13,7 @@
 @end
 
 @implementation BoardViewController{
-    Board *myBoard;
+    HardBot *myBoard;
 
 }
 @synthesize dragObject;
@@ -522,6 +522,7 @@
                     NSLog(@"setting backgroud");
                     //[myBoard isChecked];
                     //NSLog(@"after checking check %d",[myBoard isInCheck]);
+                    [myBoard addRelativeValue];
                     [myBoard checkStatus];
                     
                     if ([myBoard isInCheck] != 0) {
@@ -535,7 +536,7 @@
 //                            [myBoard castlingMove:tempPiece to:t];
 //                        }
 //                    }
-                    else if ([myBoard setMove:tempPiece to:t and:isDebug]) {
+                     if ([myBoard setMove:tempPiece to:t and:isDebug]) {
                         [[NSString stringWithFormat:@"%@(%d,%d) momved to %@(%d,%d)\n",[tempPiece getName],[tempPiece getX],[tempPiece getY],[t getName],[t getX],[t getY]] writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 
                         [self removeAllCircles];
@@ -603,7 +604,7 @@
             [scanner setScanLocation:[scanner scanLocation] + 1];
             int Y1;
             [scanner scanInt:&Y1];
-            NSLog(@"%@ side:%d",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide]);
+            NSLog(@"%@ side:%d(value:%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -623,10 +624,41 @@
             [self.view bringSubviewToFront:drawView];
             [self showAvailableMoves:t onView:drawView];
             
-            NSLog(@"show available move of %@(%d , %d) side:%d",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide]);
+            NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
         else if ([debuggingWindow.text rangeOfString:@"draw"].location != NSNotFound) {
             
+        }
+        else if ([debuggingWindow.text rangeOfString:@"im"].location != NSNotFound) {
+            if ([myBoard class] != [HardBot class]) {
+                NSLog(@"myboard is not hardbot class");
+            }
+            else {
+                NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+                [scanner scanUpToString:@"." intoString:NULL];
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                int X1;
+                [scanner scanInt:&X1];
+                [scanner scanUpToString:@"." intoString:NULL];
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                int Y1;
+                [scanner scanInt:&Y1];
+                [scanner scanUpToString:@"." intoString:NULL];
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                int X2;
+                [scanner scanInt:&X2];
+                [scanner scanUpToString:@"." intoString:NULL];
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                int Y2;
+                [scanner scanInt:&Y2];
+                Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+                Piece *t = [myBoard getPieceAt:X2 with:Y2];
+                
+                [myBoard imagineMove:pi to:t];
+                [myBoard undoImagineMove:t to:pi];
+                
+                NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
+            }
         }
     }
     debuggingWindow.text = @"";

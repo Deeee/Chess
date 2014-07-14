@@ -29,6 +29,7 @@
 -(Piece *)copyWithSelf;
 -(int) getSide;
 -(void) printInformation;
+-(double) getRelativeValue;
 
 -(BOOL) isPawn;
 -(BOOL) isRook;

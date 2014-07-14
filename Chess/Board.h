@@ -16,6 +16,7 @@
 @property NSMutableArray* pieceSet;
 @property Piece *tempRook;
 @property Piece *oriRook;
+@property NSMutableArray *pawnValue;
 @property int terms;
 @property Player *white;
 @property Player *black;
@@ -59,6 +60,7 @@
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t;
 -(BOOL) isPermaChecked;
 -(void) checkStatus;
+-(void) addRelativeValue;
 
 -(NSString *) getImageNameFromPiece:(Piece *)p;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
@@ -66,6 +68,8 @@
 -(NSMutableArray *) AvailableMovesForOnePiece:(Piece *)pi;
 -(BOOL)kingCanCastle:(Piece *)pi to :(Piece *)t;
 -(void) castlingMove:(Piece *)p to:(Piece *)t;
+-(void) undoCastling;
+-(Piece *) getAccordingRook:(Piece *)king to:(Piece *)des;
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;

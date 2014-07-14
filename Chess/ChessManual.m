@@ -35,6 +35,9 @@
         return nil;
     }
     else {
+        if ([_currentScript count] <= currentStep) {
+            return nil;
+        }
         result = [_currentScript subarrayWithRange:NSMakeRange(currentStep, 2)];
         currentStep += 2;
     }

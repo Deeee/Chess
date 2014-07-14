@@ -21,6 +21,8 @@
 @synthesize tempRook;
 @synthesize oriRook;
 @synthesize isCastled;
+@synthesize pawnValue;
+
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -66,12 +68,14 @@
         undecidedReturnTrue = 0;
         [undecidedMove removeAllObjects];
         terms = 2;
+        isInCheck = 0;
         
     }
     else {
         undecidedReturnTrue = 0;
         [undecidedMove removeAllObjects];
         terms = 1;
+        isInCheck = 0;
     }
 }
 
@@ -132,8 +136,8 @@
     [tempP setName: [NSMutableString stringWithFormat: @"empty"]];
     [tempT setSide:[tempP getSide]];
     [tempP setSide:0];
-    [tempP printInformation];
-    [tempT printInformation];
+//    [tempP printInformation];
+//    [tempT printInformation];
     
     [self imageExchange:[tempP getImage] with:[tempT getImage]];
 
@@ -164,6 +168,8 @@
 -(void) castlingMove:(Piece *)p to:(Piece *)t{
     isCastled = 1;
     Piece *movingRook = [self getAccordingRook:p to:t];
+    NSLog(@"info for moving rook");
+    [movingRook printInformation];
     tempRook = movingRook;
     int _x = [t getX];
     NSLog(@"in castling move t x is %d", [t getX]);
@@ -204,14 +210,14 @@
             }
             Piece *tempP = [undecidedMove objectAtIndex:0];
             Piece *tempT = [undecidedMove objectAtIndex:1];
-            NSLog(@"tempP");
-            [tempP printInformation];
-            NSLog(@"tempT");
-            [tempT printInformation];
-            NSLog(@"p :");
-            [p printInformation];
-            NSLog(@"t :");
-            [t printInformation];
+//            NSLog(@"tempP");
+//            [tempP printInformation];
+//            NSLog(@"tempT");
+//            [tempT printInformation];
+//            NSLog(@"p :");
+//            [p printInformation];
+//            NSLog(@"t :");
+//            [t printInformation];
             [p setName:[tempT getName]];
             [p setSide:[tempT getSide]];
             [t setName:[tempP getName]];
@@ -349,10 +355,10 @@
                         isInCheck = 1;
                         [checkingPieces addObject:p];
                     }
-                    else {
-                        isInCheck = 0;
-                        //NSLog(@"shouldnt reach here %@, (%d,%d)",[p getName],[p getX],[p getY]);
-                    }
+//                    else {
+//                        isInCheck = 0;
+//                        //NSLog(@"shouldnt reach here %@, (%d,%d)",[p getName],[p getX],[p getY]);
+//                    }
                 }
             }
         }
@@ -370,9 +376,9 @@
                         isInCheck = 2;
                         [checkingPieces addObject:p];
                     }
-                    else {
-                        isInCheck = 0;
-                    }
+//                    else {
+//                        isInCheck = 0;
+//                    }
                 }
                 
             }
@@ -706,7 +712,7 @@
         else
             return false;
     }
-    NSLog(@"unexpected!");
+    NSLog(@"invalid black pawn move!");
     return false;
 }
 
@@ -754,7 +760,7 @@
             return false;
         }
     }
-    NSLog(@"unexpected!");
+    NSLog(@"invalid move by white pawn!");
     return false;
 }
 
@@ -1007,7 +1013,7 @@
 }
 
 -(BOOL)kingCanCastle:(Piece *)pi to :(Piece *)t {
-    NSLog(@"checking for castling");
+    //NSLog(@"checking for castling");
     //isCastlePiecesMoved --> initialized all to 1, if 1, meaning it has not moved yet.
     // LWR, WK, RWR
     // LBR, BK, RBR
@@ -1018,29 +1024,29 @@
         
         // king side castle with left white rook.
         if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:0] isEqualToValue:@(1)])) {
-            NSLog(@"white king side castle");
+            //NSLog(@"white king side castle");
             // rook @ (0,0) and king @ (3,0) - > check (1,0) and (2,0)
             for(int i = 1; i < 3; i++) {
                 Piece *temp = [self getPieceAt:i with:0];
-                [temp printInformation];
+                //[temp printInformation];
                 if([self isAttacked:temp and:2])
                     return false;
             }
-            NSLog(@"can castle 1");
+            //NSLog(@"can castle 1");
             return true;
             
         }
         // queen side castle with right white rook.
         else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:2] isEqualToValue:@(1)])) {
-            NSLog(@"white queen side castle");
+            //NSLog(@"white queen side castle");
             // rook @ (7,0) and king @ (3,0) --> check (4,0) (5,0) and (6,0)
             for(int i = 4; i < 7; i++) {
                 Piece *temp = [self getPieceAt:i with:0];
-                [temp printInformation];
+                //[temp printInformation];
                 if([self isAttacked:temp and :2])
                     return false;
             }
-            NSLog(@"can castle 2");
+            //NSLog(@"can castle 2");
             return true;
         }
         
@@ -1051,39 +1057,39 @@
         
         // king side castle with left black rook.
         if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:3] isEqualToValue:@(1)])) {
-            NSLog(@"black king side castle");
+            //NSLog(@"black king side castle");
             // rook @ (0,7) and king @ (3,7) --> (1,7) and (2,7)
             for(int i = 1; i < 3; i++) {
                 Piece *temp = [self getPieceAt:i with:7];
-                [temp printInformation];
+                //[temp printInformation];
                 
                 if([self isAttacked:temp and :1]) {
-                    NSLog(@"2");
+                    //NSLog(@"2");
                     return false;
                 }
             }
-            NSLog(@"can castle 3");
+            //NSLog(@"can castle 3");
             return true;
             
         }
         
         // queen side castle with right black rook.
         else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:5] isEqualToValue:@(1)])) {
-            NSLog(@"black queen side castle");
+            //NSLog(@"black queen side castle");
             // rook @ (7,7) and king @ (3,7) --> (4,7) (5,7) (6,7)
             for(int i = 4; i < 8; i++) {
                 Piece *temp = [self getPieceAt:i with:7];
-                [temp printInformation];
+                //[temp printInformation];
                 if([self isAttacked:temp and:1]) {
-                    NSLog(@"2");
+                    //NSLog(@"2");
                     return false;
                 }
             }
-            NSLog(@"can castle 4");
+            //NSLog(@"can castle 4");
             return true;
         }
     }
-    NSLog(@" can not castle");
+    //NSLog(@" can not castle");
     return false;
 }
 
@@ -1091,13 +1097,13 @@
     
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
-    NSLog(@"in kingMove with xDiff == %d\n", xDiff);
-    [pi printInformation];
-    [t printInformation];
+    //NSLog(@"in kingMove with xDiff == %d\n", xDiff);
+    //[pi printInformation];
+    //[t printInformation];
     
     
     if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
-        NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
+        //NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
     }
     
@@ -1133,7 +1139,7 @@
 //    if ([pi getSide] == [t getSide]) {
 //        return false;
 //    }
-    NSLog(@"isunchecked.");
+    //NSLog(@"isunchecked.");
     int tempSideT = [t getSide];
     int tempSideP = [pi getSide];
     NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
@@ -1147,7 +1153,7 @@
         [t setName:tempNameT];
         [pi setSide:tempSideP];
         [pi setName:tempNameP];
-        NSLog(@"ischecked return false");
+        //NSLog(@"ischecked return false");
         return false;
     }
     else {
@@ -1155,7 +1161,7 @@
         [t setName:tempNameT];
         [pi setSide:tempSideP];
         [pi setName:tempNameP];
-        NSLog(@"isunchecked return true");
+        //NSLog(@"isunchecked return true");
         return true;
     }
     
@@ -1189,7 +1195,7 @@
             return true;
         }
         else {
-            NSLog(@"king validate returns false");
+            //NSLog(@"king validate returns false");
             return false;
         }
     }
@@ -1220,7 +1226,7 @@
         return false;
     }
     else {
-        NSLog(@"unexpected");
+        NSLog(@"unexpected for validate move for %@(%d,%d) and %@(%d,%d)",[pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
         return false;
     }
     return false;
@@ -1248,7 +1254,7 @@
         
     }
     else {
-        NSLog(@"t side isnt same to p side");
+        //NSLog(@"t side isnt same to p side");
         UIImageView *tempImage2 = [t getImage];
         UIImageView *tempImage = [p getImage];
         NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
@@ -1275,10 +1281,11 @@
     NSLog(@"in availabie moves %@ requiring ava moves", [pi getName]);
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *t in i) {
-            if ([t getSide] != [pi getSide]) {
+            if ([t getSide] != [pi getSide] ) {
 //                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
-                if ([self validateMove:pi to:t] && [pi getSide] != [t getSide] && [self isUnchecked:pi to:t]) {
+                if ([self validateMove:pi to:t] &&  [self isUnchecked:pi to:t]) {
 //                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                    
                     [availableMovesArray addObject:pi];
                     [availableMovesArray addObject:t];
                     
@@ -1287,5 +1294,103 @@
         }
     }
     return availableMovesArray;
+}
+-(void) addRelativeValue {
+    NSLog(@"in add relativevalue");
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece * p in i) {
+            if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
+                [p setRelativeValue:1];
+            }
+            else if ([[p getName] rangeOfString:@"knight"].location != NSNotFound) {
+                [p setRelativeValue:3.2];
+            }
+            else if ([[p getName] rangeOfString:@"bishop"].location != NSNotFound) {
+                [p setRelativeValue:3.33];
+            }
+            else if ([[p getName] rangeOfString:@"rook"].location != NSNotFound) {
+                [p setRelativeValue:5.1];
+            }
+            else if ([[p getName] rangeOfString:@"queen"].location != NSNotFound) {
+                [p setRelativeValue:8.8];
+            }
+            else if([[p getName] rangeOfString:@"king"].location != NSNotFound) {
+                [p setRelativeValue:10];
+            }
+            else if([[p getName] rangeOfString:@"empty"].location != NSNotFound) {
+                [p setRelativeValue:0];
+            }
+            else {
+                NSLog(@"add value wrong for piece %@(%d,%d)",[p getName],[p getX],[p getY]);
+            }
+        }
+    }
+    NSLog(@"finishing setting values");
+    if (1) {
+        
+    }
+    else {
+        pawnValue = [[NSMutableArray alloc] init];
+        for (int i = 0; i < 8; i++) {
+            NSMutableArray *subArray = [[NSMutableArray alloc] init];
+            for (int j = 1; j < 8; j++) {
+                [subArray addObject:[NSNumber numberWithDouble:0]];
+                if (i == 0 || i == 7) {
+                    if (j == 4) {
+                        [subArray addObject:[NSNumber numberWithFloat:0.97]];
+                    }
+                    else if (j == 5) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.06]];
+                    }
+                    else {
+                        [subArray addObject:[NSNumber numberWithFloat:0.9]];
+                    }
+                }
+                else if (i == 2 || i == 6) {
+                    if (j == 4) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.03]];
+                    }
+                    else if (j == 5) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.12]];
+                    }
+                    else {
+                        [subArray addObject:[NSNumber numberWithFloat:0.95]];
+                    }
+                }
+                else if (i == 3 || i == 5) {
+                    if (j == 4) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.17]];
+                    }
+                    else if (j == 5) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.25]];
+                    }
+                    else if (j == 3) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.10]];
+                    }
+                    else {
+                        [subArray addObject:[NSNumber numberWithFloat:1.05]];
+                    }
+                }
+                else {
+                    if (j == 4) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.27]];
+                    }
+                    else if (j == 5) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.40]];
+                    }
+                    else if (j == 3) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.20]];
+                    }
+                    else if (j == 2) {
+                        [subArray addObject:[NSNumber numberWithFloat:1.15]];
+                    }
+                    else {
+                        [subArray addObject:[NSNumber numberWithFloat:1.10]];
+                    }
+                }
+            }
+        }
+    }
+    
 }
 @end
