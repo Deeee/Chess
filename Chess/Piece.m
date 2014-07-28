@@ -14,7 +14,32 @@
 //0, is empty, 1 is white, 2 is black
 @synthesize side;
 
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    //    [aCoder encodeObject:self.pieceSet forKey:@"PROPERTY_KEY"];
+    //    [aCoder encodeObject:self.isCastlePiecesMoved forKey:@"PROPERTY_KEY"];
+    //    [aCoder encodeObject:self.checkingPieces forKey:@"PROPERTY_KEY"];
+    [aCoder encodeObject:self forKey:@"PROPERTY_KEY"];
+    //    [aCoder encodeObject:self.isCastled forKey:@"PROPERTY_KEY"];
+    
+    
+    
+}
 
+-(id) copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    if(self = [super init]){
+        self = [aDecoder decodeObjectForKey:@"PROPERTY_KEY"];
+        
+        //        self.pieceSet = [aDecoder decodeObjectForKey:@"PROPERTY_KEY"];
+        //        self.isCastlePiecesMoved = [aDecoder decodeObjectForKey:@"PROPERTY_KEY"];
+        //        self.checkingPieces = [aDecoder decodeObjectForKey:@"PROPERTY_KEY"];
+        
+    }
+    return self;
+}
 -(id) initWithImg:(UIImageView *)image and:(int)X with:(int)Y {
     self = [super init];
     self.img = image;
@@ -71,8 +96,9 @@
     x = X;
     y = Y;
 }
--(void) printInformation {
+-(NSString *) printInformation {
     NSLog(@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]);
+    return [NSString stringWithFormat:@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]];
 }
 
 

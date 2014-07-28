@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Piece : NSObject
+@interface Piece : NSObject <NSCopying>
 @property int x, y;
 @property UIImageView *img;
 @property NSMutableString *name;
@@ -28,7 +28,7 @@
 -(NSMutableString *) getName;
 -(Piece *)copyWithSelf;
 -(int) getSide;
--(void) printInformation;
+-(NSString *) printInformation;
 -(double) getRelativeValue;
 
 -(BOOL) isPawn;

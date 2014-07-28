@@ -113,6 +113,10 @@
     return self;
 }
 
+-(void) setNeedsDisplay {
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -459,7 +463,6 @@
 - (void)touchesMoved: (NSSet *)touches withEvent:(UIEvent *)event
 {
     if (isMoved == 0 && isTouched == 1) {
-        NSLog(@"expanding");
         [dragObject setAlpha:0.7];
         CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
         CGRect newDragObjectFrame = CGRectMake(touchPoint.x - touchOffset.x,
@@ -502,7 +505,7 @@
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"in touches end %d",[myBoard terms]);
+//    NSLog(@"in touches end %d",[myBoard terms]);
     [dragObject setAlpha:1];
     //switcher for iterating
     //int switcher = 0;
@@ -519,14 +522,12 @@
                     touchPoint.y < iView.frame.origin.y + iView.frame.size.height )
                 {
                     Piece *t = [self getMove:iView];
-                    NSLog(@"setting backgroud");
                     //[myBoard isChecked];
                     //NSLog(@"after checking check %d",[myBoard isInCheck]);
                     [myBoard addRelativeValue];
                     [myBoard checkStatus];
                     
                     if ([myBoard isInCheck] != 0) {
-                        NSLog(@"$1 checking perma");
                         if ( [myBoard isPermaChecked]) {
                             [self endGame];
                         }
@@ -553,18 +554,32 @@
 }
 
 - (IBAction)clickOnComfirm {
-    NSLog(@"^^clickOnConfirm");
     if (isDebug == 0) {
         [myBoard changeTerms];
     }
 }
 
+-(void) showAllValues:(DrawValues *)iView{
+    for (NSMutableArray *i in [myBoard getPieceSet]) {
+        for (Piece *t in i) {
+//                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+//                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                    CGPoint pt = CGPointMake([[t getImage] center].x, [[t getImage] center].y);
+                    //CGPoint pt = CGPointMake([t getImage].frame.origin.x, [t getImage].frame.origin.y);
+            [myBoard addRelativeValue];
+            [iView drawOnSpot:pt withValues:[t getRelativeValue]];
+            
+                
+            
+        }
+    }
+    return ;
+}
 
 
 //Use “.” in front of the location of aixes, type “move” command to force pieces move. For instance “move.0.0.2.2“ means move piece(0,0) to (2,2), it doesn’t go through any piece specific rules checking.
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSLog(@"here");
     if (textField == self.debuggingWindow) {
         if ([debuggingWindow.text rangeOfString:@"move"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -626,10 +641,16 @@
             
             NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
-        else if ([debuggingWindow.text rangeOfString:@"draw"].location != NSNotFound) {
-            
+        else if ([debuggingWindow.text rangeOfString:@"allValues"].location != NSNotFound) {
+            CGRect frame = [UIScreen mainScreen].bounds;
+            DrawValues *valueView = [[DrawValues alloc] initWithFrame:frame];
+            [circleViews addObject:valueView];
+            valueView.userInteractionEnabled = NO;
+            [self.view addSubview:valueView];
+            [self.view bringSubviewToFront:valueView];
+            [self showAllValues:valueView];
         }
-        else if ([debuggingWindow.text rangeOfString:@"im"].location != NSNotFound) {
+        else if ([debuggingWindow.text rangeOfString:@"imob"].location != NSNotFound) {
             if ([myBoard class] != [HardBot class]) {
                 NSLog(@"myboard is not hardbot class");
             }
@@ -654,10 +675,9 @@
                 Piece *pi = [myBoard getPieceAt:X1 with:Y1];
                 Piece *t = [myBoard getPieceAt:X2 with:Y2];
                 
-                [myBoard imagineMove:pi to:t];
-                [myBoard undoImagineMove:t to:pi];
+                [myBoard imagineMoveOnBoard:pi to:t];
                 
-                NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
+//                NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
             }
         }
     }

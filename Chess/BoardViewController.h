@@ -14,6 +14,7 @@
 #import "DrawCircles.h"
 #import "EasyBot.h"
 #import "HardBot.h"
+#import "DrawValues.h"
 @interface BoardViewController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, strong) UIImageView *dragObject;
 @property (nonatomic, assign) CGPoint touchOffset;
@@ -121,6 +122,9 @@
 - (NSInteger)getTagFromPiece:(Piece *) temp;
 - (void)removeAllCircles;
 - (void)endGame;
+-(void) showAllValues:(DrawValues *)iView;
+
+
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;

@@ -120,25 +120,20 @@
         return @"empty.png";
     }
     else {
-        NSLog(@"error from find image names, picece info printed as below");
-        [p printInformation];
-        NSLog(@"----------------------------------------");
+        NSLog(@"error from find image names, picece info printed as below:%@",[p printInformation]);
         return nil;
     }
 }
 
 -(void) undoCastling{
     isCastled = 0;
-    NSLog(@"in undoCastling");
     Piece *tempP = tempRook;
     Piece *tempT = oriRook;
     [tempT setName:[tempP getName]];
     [tempP setName: [NSMutableString stringWithFormat: @"empty"]];
     [tempT setSide:[tempP getSide]];
     [tempP setSide:0];
-//    [tempP printInformation];
-//    [tempT printInformation];
-    
+
     [self imageExchange:[tempP getImage] with:[tempT getImage]];
 
 }
@@ -146,7 +141,6 @@
 -(Piece *) getAccordingRook:(Piece *)king to:(Piece *)des{
     int _side = [king getSide];
     int _x = [des getX];
-    NSLog(@"side is %d, x is %d",_side, _x);
     if (_x > 4 && _side == 1) {
         return [self getPieceAt:7 with:0];
     }
@@ -160,7 +154,7 @@
         return [self getPieceAt:0 with:7];
     }
     else {
-        NSLog(@"IN FIND ACCORDING ROOK FOR CASTLING MOVE ERROR, CANT FIND ROOK");
+        NSLog(@"ERROR:IN FIND ACCORDING ROOK FOR CASTLING MOVE ERROR, CANT FIND ROOK");
         return nil;
     }
 }
@@ -168,13 +162,9 @@
 -(void) castlingMove:(Piece *)p to:(Piece *)t{
     isCastled = 1;
     Piece *movingRook = [self getAccordingRook:p to:t];
-    NSLog(@"info for moving rook");
-    [movingRook printInformation];
     tempRook = movingRook;
     int _x = [t getX];
-    NSLog(@"in castling move t x is %d", [t getX]);
     if (_x > 4) {
-        NSLog(@"_x bigger > 4");
         Piece *des = [self getPieceAt:([t getX] - 1) with:[p getY]];
         oriRook = des;
         [self debugMove:movingRook to:des];
@@ -198,9 +188,7 @@
     if ([undecidedMove count] == 2) {
         BoardPoint *savedP = [[BoardPoint alloc] initWith: [undecidedMove objectAtIndex:0]];
         BoardPoint *savedT = [[BoardPoint alloc] initWith:[undecidedMove objectAtIndex:1]];
-        NSLog(@"undecidedmove equals to 2");
         if (![self comparePoints:[[BoardPoint alloc] initWith:t] to:savedP]  || ![self comparePoints:[[BoardPoint alloc] initWith:p] to:savedT]) {
-            NSLog(@"undecidedmove false");
             undecidedReturnTrue = 0;
             return false;
         }
@@ -210,14 +198,6 @@
             }
             Piece *tempP = [undecidedMove objectAtIndex:0];
             Piece *tempT = [undecidedMove objectAtIndex:1];
-//            NSLog(@"tempP");
-//            [tempP printInformation];
-//            NSLog(@"tempT");
-//            [tempT printInformation];
-//            NSLog(@"p :");
-//            [p printInformation];
-//            NSLog(@"t :");
-//            [t printInformation];
             [p setName:[tempT getName]];
             [p setSide:[tempT getSide]];
             [t setName:[tempP getName]];
@@ -227,7 +207,6 @@
 
             [undecidedMove removeAllObjects];
             undecidedReturnTrue = 1;
-            //i suspect that the image didnt get exchanged
             NSLog(@"undecidedmove true");
             return true;
 
@@ -238,49 +217,21 @@
 
     }
     if ([p getSide] != [t getSide] && [self isUnchecked:p to:t] && [self validateMove:p to:t]) {
-        //NSLog(@"%@ and p name %@",[t getName],[p getName]);
         [undecidedMove addObject:[p copyWithSelf]];
         [undecidedMove addObject:[t copyWithSelf]];
-//        if ([[t getName] isEqualToString:@"empty"] ) {
-//            //NSLog(@"yes it is equal to empty");
-//
-//            UIImageView *tempImage = [t getImage];
-//            UIImageView *tempImage2 = [p getImage];
-//            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
-//            [self imageExchange:tempImage with:tempImage2];
-//            [t setName:[p getName]];
-//            [p setName:[NSMutableString stringWithString:@"empty"]];
-//            [t setSide:[p getSide]];
-//            [p setSide:0];
-//            NSLog(@"adding undecidedmoves");
-//
-//            return true;
-//            
-//        }
-//        else if([t getSide] != [p getSide]) {
         if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && [self kingCanCastle:p to:t]) {
                 [self castlingMove:p to:t];
             return true;
         }
-            NSLog(@"t side isnt same to p side");
             UIImageView *tempImage2 = [t getImage];
             UIImageView *tempImage = [p getImage];
-            NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
             [self imageTakeOver:tempImage takeOver:tempImage2];
             [t setName:[p getName]];
             [p setName: [NSMutableString stringWithFormat: @"empty"]];
             [t setSide:[p getSide]];
             [p setSide:0];
-            NSLog(@"adding undecidedmoves");
-
-
             return true;
             
-//        }
-    }
-    //added this
-    else {
-        NSLog(@"requrie move returned false");
     }
     return false;
     
@@ -290,9 +241,7 @@
     a.image = [UIImage imageNamed:@"empty.png"];
 }
 -(void) imageExchange:(UIImageView *) a with:(UIImageView *) b{
-    //NSLog(@"in image exchange");
     UIImage *c = [a.image copy];
-    //NSLog(@"after copy");
     a.image = b.image;
     b.image = c;
 }
@@ -312,7 +261,6 @@
     else {
         
     }
-//    NSLog(@"last is not able to promote");
     return false;
 }
 //return king from the board
@@ -324,7 +272,7 @@
             }
         }
     }
-    NSLog(@"erro king doesnt exist");
+    NSLog(@"ERROR: king doesnt exist");
     return nil;
 }
 
@@ -336,17 +284,14 @@
             }
         }
     }
-    NSLog(@"erro king doesnt exist");
+    NSLog(@"ERROR: king doesnt exist");
     return nil;
 }
 
 -(void) checkStatus {
-    NSLog(@" in checkStatus");
-    
+    NSLog(@"checkStatus");
     if (terms == 1) {
-        NSLog(@"in is term 1");
         Piece *temp = [self getWhiteKing];
-        NSLog(@"white king is %@(%d,%d)",[temp getName],[temp getX],[temp getY]);
         for (NSMutableArray *i in pieceSet) {
             for (Piece *p in i) {
                 if ([p getSide] == 2) {
@@ -355,17 +300,13 @@
                         isInCheck = 1;
                         [checkingPieces addObject:p];
                     }
-//                    else {
-//                        isInCheck = 0;
-//                        //NSLog(@"shouldnt reach here %@, (%d,%d)",[p getName],[p getX],[p getY]);
-//                    }
                 }
             }
         }
         
     }
     else if(terms == 2){
-        NSLog(@"in is term 2");
+        NSLog(@"term 2");
         
         Piece *temp = [self getBlackKing];
         for (NSMutableArray *i in pieceSet) {
@@ -376,16 +317,14 @@
                         isInCheck = 2;
                         [checkingPieces addObject:p];
                     }
-//                    else {
-//                        isInCheck = 0;
-//                    }
+
                 }
                 
             }
         }
     }
     else {
-        NSLog(@"terms erro!");
+        NSLog(@"ERROR:terms erro!");
     }
 }
 
@@ -396,12 +335,10 @@
     //    NSLog(@" LEFT");
     for(int i = [king getX] - 1; i > -1; i--) {
         Piece* p = [self getPieceAt:i with:[king getY]];
-        //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         
         if([self isSameColor:king and:p])
             break;
         else if(([p getSide] == oppColor) && ([p isRook] || [p isQueen])) {
-            NSLog(@"is attacked 1");
             return true;
         }
         else if([p getSide] == oppColor)
@@ -412,12 +349,10 @@
     //    NSLog(@" RIGHT");
     for(int i = [king getX] + 1; i < 8; i++) {
         Piece* p = [self getPieceAt:i with:[king getY]];
-        //        NSLog(@"   (%d,%d)\n",[p getX],[p getY]);
         
         if([self isSameColor:king and:p])
             break;
         else if(([p getSide] == oppColor) && ([p isRook] || [p isQueen])) {
-            NSLog(@"is attacked 2");
             return true;
         }
         else if([p getSide] == oppColor)
@@ -433,7 +368,6 @@
         if([self isSameColor:king and:p])
             break;
         else if(([p getSide] == oppColor) && ([p isRook] || [p isQueen])) {
-            NSLog(@"is attacked 3");
             return true;
         }
         else if([p getSide] == oppColor)
@@ -449,7 +383,6 @@
         if([self isSameColor:king and:p])
             break;
         else if(([p getSide] == oppColor) && ([p isRook] || [p isQueen])) {
-            NSLog(@"is attacked 4");
             return true;
         }
         else if([p getSide] == oppColor)
@@ -468,12 +401,10 @@
         int place = --tempY;
         if([self isValidCoordinate:i and:place]) {
             Piece *p = [self getPieceAt:i with:place];
-            //            [p printInformation];
             
             if([self isSameColor:king and:p])
                 break;
             else if(([p getSide] == oppColor && [p isBishop]) || ([p getSide] == oppColor && [p isBishop])) {
-                NSLog(@"is attacked 5");
                 return true;
             }
             else if([p getSide] == oppColor)
@@ -488,11 +419,9 @@
         int place = --tempY;
         if([self isValidCoordinate:i and:place]) {
             Piece * p = [self getPieceAt:i with:place];
-            //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
             else if(([p getSide] == oppColor && [p isBishop]) || ([p getSide] == oppColor && [p isBishop])) {
-                NSLog(@"is attacked 6");
                 return true;
             }
             else if([p getSide] == oppColor)
@@ -507,11 +436,9 @@
         int place = --tempX;
         if([self isValidCoordinate:place and:i]) {
             Piece* p = [self getPieceAt:place with:i];
-            //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
             else if(([p getSide] == oppColor && [p isBishop]) || ([p getSide] == oppColor && [p isBishop])) {
-                NSLog(@"is attacked 7");
                 return true;
             }
             else if([p getSide] == oppColor)
@@ -526,11 +453,9 @@
         int place = ++tempX;
         if([self isValidCoordinate:place and:i]) {
             Piece* p = [self getPieceAt:place with:i];
-            //            [p printInformation];
             if([self isSameColor:king and:p])
                 break;
             else if(([p getSide] == oppColor && [p isBishop]) || ([p getSide] == oppColor && [p isBishop])) {
-                NSLog(@"is attacked 8");
                 return true;
             }
             else if([p getSide] == oppColor)
@@ -548,7 +473,6 @@
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
             if([pawn isPawn] && [pawn getSide] == oppColor) {
-                NSLog(@"is attacked 9");
                 return true;
             }
         }
@@ -558,7 +482,6 @@
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
             if([pawn isPawn] && [pawn getSide] == oppColor) {
-                NSLog(@"is attacked 10");
                 return true;
             }
         }
@@ -573,7 +496,6 @@
             pawn = [self getPieceAt:x with:y];
             
             if([pawn isPawn] && [pawn getSide] == oppColor) {
-                NSLog(@"is attacked 11");
                 return true;
             }
         }
@@ -583,7 +505,6 @@
         if([self isValidCoordinate:x and:y]) {
             pawn = [self getPieceAt:x with:y];
             if([pawn isPawn] && [pawn getSide] == oppColor) {
-                NSLog(@"is attacked 12");
                 return true;
             }
         }
@@ -706,13 +627,11 @@
                 return false;
         }
         if ([t getY] - [pi getY] == -1 && ([t getX] - [pi getX] == 0)) {
-            NSLog(@"regular move by black");
             return true;
         }
         else
             return false;
     }
-    NSLog(@"invalid black pawn move!");
     return false;
 }
 
@@ -722,7 +641,6 @@
         if ([self isOppColor:pi and:t]) {
             
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
-                NSLog(@"valid white pawn move");
                 return true;
             }
             else {
@@ -730,11 +648,9 @@
             }
         }
         else if ((([t getY] - [pi getY]) <= 2) && ([t getY] - [pi getY] > 0)&& ([t getX] - [pi getX] == 0)) {
-            NSLog(@"valid white pawn move to skewed side");
             return true;
         }
         else {
-            //NSLog(@"skipping too much");
             return false;
         }
     }
@@ -743,7 +659,6 @@
         if ([self isOppColor:pi and:t]) {
             if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
                 // attacks diagonally up one square.
-                NSLog(@"valid white pawn eating move to skewed side");
                 return true;
             }
             else {
@@ -752,7 +667,6 @@
             }
         }
         if ([t getY] - [pi getY] == 1 && ([t getX] - [pi getX] == 0)) {
-            NSLog(@"valid white pawn eating move");
             return true;
         }
         else {
@@ -760,7 +674,6 @@
             return false;
         }
     }
-    NSLog(@"invalid move by white pawn!");
     return false;
 }
 
@@ -1024,29 +937,23 @@
         
         // king side castle with left white rook.
         if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:0] isEqualToValue:@(1)])) {
-            //NSLog(@"white king side castle");
             // rook @ (0,0) and king @ (3,0) - > check (1,0) and (2,0)
             for(int i = 1; i < 3; i++) {
                 Piece *temp = [self getPieceAt:i with:0];
-                //[temp printInformation];
                 if([self isAttacked:temp and:2])
                     return false;
             }
-            //NSLog(@"can castle 1");
             return true;
             
         }
         // queen side castle with right white rook.
         else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:2] isEqualToValue:@(1)])) {
-            //NSLog(@"white queen side castle");
             // rook @ (7,0) and king @ (3,0) --> check (4,0) (5,0) and (6,0)
             for(int i = 4; i < 7; i++) {
                 Piece *temp = [self getPieceAt:i with:0];
-                //[temp printInformation];
                 if([self isAttacked:temp and :2])
                     return false;
             }
-            //NSLog(@"can castle 2");
             return true;
         }
         
@@ -1057,39 +964,30 @@
         
         // king side castle with left black rook.
         if((xDiff == -2) && ([[isCastlePiecesMoved objectAtIndex:3] isEqualToValue:@(1)])) {
-            //NSLog(@"black king side castle");
             // rook @ (0,7) and king @ (3,7) --> (1,7) and (2,7)
             for(int i = 1; i < 3; i++) {
                 Piece *temp = [self getPieceAt:i with:7];
-                //[temp printInformation];
                 
                 if([self isAttacked:temp and :1]) {
-                    //NSLog(@"2");
                     return false;
                 }
             }
-            //NSLog(@"can castle 3");
             return true;
             
         }
         
         // queen side castle with right black rook.
         else if((xDiff == 2) && ([[isCastlePiecesMoved objectAtIndex:5] isEqualToValue:@(1)])) {
-            //NSLog(@"black queen side castle");
             // rook @ (7,7) and king @ (3,7) --> (4,7) (5,7) (6,7)
             for(int i = 4; i < 8; i++) {
                 Piece *temp = [self getPieceAt:i with:7];
-                //[temp printInformation];
                 if([self isAttacked:temp and:1]) {
-                    //NSLog(@"2");
                     return false;
                 }
             }
-            //NSLog(@"can castle 4");
             return true;
         }
     }
-    //NSLog(@" can not castle");
     return false;
 }
 
@@ -1098,10 +996,7 @@
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
     //NSLog(@"in kingMove with xDiff == %d\n", xDiff);
-    //[pi printInformation];
-    //[t printInformation];
-    
-    
+
     if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
         //NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
@@ -1123,7 +1018,7 @@
                     for (Piece *t in j) {
                         
                         if ([pi getSide] != [t getSide] && [self validateMove:pi to:t] && [self isUnchecked:pi to:t]) {
-                            NSLog(@"*1%@(%d, %d) can be moved to %@(%d, %d) to uncheck", [pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
+                            NSLog(@"UNCHECK:*1%@(%d, %d) can be moved to %@(%d, %d) to uncheck", [pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
                             return false;
                         }
                     }
@@ -1226,7 +1121,7 @@
         return false;
     }
     else {
-        NSLog(@"unexpected for validate move for %@(%d,%d) and %@(%d,%d)",[pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
+        NSLog(@"ERROR: unexpected for validate move for %@(%d,%d) and %@(%d,%d)",[pi getName],[pi getX],[pi getY],[t getName],[t getX],[t getY]);
         return false;
     }
     return false;
@@ -1278,7 +1173,6 @@
 
 -(NSMutableArray *)AvailableMovesForOnePiece:(Piece *)pi{
     NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
-    NSLog(@"in availabie moves %@ requiring ava moves", [pi getName]);
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide] ) {
@@ -1296,7 +1190,7 @@
     return availableMovesArray;
 }
 -(void) addRelativeValue {
-    NSLog(@"in add relativevalue");
+    NSLog(@"addRelativevalue");
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece * p in i) {
             if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
@@ -1393,4 +1287,7 @@
     }
     
 }
+
+
+
 @end

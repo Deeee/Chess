@@ -62,6 +62,7 @@
 -(void) checkStatus;
 -(void) addRelativeValue;
 
+
 -(NSString *) getImageNameFromPiece:(Piece *)p;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 -(NSMutableArray *) getPieceSet;

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1C2217811954ACDF007081F2 /* EasyBot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C2217801954ACDF007081F2 /* EasyBot.m */; };
+		5B02040119744B720025D2E3 /* DrawValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B02040019744B720025D2E3 /* DrawValues.m */; };
+		5B02040419799F1C0025D2E3 /* MovesTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B02040319799F1C0025D2E3 /* MovesTree.m */; };
 		5B0FA0DA194BD5B300DAE166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0D9194BD5B300DAE166 /* Foundation.framework */; };
 		5B0FA0DC194BD5B300DAE166 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0DB194BD5B300DAE166 /* CoreGraphics.framework */; };
 		5B0FA0DE194BD5B300DAE166 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0FA0DD194BD5B300DAE166 /* UIKit.framework */; };
@@ -78,6 +80,10 @@
 /* Begin PBXFileReference section */
 		1C22177F1954ACDF007081F2 /* EasyBot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyBot.h; sourceTree = "<group>"; };
 		1C2217801954ACDF007081F2 /* EasyBot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyBot.m; sourceTree = "<group>"; };
+		5B0203FF19744B720025D2E3 /* DrawValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawValues.h; sourceTree = "<group>"; };
+		5B02040019744B720025D2E3 /* DrawValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawValues.m; sourceTree = "<group>"; };
+		5B02040219799F1C0025D2E3 /* MovesTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovesTree.h; sourceTree = "<group>"; };
+		5B02040319799F1C0025D2E3 /* MovesTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovesTree.m; sourceTree = "<group>"; };
 		5B0FA0D6194BD5B300DAE166 /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B0FA0D9194BD5B300DAE166 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5B0FA0DB194BD5B300DAE166 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -225,10 +231,14 @@
 				5B7EE4F11958CD9800BB53CA /* BoardPoint.m */,
 				5B340D4F195D3F330042ADA2 /* MainViewController.h */,
 				5B340D50195D3F330042ADA2 /* MainViewController.m */,
+				5B0203FF19744B720025D2E3 /* DrawValues.h */,
+				5B02040019744B720025D2E3 /* DrawValues.m */,
 				5BFF26A3195CEBA80033F2A8 /* MenuViewController.h */,
 				5BFF26A4195CEBA80033F2A8 /* MenuViewController.m */,
 				5B340D52195DC9B20042ADA2 /* BoardViewController.h */,
 				5B340D53195DC9B20042ADA2 /* BoardViewController.m */,
+				5B02040219799F1C0025D2E3 /* MovesTree.h */,
+				5B02040319799F1C0025D2E3 /* MovesTree.m */,
 				5B340D55195F46640042ADA2 /* HardBot.h */,
 				5B340D56195F46640042ADA2 /* HardBot.m */,
 				5B340D58195F4AEB0042ADA2 /* ChessManual.h */,
@@ -450,6 +460,7 @@
 				5B340D5A195F4AEB0042ADA2 /* ChessManual.m in Sources */,
 				5B322B101952A3C600AC9190 /* LinearEquation.m in Sources */,
 				5B3B3348194E4FD000068A0B /* Piece.m in Sources */,
+				5B02040119744B720025D2E3 /* DrawValues.m in Sources */,
 				5B340D51195D3F330042ADA2 /* MainViewController.m in Sources */,
 				1C2217811954ACDF007081F2 /* EasyBot.m in Sources */,
 				5B340D57195F46640042ADA2 /* HardBot.m in Sources */,
@@ -457,6 +468,7 @@
 				5B0FA0EE194BD5B300DAE166 /* AppDelegate.m in Sources */,
 				5BFF26A5195CEBA80033F2A8 /* MenuViewController.m in Sources */,
 				5B0FA0EA194BD5B300DAE166 /* main.m in Sources */,
+				5B02040419799F1C0025D2E3 /* MovesTree.m in Sources */,
 				5B7EE4EF1957AB0600BB53CA /* IOSCircle.m in Sources */,
 				5B322B131953599B00AC9190 /* Player.m in Sources */,
 				5B3B334B194E7B2400068A0B /* Board.m in Sources */,
