@@ -14,6 +14,8 @@
 @property NSMutableString *name;
 @property int side;
 @property double relativeValue;
+@property int hasMoved;
+@property int value;
 //Init
 -(id) initWithImg:(UIImageView *) image and:(int)X with:(int)Y;
 -(id) initWithImg:(UIImageView *) image and:(NSMutableString *) name with:(int)X with:(int)Y with:(int)Side;
@@ -37,4 +39,8 @@
 -(BOOL) isBishop;
 -(BOOL) isKnight;
 -(BOOL) isKing;
+-(BOOL) isEmpty;
+-(BOOL) hasPieceMoved;
+-(BOOL) isWhite;
+-(BOOL) isBlack;
 @end

@@ -85,7 +85,7 @@
 }
 -(void) loadScript:(NSString *)name {
     if ([name isEqualToString:@"stoneWall"]) {
-        NSLog(@"loading stoneWall....");
+//        NSLog(@"loading stoneWall....");
         [self loadScriptStoneOpening];
     }
     else {

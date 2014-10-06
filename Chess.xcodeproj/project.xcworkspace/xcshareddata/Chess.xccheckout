@@ -10,29 +10,29 @@
 	<string>Chess</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>395C94E2-2004-4B96-8BF5-5B81517ACB39</key>
+		<key>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</key>
 		<string>https://github.com/a505190722/Chess.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Chess.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>395C94E2-2004-4B96-8BF5-5B81517ACB39</key>
+		<key>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/a505190722/Chess.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>395C94E2-2004-4B96-8BF5-5B81517ACB39</string>
+	<string>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>395C94E2-2004-4B96-8BF5-5B81517ACB39</string>
+			<string>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Chess</string>
 		</dict>

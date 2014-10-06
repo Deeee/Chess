@@ -10,7 +10,7 @@
 
 @implementation MovesTree
 -(void) buildTree:(HardBot *)board {
-    NSMutableArray *allMoves = [board getAllMoves];
+    NSMutableArray *allMoves = [board getAllMoves:2];
     for (NSMutableArray *i in allMoves) {
         
     }

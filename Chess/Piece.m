@@ -11,9 +11,10 @@
 @implementation Piece
 @synthesize x, y;
 @synthesize img;
+@synthesize value;
 //0, is empty, 1 is white, 2 is black
 @synthesize side;
-
+@synthesize hasMoved;
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     //    [aCoder encodeObject:self.pieceSet forKey:@"PROPERTY_KEY"];
     //    [aCoder encodeObject:self.isCastlePiecesMoved forKey:@"PROPERTY_KEY"];
@@ -43,6 +44,7 @@
 -(id) initWithImg:(UIImageView *)image and:(int)X with:(int)Y {
     self = [super init];
     self.img = image;
+    self.hasMoved = 0;
     [self setLocation:X with:Y];
     return self;
 }
@@ -52,6 +54,7 @@
     [self setLocation:X with:Y];
     self.name = name;
     self.side = Side;
+    self.hasMoved = 0;
     return self;
 }
 
@@ -79,6 +82,7 @@
     // We'll ignore the zone for now
     Piece *another = [[Piece alloc] initWithImg:[self getImage] and:[self getName] with:[self getX] with:[self getY] with:[self getSide]];
     [another setRelativeValue:[self getRelativeValue]];
+    another.hasMoved = self.hasMoved;
     return another;
 }
 -(int) getSide {
@@ -96,6 +100,7 @@
     x = X;
     y = Y;
 }
+
 -(NSString *) printInformation {
     NSLog(@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]);
     return [NSString stringWithFormat:@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]];
@@ -137,5 +142,29 @@
         return true;
     else return false;
 }
-
+-(BOOL) isEmpty {
+    if([self.getName rangeOfString:@"empty"].location != NSNotFound)
+        return true;
+    else return false;
+}
+-(BOOL) hasPieceMoved {
+    if (self.hasMoved == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+-(BOOL) isWhite {
+    if (side == 1) {
+        return true;
+    }
+    else return false;
+}
+-(BOOL) isBlack {
+    if (side == 2) {
+        return true;
+    }
+    else return false;
+}
 @end

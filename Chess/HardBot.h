@@ -16,7 +16,7 @@
 @property Piece *imagineP;
 @property Piece *imagineT;
 @property int imagineCastleMoveCheck;
-@property int steps;
+@property int ifThink;
 -(void) botMove;
 -(BOOL) scriptMove;
 -(void) changeTerms;
@@ -28,6 +28,6 @@
 -(HardBot *) imagineMoveOnBoard:(Piece *)p to:(Piece *)t;
 -(HardBot *) copySelf;
 -(void) pieceTakeoverFrom:(Piece *)p to:(Piece *)t;
--(NSMutableArray *)getAllMoves;
+-(NSMutableArray *)getAllMoves:(int)side;
 -(NSMutableArray *)bestMoveForOnePiece:(NSMutableArray *)allMoves Steps:(int)step;
 @end

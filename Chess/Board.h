@@ -27,6 +27,12 @@
 @property int mode;
 @property NSMutableArray *checkingPieces;
 @property int isCastled;
+@property NSArray *PawnTable;
+@property NSArray *KnightTable;
+@property NSArray *BishopTable;
+@property NSArray *KingTable;
+@property NSArray *KingTableEndGame;
+
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;

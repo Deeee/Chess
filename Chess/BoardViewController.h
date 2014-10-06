@@ -88,9 +88,8 @@
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn5;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn6;
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn7;
-
-
 @property (nonatomic, assign) IBOutlet UIImageView *bpawn8;
+
 @property NSMutableString *debugInfo;
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
 
@@ -131,4 +130,5 @@
 - (IBAction)clickOnComfirm;
 - (void)showAvailableMoves:(Piece *)pi onView:(DrawCircles *)drawView;
 + (void)resize:(UIView*)view to:(CGSize)size withDuration:(int) duration andSnapBack:(BOOL) snapBack;
+- (IBAction)backgroundTap:(id)sender;
 @end

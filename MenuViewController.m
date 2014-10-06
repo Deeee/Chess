@@ -27,8 +27,34 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    BoardViewController *boardView = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:NULL] instantiateViewControllerWithIdentifier:@"boardView"];
-    self.boardViewController = boardView;
+    // Override point for customization after application launch.
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {    // The iOS device = iPhone or iPod Touch
+        
+        
+        CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+        if (iOSDeviceScreenSize.height == 480)
+        {   // iPhone 3GS, 4, and 4S and iPod Touch 3rd and 4th generation: 3.5 inch screen (diagonally measured)
+            
+            // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone35
+            BoardViewController *boardView = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:NULL] instantiateViewControllerWithIdentifier:@"boardView"];
+            self.boardViewController = boardView;
+        }
+        
+        if (iOSDeviceScreenSize.height == 568)
+        {   // iPhone 5 and iPod Touch 5th generation: 4 inch screen (diagonally measured)
+            
+            BoardViewController *boardView = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:NULL] instantiateViewControllerWithIdentifier:@"boardView"];
+            self.boardViewController = boardView;
+        }
+        
+    }
+    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {   // The iOS device = iPad
+        
+        BoardViewController *boardView = [[UIStoryboard storyboardWithName:@"Main_iPad" bundle:NULL] instantiateViewControllerWithIdentifier:@"boardView"];
+        self.boardViewController = boardView;
+    }
 }
 
 - (void)didReceiveMemoryWarning

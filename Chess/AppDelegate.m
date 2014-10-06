@@ -48,15 +48,14 @@
         [self.window makeKeyAndVisible];
         
     } else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        
     {   // The iOS device = iPad
         UIStoryboard *iPadStoryboard = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
         UIViewController *initialViewController = nil;
         initialViewController = [iPadStoryboard instantiateInitialViewController];
         self.window.rootViewController = initialViewController;
-        //UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        //UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-        //splitViewController.delegate = (id)navigationController.topViewController;
+//        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+//        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+//        splitViewController.delegate = (id)navigationController.topViewController;
         
     }
     return YES;

@@ -22,7 +22,7 @@
 @synthesize oriRook;
 @synthesize isCastled;
 @synthesize pawnValue;
-
+@synthesize PawnTable, KingTable, KingTableEndGame, KnightTable, BishopTable;
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -46,6 +46,66 @@
     [white setSide:1];
     [black setSide:2];
     checkingPieces = [[NSMutableArray alloc] init];
+    PawnTable =
+    @[
+     @0,   @0,   @0,   @0,   @0,   @0,   @0,   @0,
+    @50,  @50,  @50,  @50,  @50,  @50,  @50,  @50,
+    @10,  @10,  @20,  @30,  @30,  @20,  @10,  @10,
+     @5,   @5,  @10,  @27,  @27,  @10,   @5,   @5,
+     @0,   @0,   @0,  @25,  @25,   @0,   @0,   @0,
+     @5,  @-5, @-10,   @0,   @0, @-10,  @-5,   @5,
+     @5,  @10,  @10, @-25, @-25,  @10,  @10,   @5,
+     @0,   @0,   @0,   @0,   @0,   @0,   @0,   @0
+    ];
+    
+    KnightTable =
+    @[
+        @-50,@-40,@-30,@-30,@-30,@-30,@-40,@-50,
+        @-40,@-20,  @0,  @0,  @0,  @0,@-20,@-40,
+        @-30,  @0, @10, @15, @15, @10,  @0,@-30,
+        @-30,  @5, @15, @20, @20, @15,  @5,@-30,
+        @-30,  @0, @15, @20, @20, @15,  @0,@-30,
+        @-30,  @5, @10, @15, @15, @10,  @5,@-30,
+        @-40,@-20,  @0,  @5,  @5,  @0,@-20,@-40,
+        @-50,@-40,@-20,@-30,@-30,@-20,@-40,@-50
+    ];
+    
+    BishopTable =
+    @[
+       @-20,@-10,@-10,@-10,@-10,@-10,@-10,@-20,
+       @-10,  @0,  @0,  @0,  @0,  @0,  @0,@-10,
+       @-10,  @0,  @5, @10, @10,  @5,  @0,@-10,
+       @-10,  @5,  @5, @10, @10,  @5,  @5,@-10,
+       @-10,  @0, @10, @10, @10, @10,  @0,@-10,
+       @-10, @10, @10, @10, @10, @10, @10,@-10,
+       @-10,  @5,  @0,  @0,  @0,  @0,  @5,@-10,
+       @-20,@-10,@-40,@-10,@-10,@-40,@-10,@-20,
+      
+      ];
+    
+    KingTable =
+    @[
+        @-30, @-40, @-40, @-50, @-50, @-40, @-40, @-30,
+        @-30, @-40, @-40, @-50, @-50, @-40, @-40, @-30,
+        @-30, @-40, @-40, @-50, @-50, @-40, @-40, @-30,
+        @-30, @-40, @-40, @-50, @-50, @-40, @-40, @-30,
+        @-20, @-30, @-30, @-40, @-40, @-30, @-30, @-20,
+        @-10, @-20, @-20, @-20, @-20, @-20, @-20, @-10,
+        @20,  @20,   @0,   @0,   @0,   @0,  @20,  @20,
+        @20,  @30,  @10,   @0,   @0,  @10,  @30,  @20
+    ];
+    
+    KingTableEndGame =
+    @[
+        @-50,@-40,@-30,@-20,@-20,@-30,@-40,@-50,
+        @-30,@-20,@-10,  @0,  @0,@-10,@-20,@-30,
+        @-30,@-10, @20, @30, @30, @20,@-10,@-30,
+        @-30,@-10, @30, @40, @40, @30,@-10,@-30,
+        @-30,@-10, @30, @40, @40, @30,@-10,@-30,
+        @-30,@-10, @20, @30, @30, @20,@-10,@-30,
+        @-30,@-30,  @0,  @0,  @0,  @0,@-30,@-30,
+        @-50,@-30,@-30,@-30,@-30,@-30,@-30,@-50
+    ];
     return self;
 }
 
@@ -126,6 +186,7 @@
 }
 
 -(void) undoCastling{
+    NSLog(@"undoCastling:%@,%@",[tempRook printInformation],[oriRook printInformation]);
     isCastled = 0;
     Piece *tempP = tempRook;
     Piece *tempT = oriRook;
@@ -163,6 +224,7 @@
     isCastled = 1;
     Piece *movingRook = [self getAccordingRook:p to:t];
     tempRook = movingRook;
+    NSLog(@"castlingMove:tempRook:%@",[tempRook printInformation]);
     int _x = [t getX];
     if (_x > 4) {
         Piece *des = [self getPieceAt:([t getX] - 1) with:[p getY]];
@@ -223,13 +285,15 @@
                 [self castlingMove:p to:t];
             return true;
         }
-            UIImageView *tempImage2 = [t getImage];
-            UIImageView *tempImage = [p getImage];
-            [self imageTakeOver:tempImage takeOver:tempImage2];
-            [t setName:[p getName]];
-            [p setName: [NSMutableString stringWithFormat: @"empty"]];
-            [t setSide:[p getSide]];
-            [p setSide:0];
+        UIImageView *tempImage2 = [t getImage];
+        UIImageView *tempImage = [p getImage];
+        [self imageTakeOver:tempImage takeOver:tempImage2];
+        [t setName:[p getName]];
+        [p setName: [NSMutableString stringWithFormat: @"empty"]];
+        [t setSide:[p getSide]];
+        [p setSide:0];
+        [p setHasMoved:0];
+        [t setHasMoved:1];
             return true;
             
     }
@@ -1144,6 +1208,8 @@
         [p setName:[NSMutableString stringWithString:@"empty"]];
         [t setSide:[p getSide]];
         [p setSide:0];
+        [p setHasMoved:0];
+        [t setHasMoved:1];
         //[t setImg:[p getImage] and:[p getName]];
         //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
         
@@ -1194,22 +1260,22 @@
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece * p in i) {
             if ([[p getName] rangeOfString:@"pawn"].location != NSNotFound) {
-                [p setRelativeValue:1];
+                [p setRelativeValue:100];
             }
             else if ([[p getName] rangeOfString:@"knight"].location != NSNotFound) {
-                [p setRelativeValue:3.2];
+                [p setRelativeValue:320];
             }
             else if ([[p getName] rangeOfString:@"bishop"].location != NSNotFound) {
-                [p setRelativeValue:3.33];
+                [p setRelativeValue:325];
             }
             else if ([[p getName] rangeOfString:@"rook"].location != NSNotFound) {
-                [p setRelativeValue:5.1];
+                [p setRelativeValue:500];
             }
             else if ([[p getName] rangeOfString:@"queen"].location != NSNotFound) {
-                [p setRelativeValue:8.8];
+                [p setRelativeValue:975];
             }
             else if([[p getName] rangeOfString:@"king"].location != NSNotFound) {
-                [p setRelativeValue:10];
+                [p setRelativeValue:32767];
             }
             else if([[p getName] rangeOfString:@"empty"].location != NSNotFound) {
                 [p setRelativeValue:0];

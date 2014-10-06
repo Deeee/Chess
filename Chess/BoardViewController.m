@@ -117,6 +117,10 @@
     
 }
 
+- (IBAction)backgroundTap:(id)sender {
+    [self.view endEditing:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -131,9 +135,9 @@
     [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
     [self.view addSubview:confirmButton];
     //Debug window setup
-    UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+//    UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     // Hide keyboard, but show blinking cursor
-    debuggingWindow.inputView = dummyView;
+//    debuggingWindow.inputView = dummyView;
     self.debuggingWindow.delegate = self;
     
     //Initialize circleViews
