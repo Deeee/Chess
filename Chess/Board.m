@@ -219,6 +219,111 @@
         return nil;
     }
 }
+-(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array{
+    long count = array.count;
+    int i;
+    bool swapped = TRUE;
+    while (swapped){
+        swapped = FALSE;
+        for (i=1; i<count;i++)
+        {
+            if ([[array objectAtIndex:(i-1)] getRelativeValue] > [[array objectAtIndex:i] getRelativeValue])
+            {
+                [array exchangeObjectAtIndex:(i-1) withObjectAtIndex:i];
+                swapped = TRUE;
+            }
+            //bubbleSortCount ++; //Increment the count everytime a switch is done, this line is not required in the production implementation.
+        }
+    }
+    return array;
+}
+
+-(NSMutableArray *)isGuardingPiece:(Piece *)pi{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if ([t getSide] == [pi getSide]) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    [tempArray addObject:t];
+                }
+            }
+        }
+    }
+    tempArray = [self sortPiecesInArray:tempArray];
+    //    NSLog(@"!!!!!!!");
+    return tempArray;
+}
+
+-(BOOL)isTaken:(Piece *)pi{
+    //    NSLog(@"isTaken:%@",[pi printInformation]);
+    NSMutableArray *takenArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    //                    NSLog(@"isTaken t:%@ taking pi:%@",[t printInformation], [pi printInformation]);
+                    [takenArray addObject:t];
+                }
+            }
+        }
+    }
+    NSMutableArray *guardArray = [self isGuardingPiece:pi];
+    if ([guardArray count] == 0 && [takenArray count] > 0) {
+        return true;
+    }
+    else if([takenArray count] == 0) {
+        return false;
+    }
+    takenArray = [self sortPiecesInArray:takenArray];
+    //Cannot dectect in real time
+    double finalValue = 0;
+    [guardArray insertObject:pi atIndex:0];
+    NSUInteger guardCount = [guardArray count];
+    NSLog(@"-----");
+    for (Piece * u in guardArray) {
+        [u printInformation];
+    }
+    NSLog(@"_____");
+    NSUInteger takenCount = [takenArray count];
+    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
+    double guardValue = 0;
+    double takenValue = 0;
+    int tStack = 0, gStack = 0;
+    int tterm = 0;
+    int isTaken = 0;
+    //While loop cannot do real time calculation, switch to compare lowest to highest
+    while(takenCount != 0 && guardCount != 0) {
+        if (tterm == 0 || tterm % 2 == 0) {
+            takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
+            guardCount--;
+        }
+        else {
+            guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
+            takenCount--;
+        }
+        tterm++;
+        if (((takenValue - guardValue) > 0) && (tterm % 2 == 0 || takenCount == 0 || guardCount == 0)){
+            isTaken = 1;
+            break;
+        }
+    }
+    //    if (takenCount == 0 && guardCount != 0) {
+    //        guardValue += [[takenArray objectAtIndex:stack] getRelativeValue];
+    //    }
+    //    else if(guardCount == 0 && takenCount != 0) {
+    //        takenValue += [[guardArray objectAtIndex:stack] getRelativeValue];
+    //    }
+    finalValue += guardValue - takenValue;
+    //    NSLog(@"FinalValue is: %.3lf, guardValue:%.3lf, takenValue:%.3lf,takenArray Count:%lu, gstack:%d, tstack:%d",finalValue,guardValue,takenValue,(unsigned long)[takenArray count], gStack, tStack);
+    if (isTaken != 0) {
+        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d", guardValue, takenValue, tterm);
+        return false;
+    }
+    else {
+        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d", guardValue, takenValue, tterm);
+        return true;
+    }
+}
 
 -(void) castlingMove:(Piece *)p to:(Piece *)t{
     isCastled = 1;
@@ -667,7 +772,22 @@
     return [t getSide] == [pi getSide] ;
 }
 
-
+-(BOOL)blackPawnGuardMove:(Piece *) pi to :(Piece *)t {
+    if ([pi getY] == 6) {
+        if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1)))
+        return true;
+            
+        else return false;
+    }
+    else {
+        if (([t getY] == [pi getY] - 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1)))
+            return true;
+            
+        else
+            return false;
+    }
+    return false;
+}
 -(BOOL)blackPawnMove:(Piece *) pi to :(Piece *)t {
     if ([pi getY] == 6) {
         if ([self isOppColor:pi and:t]) {
@@ -698,7 +818,29 @@
     }
     return false;
 }
-
+-(BOOL)whitePawnGuardMove:(Piece *) pi to :(Piece *)t {
+    
+    if ([pi getY] == 1) {
+        if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+            return true;
+            }
+        else {
+            return false;
+        }
+    }
+    
+    else {
+            if (([t getY] == [pi getY] + 1) && ([t getX] == ([pi getX] + 1) ||[t getX] == ([pi getX] - 1))) {
+                // attacks diagonally up one square.
+                return true;
+            }
+            else {
+                //NSLog(@"non original point unable to eat");
+                return false;
+            }
+    }
+    return false;
+}
 -(BOOL)whitePawnMove:(Piece *) pi to :(Piece *)t {
     
     if ([pi getY] == 1) {
@@ -1056,18 +1198,21 @@
 }
 
 -(BOOL)kingMove:(Piece *)pi to:(Piece *)t {
-    
+    if ([pi getSide] == [t getSide]) {
+        return false;
+    }
     int xDiff = [t getX] - [pi getX];
     int yDiff = [t getY] - [pi getY];
     //NSLog(@"in kingMove with xDiff == %d\n", xDiff);
-
-    if ([pi getSide] != [t getSide] && (ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
+    
+    if ((ABS(xDiff) <= 1 && ABS(yDiff) <= 1) && [self isValidCoordinate:[t getX] and:[t getY]]) {
         //NSLog(@"kingmove approved %d,%d",xDiff, yDiff);
         return true;
     }
     
     //check for castling.
     if((ABS(xDiff) == 2) && (yDiff == 0)) {
+        NSLog(@"king approved for castling from %@ to %@",[pi printInformation], [t printInformation]);
         return [self kingCanCastle:pi to:t];
     }
     
@@ -1125,6 +1270,9 @@
     }
     
 }
+
+
+
 //requrieMove ~ validating moves ?
 -(BOOL) validateMove:(Piece *) pi to:(Piece *)t {
     //    if (isDebug == 1) {
@@ -1132,6 +1280,26 @@
     //    }
 
     if ([pi isPawn]) {
+        //Guard validate
+        if ([pi getSide] == [t getSide]) {
+            if([pi getSide] == 1) {
+                if([self whitePawnGuardMove:pi to:t]) {
+                    //NSLog(@"valid white pawn move");
+                    return true;
+                }
+                else return false;
+            }
+            else if([pi getSide] == 2) {
+                if([self blackPawnGuardMove:pi to:t]) {
+                    //NSLog(@"valid black pawn move");
+                    return true;
+                }
+                else return false;
+            }
+            else
+            ;
+        }
+        else {
         if([pi getSide] == 1) {
             if([self whitePawnMove:pi to:t]) {
                 //NSLog(@"valid white pawn move");
@@ -1148,9 +1316,11 @@
         }
         else
             ;
+        }
     }
     else if ([pi isKing]) {
         if ([self kingMove:pi to:t]) {
+            NSLog(@"king approved from %@ to %@",[pi printInformation], [t printInformation]);
             return true;
         }
         else {

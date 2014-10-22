@@ -15,7 +15,6 @@
 @property Piece *oriTempRook;
 @property Piece *imagineP;
 @property Piece *imagineT;
-@property int imagineCastleMoveCheck;
 @property int ifThink;
 -(void) botMove;
 -(BOOL) scriptMove;

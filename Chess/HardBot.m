@@ -16,7 +16,6 @@
 @synthesize oriTempRook;
 @synthesize imagineP;
 @synthesize imagineT;
-@synthesize imagineCastleMoveCheck;
 @synthesize ifThink;
 -(id) copyWithZone:(NSZone *)zone {
     return self;
@@ -65,7 +64,8 @@
     
     NSMutableArray *pieceSetCopy = [self copyPieceSet];
     copy.pieceSet = pieceSetCopy;
-    
+    copy.isCastled = self.isCastled;
+    copy.isInCheck = self.isInCheck;
     return copy;
 }
 
@@ -96,6 +96,7 @@
     HardBot *copy = [self copySelf];
     Piece *igP = [copy getPieceAt:[p getX] with:[p getY]];
     Piece *igT = [copy getPieceAt:[t getX] with:[t getY]];
+//    NSLog(@"imagine move from %@ to %@",[p printInformation], [t printInformation]);
     [copy botMoveFrom:igP to:igT];
     return copy;
 }
@@ -118,21 +119,7 @@
     return [tempBoard isTaken:tOnTempBoard];
 }
 
--(NSMutableArray *)isGuardingPiece:(Piece *)pi{
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    for (NSMutableArray *i in self.pieceSet) {
-        for (Piece *t in i) {
-            if ([t getSide] == [pi getSide]) {
-                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
-                    [tempArray addObject:t];
-                }
-            }
-        }
-    }
-    tempArray = [self sortPiecesInArray:tempArray];
-//    NSLog(@"!!!!!!!");
-    return tempArray;
-}
+
 
 -(BOOL)isSafeTaking:(Piece *)pi and:(Piece *)t {
     if (!([self validateMove:t to:pi] && [self isUnchecked:t to:pi])) {
@@ -144,6 +131,10 @@
 -(NSMutableArray *)isTakingPiece:(Piece *)pi {
 //    NSLog(@"isTakingPiece:%@",[pi printInformation]);
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (int k = 0; k < [self.pieceSet count]; k++) {
+        NSMutableArray *i = [self.pieceSet objectAtIndex:k];
+        
+    }
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide] && [t getSide] != 0) {
@@ -298,12 +289,13 @@
 }
 
 -(double)thinkAhead:(Piece *)p to:(Piece *)t {
-//    NSLog(@"thinkAhead:%@ to:%@",[p printInformation],[t printInformation]);
+    NSLog(@"thinkAhead:%@ to:%@",[p printInformation],[t printInformation]);
     HardBot *tempBoard = [self imagineMoveOnBoard:p to:t];
     tempBoard.ifThink = 0;
     Piece *tOnTempBoard = [tempBoard getPieceAt:[t getX] with:[t getY]];
     double boardValue = [tempBoard totalBoardValue:[tOnTempBoard getSide]];
     if (self.ifThink == 1) {
+        NSLog(@"in simulate!!");
         return [self simulate:0 lastValue:boardValue curBoard:tempBoard];
     }
     else return boardValue;
@@ -337,24 +329,24 @@
 //    NSLog(@"bestMoveForOnePiece %@(%d,%d) is move to %@(%d,%d) with value of %.2f, maxIndex is %d",[[allMoves objectAtIndex:maxIndex] getName],[[allMoves objectAtIndex:maxIndex] getX],[[allMoves objectAtIndex:maxIndex] getY],[[allMoves objectAtIndex:maxIndex + 1] getName],[[allMoves objectAtIndex:maxIndex + 1] getX],[[allMoves objectAtIndex:maxIndex + 1] getY], maxValue, maxIndex);
     return bestMoves;
 }
--(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array{
-    long count = array.count;
-    int i;
-    bool swapped = TRUE;
-    while (swapped){
-        swapped = FALSE;
-        for (i=1; i<count;i++)
-        {
-            if ([[array objectAtIndex:(i-1)] getRelativeValue] > [[array objectAtIndex:i] getRelativeValue])
-            {
-                [array exchangeObjectAtIndex:(i-1) withObjectAtIndex:i];
-                swapped = TRUE;
-            }
-            //bubbleSortCount ++; //Increment the count everytime a switch is done, this line is not required in the production implementation.
-        }
-    }
-    return array;
-}
+//-(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array{
+//    long count = array.count;
+//    int i;
+//    bool swapped = TRUE;
+//    while (swapped){
+//        swapped = FALSE;
+//        for (i=1; i<count;i++)
+//        {
+//            if ([[array objectAtIndex:(i-1)] getRelativeValue] > [[array objectAtIndex:i] getRelativeValue])
+//            {
+//                [array exchangeObjectAtIndex:(i-1) withObjectAtIndex:i];
+//                swapped = TRUE;
+//            }
+//            //bubbleSortCount ++; //Increment the count everytime a switch is done, this line is not required in the production implementation.
+//        }
+//    }
+//    return array;
+//}
 
 -(int)getAttackedValue:(Piece *)pi {
     NSMutableArray *takenArray = [[NSMutableArray alloc] init];
@@ -393,62 +385,62 @@
     return defendValue;
 }
 
--(BOOL)isTaken:(Piece *)pi{
-//    NSLog(@"isTaken:%@",[pi printInformation]);
-    NSMutableArray *takenArray = [[NSMutableArray alloc] init];
-    for (NSMutableArray *i in self.pieceSet) {
-        for (Piece *t in i) {
-            if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
-                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
-//                    NSLog(@"isTaken t:%@ taking pi:%@",[t printInformation], [pi printInformation]);
-                    [takenArray addObject:t];
-                }
-            }
-        }
-    }
-    NSMutableArray *guardArray = [self isGuardingPiece:pi];
-    if ([guardArray count] == 0 && [takenArray count] > 0) {
-        return true;
-    }
-    else if([takenArray count] == 0) {
-        return false;
-    }
-    takenArray = [self sortPiecesInArray:takenArray];
-    //Cannot dectect in real time
-    double finalValue = 0;
-    [guardArray insertObject:pi atIndex:0];
-    NSUInteger guardCount = [guardArray count];
-    NSUInteger takenCount = [takenArray count];
-    double guardValue = 0;
-    double takenValue = 0;
-    int tStack = 0, gStack = 0;
-    int tterm = 0;
-    while(takenCount != 0 && guardCount != 0) {
-        if (tterm == 0 || tterm % 2 == 0) {
-            takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
-            guardCount--;
-        }
-        else {
-            guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
-            takenCount--;
-        }
-        tterm++;
-    }
-//    if (takenCount == 0 && guardCount != 0) {
-//        guardValue += [[takenArray objectAtIndex:stack] getRelativeValue];
+//-(BOOL)isTaken:(Piece *)pi{
+////    NSLog(@"isTaken:%@",[pi printInformation]);
+//    NSMutableArray *takenArray = [[NSMutableArray alloc] init];
+//    for (NSMutableArray *i in self.pieceSet) {
+//        for (Piece *t in i) {
+//            if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
+//                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+////                    NSLog(@"isTaken t:%@ taking pi:%@",[t printInformation], [pi printInformation]);
+//                    [takenArray addObject:t];
+//                }
+//            }
+//        }
 //    }
-//    else if(guardCount == 0 && takenCount != 0) {
-//        takenValue += [[guardArray objectAtIndex:stack] getRelativeValue];
+//    NSMutableArray *guardArray = [self isGuardingPiece:pi];
+//    if ([guardArray count] == 0 && [takenArray count] > 0) {
+//        return true;
 //    }
-    finalValue += guardValue - takenValue;
-//    NSLog(@"FinalValue is: %.3lf, guardValue:%.3lf, takenValue:%.3lf,takenArray Count:%lu, gstack:%d, tstack:%d",finalValue,guardValue,takenValue,(unsigned long)[takenArray count], gStack, tStack);
-    if (finalValue >= 0) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
+//    else if([takenArray count] == 0) {
+//        return false;
+//    }
+//    takenArray = [self sortPiecesInArray:takenArray];
+//    //Cannot dectect in real time
+//    double finalValue = 0;
+//    [guardArray insertObject:pi atIndex:0];
+//    NSUInteger guardCount = [guardArray count];
+//    NSUInteger takenCount = [takenArray count];
+//    double guardValue = 0;
+//    double takenValue = 0;
+//    int tStack = 0, gStack = 0;
+//    int tterm = 0;
+//    while(takenCount != 0 && guardCount != 0) {
+//        if (tterm == 0 || tterm % 2 == 0) {
+//            takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
+//            guardCount--;
+//        }
+//        else {
+//            guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
+//            takenCount--;
+//        }
+//        tterm++;
+//    }
+////    if (takenCount == 0 && guardCount != 0) {
+////        guardValue += [[takenArray objectAtIndex:stack] getRelativeValue];
+////    }
+////    else if(guardCount == 0 && takenCount != 0) {
+////        takenValue += [[guardArray objectAtIndex:stack] getRelativeValue];
+////    }
+//    finalValue += guardValue - takenValue;
+////    NSLog(@"FinalValue is: %.3lf, guardValue:%.3lf, takenValue:%.3lf,takenArray Count:%lu, gstack:%d, tstack:%d",finalValue,guardValue,takenValue,(unsigned long)[takenArray count], gStack, tStack);
+//    if (finalValue >= 0) {
+//        return false;
+//    }
+//    else {
+//        return true;
+//    }
+//}
 
 -(NSMutableArray *)isTakenBy:(Piece *)pi {
     NSMutableArray *takenBy = [[NSMutableArray alloc] init];
@@ -588,15 +580,17 @@
 //}
 // need a backup move
 -(NSMutableArray *) findBestMove:(NSMutableArray *)allMoves {
-//    NSLog(@"in find best move");
-    double maxValue = 0;
+    NSLog(@"in findbestMove");
+    double maxValue = -30000;
     double maxIndex = 0;
     int count = 0;
 //    NSMutableArray *maxLose = [self boardTotalLosingValue:2];
     NSMutableArray *maxMove = [[NSMutableArray alloc] init];
     for (NSMutableArray *move in allMoves) {
+        NSLog(@"new start");
         //Doesnt care if there is move to make or not
         double curValue = [self thinkAhead:[move objectAtIndex:0] to:[move objectAtIndex:1]];
+        NSLog(@"finishmove");
         if (curValue > maxValue) {
                 maxValue = curValue;
                 maxIndex = count;
@@ -606,6 +600,7 @@
     }
 
 //    NSLog(@"bestMove is %@(%d,%d) to %@(%d,%d) with value %.2f",[[maxMove objectAtIndex:0] getName],[[maxMove objectAtIndex:0] getX],[[maxMove objectAtIndex:0] getY],[[maxMove objectAtIndex:1] getName],[[maxMove objectAtIndex:1] getX],[[maxMove objectAtIndex:1] getY], maxValue);
+    NSLog(@"returning max");
     return maxMove;
 }
 
@@ -692,8 +687,13 @@
 -(void) normalMove:(int)side {
 //    NSLog(@"normalMove");
     NSMutableArray *avaMoves = [self getAllMoves:side];
+    NSLog(@"getallmoves");
 //    NSLog(@"finish getAllMoves");
     NSMutableArray *bestMove = [self findBestMove:avaMoves];
+    if ([bestMove count] == 0) {
+        //TODO: should be developing
+        NSLog(@"NO GOOD MOVE TO MAKE");
+    }
     [self botMoveFrom:[bestMove objectAtIndex:0] to:[bestMove objectAtIndex:1]];
 }
 //It miss checked checking piece
@@ -741,6 +741,7 @@
 
 }
 -(BOOL) scriptMove {
+    NSLog(@"scprit move");
     NSArray *readin = [manual outputScript];
     if (readin == nil) {
         return false;
@@ -753,6 +754,7 @@
         return true;
     }
     else {
+        NSLog(@"normal move");
         [self normalMove:botSide];
         return true;
     }
@@ -891,6 +893,7 @@
         }
     }
     int totalValueOpponent = 0;
+    NSLog(@"go for opponent's value");
     for (NSMutableArray *i in [self pieceSet]) {
         for (Piece *p in i) {
             if ([p getSide] == (3 - side)) {
@@ -899,9 +902,10 @@
             
         }
     }
+    NSLog(@"finish opponent's move");
     return totalValue - totalValueOpponent;
 }
-
+//Disabled for encouraging more moves
 -(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial {
     int score = 0;
     int position = [pi getY] * 8 + [pi getX];
@@ -916,6 +920,7 @@
 //    if (defendValue < attackedValue) {
 //        score -= ((attackedValue - defendValue) * 10);
 //    }
+
     if ([self isTaken:pi]) {
         score -= [pi getRelativeValue] * 2;
     }
@@ -923,10 +928,12 @@
         score += attackedValue;
         score += defendValue;
     }
-    NSMutableArray *moves = [self AvailableMovesForOnePiece:pi];
-    if ([moves count] != 0) {
-        score += [moves count];
-    }
+
+//    NSMutableArray *moves = [self AvailableMovesForOnePiece:pi];
+//    if ([moves count] != 0) {
+//        score += [moves count];
+//    }
+
     NSMutableArray *blackPawnCount = [self blackPawnCount];
     NSMutableArray *whitePawnCount = [self whitePawnCount];
     if ([pi isPawn]) {
@@ -1026,9 +1033,9 @@
         
     }
     else if([pi isKing]) {
-        if ([moves count] < 2) {
-            score -= 5;
-        }
+//        if ([moves count] < 2) {
+//            score -= 5;
+//        }
         if (isEndGame == 1) {
             score += [[self.KingTableEndGame objectAtIndex:index] integerValue];
         }

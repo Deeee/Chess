@@ -625,6 +625,19 @@
             [scanner scanInt:&Y1];
             NSLog(@"%@ side:%d(value:%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
+        else if ([debuggingWindow.text rangeOfString:@"istaken"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
+            NSLog(@"%@ is taken result: %d",[temppiece printInformation],[myBoard isTaken:temppiece]);
+        }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
             [scanner scanUpToString:@"." intoString:NULL];

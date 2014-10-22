@@ -68,6 +68,9 @@
 -(void) checkStatus;
 -(void) addRelativeValue;
 
+-(BOOL) isTaken:(Piece *)pi;
+-(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array;
+-(NSMutableArray *) isGuardingPiece:(Piece *)pi;
 
 -(NSString *) getImageNameFromPiece:(Piece *)p;
 -(Piece *) getPieceAt:(int)X with:(int)Y;

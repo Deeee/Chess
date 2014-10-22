@@ -380,6 +380,7 @@
     return NULL;
 }
 
+
 // finds a random move given the bot's color.
 -(NSMutableArray *) findRandomMove :(int) color {
     

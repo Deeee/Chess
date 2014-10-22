@@ -21,5 +21,4 @@
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;
 -(void) changeTerms;
 
-
 @end
