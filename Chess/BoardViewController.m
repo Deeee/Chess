@@ -625,6 +625,21 @@
             [scanner scanInt:&Y1];
             NSLog(@"%@ side:%d(value:%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
+        //Board value check
+        else if ([debuggingWindow.text rangeOfString:@"value"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
+            NSLog(@"%@ value is %d",[temppiece printInformation], [(HardBot *)myBoard boardEvaluationPiece:temppiece isCastled:[myBoard isCastled] isEndGame:0 bishopCount:[myBoard bishopCount:[temppiece getSide]] insufficientMaterial:0]);
+        }
+
         else if ([debuggingWindow.text rangeOfString:@"istaken"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
             [scanner scanUpToString:@"." intoString:NULL];

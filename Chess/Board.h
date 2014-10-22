@@ -83,4 +83,7 @@
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;
+
+-(int) bishopCount:(int) side;
+
 @end

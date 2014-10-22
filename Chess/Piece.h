@@ -32,6 +32,7 @@
 -(int) getSide;
 -(NSString *) printInformation;
 -(double) getRelativeValue;
+-(NSString *) printLocation;
 
 -(BOOL) isPawn;
 -(BOOL) isRook;

@@ -106,6 +106,11 @@
     return [NSString stringWithFormat:@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]];
 }
 
+-(NSString *) printLocation{
+    return [NSString stringWithFormat:@"(%d, %d)", [self getX]+1, [self getY]+1];
+    
+}
+
 
 -(BOOL) isRook {
     if([self.getName rangeOfString:@"rook"].location != NSNotFound)

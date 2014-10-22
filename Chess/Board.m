@@ -315,7 +315,7 @@
     //    }
     finalValue += guardValue - takenValue;
     //    NSLog(@"FinalValue is: %.3lf, guardValue:%.3lf, takenValue:%.3lf,takenArray Count:%lu, gstack:%d, tstack:%d",finalValue,guardValue,takenValue,(unsigned long)[takenArray count], gStack, tStack);
-    if (isTaken != 0) {
+    if (isTaken != 0 && finalValue > 0) {
         NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d", guardValue, takenValue, tterm);
         return false;
     }
@@ -1524,6 +1524,17 @@
     
 }
 
-
+-(int) bishopCount:(int) side{
+    int count = 0;
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *p in i) {
+            if ([p isBishop] && [p getSide] == side) {
+                count++;
+            }
+        }
+        
+    }
+    return count;
+}
 
 @end

@@ -16,8 +16,8 @@
 @property Piece *imagineP;
 @property Piece *imagineT;
 @property int ifThink;
--(void) botMove;
--(BOOL) scriptMove;
+-(NSString *) botMove;
+-(NSString *) scriptMove:(NSArray *)readin;
 -(void) changeTerms;
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t;
 -(double)thinkAhead:(Piece *)p to:(Piece *)t;
@@ -29,4 +29,5 @@
 -(void) pieceTakeoverFrom:(Piece *)p to:(Piece *)t;
 -(NSMutableArray *)getAllMoves:(int)side;
 -(NSMutableArray *)bestMoveForOnePiece:(NSMutableArray *)allMoves Steps:(int)step;
+-(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial;
 @end

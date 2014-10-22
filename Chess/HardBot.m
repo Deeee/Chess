@@ -29,18 +29,21 @@
     return self;
 }
 
--(void) botMove {
+-(NSString *) botMove {
+    NSArray *readin = [manual outputScript];
+    NSString *ret;
     [self addRelativeValue];
 //    [self normalMove];
     if ([self isInCheck] == botSide) {
-        [self eliminateThreate];
+        ret = [self eliminateThreate];
     }
-    else if ([self scriptMove]) {
-        
+    else if (readin != nil) {
+        ret = [self scriptMove:readin];
     }
     else {
-        [self normalMove:botSide];
+        ret = [self normalMove:botSide];
     }
+    return ret;
 }
 -(NSMutableArray *) copyPieceSet{
     NSMutableArray *copy = [[NSMutableArray alloc] initWithCapacity:8];
@@ -684,7 +687,7 @@
     return avaMoves;
 }
 
--(void) normalMove:(int)side {
+-(NSString *) normalMove:(int)side {
 //    NSLog(@"normalMove");
     NSMutableArray *avaMoves = [self getAllMoves:side];
     NSLog(@"getallmoves");
@@ -695,9 +698,15 @@
         NSLog(@"NO GOOD MOVE TO MAKE");
     }
     [self botMoveFrom:[bestMove objectAtIndex:0] to:[bestMove objectAtIndex:1]];
+    return [self getLog:[bestMove objectAtIndex:0] to:[bestMove objectAtIndex:1]];
 }
+
+-(NSString *)getLog:(Piece *)p to: (Piece *)t {
+    return [NSString stringWithFormat:@"%@ move from %@ to %@",[p printInformation], [p printLocation], [t printLocation]];
+}
+
 //It miss checked checking piece
--(void)eliminateThreate {
+-(NSString *)eliminateThreate {
 //    NSLog(@"eliminateThreate");
     if ([self.checkingPieces count] == 1) {
         Piece *cp = [self.checkingPieces objectAtIndex:0];
@@ -706,7 +715,7 @@
                 if ([p getSide] == 2) {
                     if ([self validateMove:p to:cp] && [self isUnchecked:p to:cp]) {
                         [self botMoveFrom:p to:cp];
-                        return;
+                        return [self getLog:p to:cp];
                     }
                 }
             }
@@ -718,7 +727,7 @@
                 if ([t getSide] != 2) {
                     if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
                         [self botMoveFrom:myKing to:t];
-                        return;
+                        return [self getLog:myKing to:t];
                     }
                 }
             }
@@ -732,33 +741,33 @@
                 if ([t getSide] != 2) {
                     if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
                         [self botMoveFrom:myKing to:t];
-                        return;
+                        return [self getLog:myKing to:t];
                     }
                 }
             }
         }
     }
+    return [NSString stringWithFormat:@"Error in eliminate threate"];
 
 }
--(BOOL) scriptMove {
+-(NSString *) scriptMove:(NSArray *)readin {
     NSLog(@"scprit move");
-    NSArray *readin = [manual outputScript];
-    if (readin == nil) {
-        return false;
-    }
+//    NSArray *readin = [manual outputScript];
+//    if (readin == nil) {
+//        return false;
+//    }
     Piece *pi = [self getPieceAt:[[readin objectAtIndex:0] boardPointGetX] with:[[readin objectAtIndex:0] boardPointGetY]];
     Piece *t = [self getPieceAt:[[readin objectAtIndex:1] boardPointGetX] with:[[readin objectAtIndex:1] boardPointGetY]];
     if (([pi getSide] != [t getSide]) && [self validateMove:pi to:t] && [self isUnchecked:pi to:t] && ([[[self boardTotalLosingValue:2] objectAtIndex:1] doubleValue] < 0) && ![self isTakenInMove:pi to:t]) {
 //        NSLog(@"scriptMove calling bot move from %.2f",[[[self boardTotalLosingValue:2] objectAtIndex:1] doubleValue]);
         [self botMoveFrom:pi to:t];
-        return true;
+        return [self getLog:pi to:t];
     }
     else {
         NSLog(@"normal move");
-        [self normalMove:botSide];
-        return true;
+        return [self normalMove:botSide];
     }
-    return false;
+    return @"false";
 }
 
 -(void) pieceTakeoverFrom:(Piece *)p to:(Piece *)t {
@@ -1005,7 +1014,6 @@
         }
     }
     else if([pi isBishop]) {
-        bishopCount++;
         if (bishopCount >= 2) {
             score += 10;
         }
@@ -1017,7 +1025,7 @@
     else if([pi isRook]) {
         insuffcientMaterial = 0;
         //&& !endGamePhase
-        if ([pi hasPieceMoved] && self.isCastled == false)
+        if (![pi hasPieceMoved] && self.isCastled == false)
         {
             score -= 10;
         }
@@ -1026,7 +1034,7 @@
     else if([pi isQueen]) {
         insuffcientMaterial = 0;
         //&& !endGamePhase
-         if ([pi hasPieceMoved])
+         if (![pi hasPieceMoved])
          {
          score -= 10;
          }
@@ -1042,7 +1050,7 @@
         else {
             score += [[self.KingTable objectAtIndex:index] integerValue];
             //&& !endGame
-             if ([pi hasPieceMoved])
+             if (![pi hasPieceMoved])
              {
              score -= 10;
              }
