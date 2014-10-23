@@ -702,9 +702,18 @@
 }
 
 -(NSString *)getLog:(Piece *)p to: (Piece *)t {
-    return [NSString stringWithFormat:@"%@ move from %@ to %@",[p printInformation], [p printLocation], [t printLocation]];
+    if ([t isKing]) {
+            return [NSString stringWithFormat:@"%@(%d,%d) move from %@ to %@(King move involved, check for castlings)",[t getName],[p getX] + 1,[p getY] + 1, [p printLocation], [t printLocation]];
+    }
+    return [NSString stringWithFormat:@"%@(%d,%d) move from %@ to %@",[t getName],[p getX] + 1,[p getY] + 1, [p printLocation], [t printLocation]];
 }
 
+-(NSString *)getLogPlayer:(Piece *)p to: (Piece *)t{
+    if ([p isKing]) {
+        return [NSString stringWithFormat:@"%@(%d,%d) move from %@ to %@(King move involved, check for castlings)",[p getName],[p getX] + 1,[p getY] + 1, [p printLocation], [t printLocation]];
+    }
+        return [NSString stringWithFormat:@"%@(%d,%d) move from %@ to %@",[p getName],[p getX] + 1,[p getY] + 1, [p printLocation], [t printLocation]];
+}
 //It miss checked checking piece
 -(NSString *)eliminateThreate {
 //    NSLog(@"eliminateThreate");
@@ -815,13 +824,22 @@
     if ([self.undecidedMove count] == 0) {
         return;
     }
-    
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.logPath];
+    [fileHandle seekToEndOfFile];
+    NSString *logString;
     if (self.terms == 1) {
         self.undecidedReturnTrue = 0;
+        NSString *logStringMyMove = [self getLogPlayer:[self.undecidedMove objectAtIndex:0] to:[self.undecidedMove objectAtIndex:1]];
         [self.undecidedMove removeAllObjects];
         self.terms = 2;
         [self checkStatus];
-        [self botMove];
+        logString = [self botMove];
+        if ([self isFirstCaller] == 1) {
+            NSLog(@"caller is 1!!!!!!");
+            [fileHandle writeData:[[NSString stringWithFormat:@"MM: %@\n",logStringMyMove] dataUsingEncoding:NSUTF8StringEncoding]];
+            [fileHandle writeData:[[NSString stringWithFormat:@"BM: %@\n",logString] dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+
         [self.checkingPieces removeAllObjects];
         self.isInCheck = 0;
         self.terms = 1;

@@ -32,7 +32,8 @@
 @property NSArray *BishopTable;
 @property NSArray *KingTable;
 @property NSArray *KingTableEndGame;
-
+@property NSString *logPath;
+@property int isFirstCaller;
 
 -(BOOL) setMove:(Piece *) p to:(Piece *)t and:(int)isDebug;
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;

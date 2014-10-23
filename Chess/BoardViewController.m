@@ -178,6 +178,22 @@
         myBoard = [[Board alloc] init];
         [myBoard setMode:0];
     }
+    
+    [myBoard setIsFirstCaller:1];
+    NSDate *currentTime = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString* fileName = @"log.txt";
+    NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
+    [dateFormatter setDateFormat:@"hh:mm MM/YY"];
+    NSString *resultString = [dateFormatter stringFromDate: currentTime];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fileAtPath]) {
+        [[NSFileManager defaultManager] createFileAtPath:fileAtPath contents:nil attributes:nil];
+    }
+    [myBoard setLogPath:fileAtPath];
+    [[NSString stringWithFormat:@"Log recorded at:%@\n",resultString] writeToFile:[myBoard logPath] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"the path for log file is at %@",[myBoard logPath]);
+    
     [[[[myBoard getPieceSet] objectAtIndex:0] objectAtIndex:0] setImg:rook and:[NSMutableString stringWithString:@"rook"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:1] objectAtIndex:0] setImg:knight and:[NSMutableString stringWithString:@"knight"] and:1];
     [[[[myBoard getPieceSet] objectAtIndex:2] objectAtIndex:0] setImg:bishop and:[NSMutableString stringWithString:@"bishop"] and:1];

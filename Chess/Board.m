@@ -23,6 +23,9 @@
 @synthesize isCastled;
 @synthesize pawnValue;
 @synthesize PawnTable, KingTable, KingTableEndGame, KnightTable, BishopTable;
+@synthesize logPath;
+@synthesize isFirstCaller;
+
 -(id) init{
     self = [super init];
     //NSLog(@"initing board");
@@ -46,6 +49,9 @@
     [white setSide:1];
     [black setSide:2];
     checkingPieces = [[NSMutableArray alloc] init];
+    
+
+    
     PawnTable =
     @[
      @0,   @0,   @0,   @0,   @0,   @0,   @0,   @0,
