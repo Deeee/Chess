@@ -7,7 +7,7 @@
 //
 
 #import "Board.h"
-
+#import "HardBot.h"
 @implementation Board
 @synthesize pieceSet;
 @synthesize terms;
@@ -259,9 +259,9 @@
     //    NSLog(@"!!!!!!!");
     return tempArray;
 }
-
--(BOOL)isTaken:(Piece *)pi{
-    //    NSLog(@"isTaken:%@",[pi printInformation]);
+-(BOOL)isTakenBeforeMoved:(Piece *)pi{
+    
+        NSLog(@"isTakenBeforeMoved:%@",[pi printInformation]);
     NSMutableArray *takenArray = [[NSMutableArray alloc] init];
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *t in i) {
@@ -275,21 +275,118 @@
     }
     NSMutableArray *guardArray = [self isGuardingPiece:pi];
     if ([guardArray count] == 0 && [takenArray count] > 0) {
+        if ([takenArray count] == 1) {
+            if (![self isTakenInMove:pi to:[takenArray objectAtIndex:0]]) {
+                NSLog(@"is not taken because %@ can take %@",[pi printInformation], [[takenArray objectAtIndex:0] printInformation]);
+                return false;
+            }
+        }
         return true;
     }
     else if([takenArray count] == 0) {
         return false;
     }
     takenArray = [self sortPiecesInArray:takenArray];
+    
     //Cannot dectect in real time
     double finalValue = 0;
     [guardArray insertObject:pi atIndex:0];
     NSUInteger guardCount = [guardArray count];
-    NSLog(@"-----");
-    for (Piece * u in guardArray) {
-        [u printInformation];
+//    NSLog(@"Guard_____");
+//    for (Piece * u in guardArray) {
+//        [u printInformation];
+//    }
+//    NSLog(@"_____");
+//    NSLog(@"Taken_____");
+//    for (Piece * u in takenArray) {
+//        [u printInformation];
+//    }
+//    NSLog(@"__________");
+    NSUInteger takenCount = [takenArray count];
+    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
+    double guardValue = 0;
+    double takenValue = 0;
+    int tStack = 0, gStack = 0;
+    int tterm = 0;
+    int isTaken = 1;
+    //While loop cannot do real time calculation, switch to compare lowest to highest
+    while(takenCount != 0 && guardCount != 0) {
+        if (tterm == 0 || tterm % 2 == 0) {
+            guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
+            takenCount--;
+        }
+        else {
+            takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
+            guardCount--;
+
+        }
+        tterm++;
+        if (((guardValue - takenValue) > 0) && (tterm % 2 == 0 || takenCount == 0 || guardCount == 0)){
+            isTaken = 0;
+            break;
+        }
     }
-    NSLog(@"_____");
+
+    finalValue += guardValue - takenValue;
+    if (isTaken != 0 && finalValue < 0) {
+        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d, true", guardValue, takenValue, tterm);
+        for (Piece *i in takenArray) {
+            if (![self isTakenInMove:pi to:i]) {
+                NSLog(@"%@ is not taken because %@ can be taken by him with safety",[pi printInformation],[i printInformation]);
+                return false;
+            }
+            else {
+                NSLog(@"%@ will be taken if capture %@",[pi printInformation],[i printInformation]);
+                
+            }
+        }
+        return true;
+    }
+    else {
+        //TODO: check if piece is taken in move
+
+        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d,false", guardValue, takenValue, tterm);
+        return false;
+    }
+}
+
+-(BOOL)isTakenAfterMoved:(Piece *)pi{
+    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
+
+    //    NSLog(@"isTaken:%@",[pi printInformation]);
+    NSMutableArray *takenArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    [takenArray addObject:t];
+                }
+            }
+        }
+    }
+    NSMutableArray *guardArray = [self isGuardingPiece:pi];
+    if ([guardArray count] == 0 && [takenArray count] > 0) {
+        return true;
+    }
+    else if([takenArray count] == 0) {
+        return false;
+    }
+    takenArray = [self sortPiecesInArray:takenArray];
+    
+    //Cannot dectect in real time
+    double finalValue = 0;
+    [guardArray insertObject:pi atIndex:0];
+    NSUInteger guardCount = [guardArray count];
+//    NSLog(@"Guard_____");
+//    for (Piece * u in guardArray) {
+//        [u printInformation];
+//    }
+//    NSLog(@"__________");
+//    NSLog(@"Taken_____");
+//    for (Piece * u in takenArray) {
+//        [u printInformation];
+//    }
+//    NSLog(@"__________");
     NSUInteger takenCount = [takenArray count];
     NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
     double guardValue = 0;
@@ -300,10 +397,12 @@
     //While loop cannot do real time calculation, switch to compare lowest to highest
     while(takenCount != 0 && guardCount != 0) {
         if (tterm == 0 || tterm % 2 == 0) {
+            NSLog(@"adding taken value");
             takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
             guardCount--;
         }
         else {
+            NSLog(@"adding guardvalue %@",[[takenArray objectAtIndex:tStack] printInformation]);
             guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
             takenCount--;
         }
@@ -313,22 +412,44 @@
             break;
         }
     }
-    //    if (takenCount == 0 && guardCount != 0) {
-    //        guardValue += [[takenArray objectAtIndex:stack] getRelativeValue];
-    //    }
-    //    else if(guardCount == 0 && takenCount != 0) {
-    //        takenValue += [[guardArray objectAtIndex:stack] getRelativeValue];
-    //    }
+
     finalValue += guardValue - takenValue;
-    //    NSLog(@"FinalValue is: %.3lf, guardValue:%.3lf, takenValue:%.3lf,takenArray Count:%lu, gstack:%d, tstack:%d",finalValue,guardValue,takenValue,(unsigned long)[takenArray count], gStack, tStack);
-    if (isTaken != 0 && finalValue > 0) {
-        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d", guardValue, takenValue, tterm);
+
+    if (isTaken == 0 && finalValue > 0) {
+        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d, istaken is %d, false", guardValue, takenValue, tterm,isTaken);
         return false;
     }
     else {
-        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d", guardValue, takenValue, tterm);
+        //TODO: check if piece is taken in move
+        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d, istaken is %D, true", guardValue, takenValue, tterm,isTaken);
         return true;
     }
+}
+-(HardBot *) imagineMoveOnBoard:(Piece *)p to:(Piece *)t {
+    //    NSLog(@"imagineMoveOnBoard:%@ to %@",[p printInformation],[t printInformation]);
+    HardBot *copy = [self copySelf];
+    Piece *igP = [copy getPieceAt:[p getX] with:[p getY]];
+    Piece *igT = [copy getPieceAt:[t getX] with:[t getY]];
+    //    NSLog(@"imagine move from %@ to %@",[p printInformation], [t printInformation]);
+    [copy botMoveFrom:igP to:igT];
+    return copy;
+}
+
+-(Board *) copySelf {
+    
+    //    NSLog(@"in copyself");
+    Board *copy = [[Board alloc] init];
+    
+    NSMutableArray *pieceSetCopy = self.pieceSet;
+    copy.pieceSet = pieceSetCopy;
+    copy.isCastled = self.isCastled;
+    copy.isInCheck = self.isInCheck;
+    return copy;
+}
+-(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp {
+    HardBot *tempBoard = [self imagineMoveOnBoard:pi to:tp];
+    Piece *tOnTempBoard = [tempBoard getPieceAt:[tp getX] with:[tp getY]];
+    return [tempBoard isTakenAfterMoved:tOnTempBoard];
 }
 
 -(void) castlingMove:(Piece *)p to:(Piece *)t{
@@ -1367,9 +1488,7 @@
     return false;
 }
 
--(BOOL) bot_validateMove:(Piece *) p to:(Piece *)t {
-    return true;
-}
+
 -(Piece *) getPieceAt:(int)X with:(int)Y {
     return [[pieceSet objectAtIndex:X] objectAtIndex:Y];
 }
@@ -1386,8 +1505,8 @@
         [p setSide:0];
         [p setHasMoved:0];
         [t setHasMoved:1];
-        //[t setImg:[p getImage] and:[p getName]];
-        //[p setImg:tempImage and:[NSMutableString stringWithString:@"empty"]];
+        [t setRelativeValue:[p getRelativeValue]];
+        [p setRelativeValue:0];
         
     }
     else {

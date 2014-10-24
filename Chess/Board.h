@@ -11,7 +11,6 @@
 #import "LinearEquation.h"
 #import "Player.h"
 #import "BoardPoint.h"
-
 @interface Board : NSObject
 @property NSMutableArray* pieceSet;
 @property Piece *tempRook;
@@ -69,7 +68,9 @@
 -(void) checkStatus;
 -(void) addRelativeValue;
 
--(BOOL) isTaken:(Piece *)pi;
+-(BOOL) isTakenBeforeMoved:(Piece *)pi;
+-(BOOL) isTakenAfterMoved:(Piece *)pi;
+
 -(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array;
 -(NSMutableArray *) isGuardingPiece:(Piece *)pi;
 
@@ -81,6 +82,9 @@
 -(void) castlingMove:(Piece *)p to:(Piece *)t;
 -(void) undoCastling;
 -(Piece *) getAccordingRook:(Piece *)king to:(Piece *)des;
+
+-(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp;
+
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;

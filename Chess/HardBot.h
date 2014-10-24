@@ -6,10 +6,9 @@
 //  Copyright (c) 2014 Liu Di. All rights reserved.
 //
 
-#import "Board.h"
+#import "BoardViewController.h"
 #import "ChessManual.h"
-
-@interface HardBot : Board<NSCopying>
+@interface HardBot : Board
 @property ChessManual *manual;
 @property Piece *botTempRook;
 @property Piece *oriTempRook;
@@ -30,4 +29,5 @@
 -(NSMutableArray *)getAllMoves:(int)side;
 -(NSMutableArray *)bestMoveForOnePiece:(NSMutableArray *)allMoves Steps:(int)step;
 -(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial;
+-(Piece *) getPieceAt:(int)X with:(int)Y;
 @end

@@ -641,6 +641,32 @@
             [scanner scanInt:&Y1];
             NSLog(@"%@ side:%d(value:%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
+        else if ([debuggingWindow.text rangeOfString:@"TIM"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            NSLog(@"SCANNED, %d, %d, %d, %d",X1,Y1,X2,Y2);
+            Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+            NSLog(@"GOT PIECE");
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            NSLog(@"GOT PIECE");
+            int ret = [myBoard isTakenInMove:pi to:t];
+            NSLog(@"%@ to %@, taken in move result %d",[pi printInformation],[t printInformation],ret);
+        }
         //Board value check
         else if ([debuggingWindow.text rangeOfString:@"value"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -667,7 +693,7 @@
             int Y1;
             [scanner scanInt:&Y1];
             Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
-            NSLog(@"%@ is taken result: %d",[temppiece printInformation],[myBoard isTaken:temppiece]);
+            NSLog(@"%@ is takenAfter result: %d, is takenBefore result: %d",[temppiece printInformation],[myBoard isTakenAfterMoved:temppiece],[myBoard isTakenBeforeMoved:temppiece]);
         }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];

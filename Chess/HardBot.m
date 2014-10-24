@@ -60,6 +60,11 @@
     }
     return copy;
 }
+
+-(Piece *) getPieceAt:(int)X with:(int)Y {
+    return [[self.pieceSet objectAtIndex:X] objectAtIndex:Y];
+}
+
 -(HardBot *) copySelf {
 
 //    NSLog(@"in copyself");
@@ -113,14 +118,11 @@
     }
     
 }
-
+//-(BOOL) isTakenB:(Piece *)pi{
+//    return [super isTaken:pi];
+//}
 
 //imagine move doesnt do castle moves ##
--(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp {
-    HardBot *tempBoard = [self imagineMoveOnBoard:pi to:tp];
-    Piece *tOnTempBoard = [tempBoard getPieceAt:[tp getX] with:[tp getY]];
-    return [tempBoard isTaken:tOnTempBoard];
-}
 
 
 
@@ -461,7 +463,6 @@
 }
 
 -(NSMutableArray *) boardTotalLosingValue:(int)side{
-//    NSLog(@"boardTotalLosingValue:%d",side);
     NSMutableArray *results = [[NSMutableArray alloc] init];
     NSMutableArray *threates = [[NSMutableArray alloc] init];
     Piece *maxLosePiece;
@@ -475,7 +476,7 @@
                     [temp setRelativeValue:0];
                     maxLosePiece = temp;
                 }
-                if ([self isTaken:p]) {
+                if ([self isTakenAfterMoved:p]) {
                     maxLose += [p getRelativeValue];
                     maxLosePiece = p;
                     threates = [self isTakenBy:p];
@@ -487,8 +488,6 @@
     [results addObject:maxLosePiece];
     [results addObject:[NSNumber numberWithDouble:maxLose]];
     [results addObject:threates];
-    //posible return nil of maxlosetaken
-//    NSLog(@"boardtotallosingvalue:%@",[maxLosePiece printInformation]);
     return results;
 }
 
@@ -651,7 +650,7 @@
         return true;
     }
 }
-
+//TODO: implement such that when a good trade happens take it
 -(NSMutableArray *)AvailableMovesForOnePiece:(Piece *)pi{
     NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
 //    NSLog(@"AvailableMovesForOnePiece: %@", [pi getName]);
@@ -943,23 +942,15 @@
     score += [pi getRelativeValue];
     int attackedValue = [self getAttackedValue:pi];
     int defendValue = [self getDefendValue:pi];
-    //bug consider all the defend value so piece never go for escape
-//    if (defendValue < attackedValue) {
-//        score -= ((attackedValue - defendValue) * 10);
-//    }
 
-    if ([self isTaken:pi]) {
-        score -= [pi getRelativeValue] * 2;
+    if ([self isTakenAfterMoved:pi]) {
+        score -= [pi getRelativeValue];
     }
     else {
-        score += attackedValue;
-        score += defendValue;
+        score += attackedValue * 0.3;
+        score += defendValue * 0.1;
     }
 
-//    NSMutableArray *moves = [self AvailableMovesForOnePiece:pi];
-//    if ([moves count] != 0) {
-//        score += [moves count];
-//    }
 
     NSMutableArray *blackPawnCount = [self blackPawnCount];
     NSMutableArray *whitePawnCount = [self whitePawnCount];
@@ -1077,4 +1068,11 @@
     }
     return score;
 }
+//TODO: Simply add the value of tp piece to the trading chain will do it
+-(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp {
+    HardBot *tempBoard = [self imagineMoveOnBoard:pi to:tp];
+    Piece *tOnTempBoard = [tempBoard getPieceAt:[tp getX] with:[tp getY]];
+    return [tempBoard isTakenAfterMoved:tOnTempBoard];
+}
+
 @end
