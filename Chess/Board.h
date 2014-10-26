@@ -61,15 +61,17 @@
 -(BOOL) isAttackedDiagonal:(Piece*)piece and :(int)color;
 -(BOOL) isAttackedByKnight:(Piece*)piece and :(int) color;
 
--(void) debugMove:(Piece *)p to:(Piece *)t;
 -(BOOL) isChecked;
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t;
 -(BOOL) isPermaChecked;
+-(BOOL) kingCanCastle:(Piece *)pi to :(Piece *)t;
 -(void) checkStatus;
 -(void) addRelativeValue;
+-(void) debugMove:(Piece *)p to:(Piece *)t;
 
 -(BOOL) isTakenBeforeMoved:(Piece *)pi;
 -(BOOL) isTakenAfterMoved:(Piece *)pi;
+-(BOOL) isTakenInMove:(Piece *)pi to:(Piece *)tp;
 
 -(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array;
 -(NSMutableArray *) isGuardingPiece:(Piece *)pi;
@@ -78,17 +80,13 @@
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 -(NSMutableArray *) getPieceSet;
 -(NSMutableArray *) AvailableMovesForOnePiece:(Piece *)pi;
--(BOOL)kingCanCastle:(Piece *)pi to :(Piece *)t;
+
 -(void) castlingMove:(Piece *)p to:(Piece *)t;
 -(void) undoCastling;
 -(Piece *) getAccordingRook:(Piece *)king to:(Piece *)des;
-
--(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp;
-
 
 -(Piece *)getWhiteKing;
 -(Piece *)getBlackKing;
 
 -(int) bishopCount:(int) side;
-
 @end

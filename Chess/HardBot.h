@@ -27,7 +27,10 @@
 -(HardBot *) copySelf;
 -(void) pieceTakeoverFrom:(Piece *)p to:(Piece *)t;
 -(NSMutableArray *)getAllMoves:(int)side;
+-(NSMutableArray *) findBestMove:(NSMutableArray *)allMoves;
 -(NSMutableArray *)bestMoveForOnePiece:(NSMutableArray *)allMoves Steps:(int)step;
 -(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial;
+-(int) totalBoardValue:(int)side;
+
 -(Piece *) getPieceAt:(int)X with:(int)Y;
 @end

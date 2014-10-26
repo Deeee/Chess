@@ -329,14 +329,14 @@
 
     finalValue += guardValue - takenValue;
     if (isTaken != 0 && finalValue < 0) {
-        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d, true", guardValue, takenValue, tterm);
+//        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d, true", guardValue, takenValue, tterm);
         for (Piece *i in takenArray) {
             if (![self isTakenInMove:pi to:i]) {
-                NSLog(@"%@ is not taken because %@ can be taken by him with safety",[pi printInformation],[i printInformation]);
+//                NSLog(@"%@ is not taken because %@ can be taken by him with safety",[pi printInformation],[i printInformation]);
                 return false;
             }
             else {
-                NSLog(@"%@ will be taken if capture %@",[pi printInformation],[i printInformation]);
+//                NSLog(@"%@ will be taken if capture %@",[pi printInformation],[i printInformation]);
                 
             }
         }
@@ -345,13 +345,13 @@
     else {
         //TODO: check if piece is taken in move
 
-        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d,false", guardValue, takenValue, tterm);
+//        NSLog(@"isTaken before move guard value %.2f  takenvalue %.2f, tterm is %d,false", guardValue, takenValue, tterm);
         return false;
     }
 }
 
 -(BOOL)isTakenAfterMoved:(Piece *)pi{
-    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
+//    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
 
     //    NSLog(@"isTaken:%@",[pi printInformation]);
     NSMutableArray *takenArray = [[NSMutableArray alloc] init];

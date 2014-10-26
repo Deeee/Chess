@@ -102,7 +102,7 @@
 }
 
 -(NSString *) printInformation {
-    NSLog(@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]);
+//    NSLog(@"%@(%d,%d) side %d(value:%.2f, hasMoved:%d)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue],[self hasMoved]);
     return [NSString stringWithFormat:@"%@(%d,%d) side %d(value:%.2f)",[self getName], [self getX],[self getY], [self getSide],[self getRelativeValue]];
 }
 

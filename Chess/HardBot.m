@@ -284,7 +284,7 @@
 //}
 
 -(double)simulate:(int)s lastValue:(double)v curBoard:(HardBot *)b{
-    if (s == 2) {
+    if (s == 1) {
         return v;
     }
     [b normalMove:(3 - botSide)];
@@ -355,37 +355,33 @@
 
 -(int)getAttackedValue:(Piece *)pi {
     NSMutableArray *takenArray = [[NSMutableArray alloc] init];
+    int attakedValue = 0;
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *t in i) {
             if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
                 if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi] && ![self isTakenInMove:t to:pi]) {
-//                    NSLog(@"getattacked t:%@ taking pi:%@",[t printInformation], [pi printInformation]);
+                    attakedValue += [t getRelativeValue];
                     [takenArray addObject:t];
                 }
             }
         }
     }
-    int attakedValue = 0;
-    for (Piece *i in takenArray) {
-        attakedValue += [i getRelativeValue];
-    }
+
     return attakedValue;
 }
 
 -(int)getDefendValue:(Piece *)pi {
     NSMutableArray *guardArray = [[NSMutableArray alloc] init];
+    int defendValue = 0;
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *t in i) {
             if ([t getSide] == [pi getSide]) {
                 if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    defendValue += [t getRelativeValue];
                     [guardArray addObject:t];
                 }
             }
         }
-    }
-    int defendValue = 0;
-    for (Piece *i in guardArray) {
-        defendValue += [i getRelativeValue];
     }
     return defendValue;
 }
@@ -582,28 +578,46 @@
 //}
 // need a backup move
 -(NSMutableArray *) findBestMove:(NSMutableArray *)allMoves {
-    NSLog(@"in findbestMove");
+//    NSLog(@"in findbestMove");
+//    NSLog(@"All moves");
+//    for (NSMutableArray *moves in allMoves) {
+//        for (int i = 0; i < [moves count]; i+=2) {
+//            NSLog(@"%@ to %@",[[moves objectAtIndex:i] printInformation],[[moves objectAtIndex:i+1] printInformation]);
+//        }
+//    }
     double maxValue = -30000;
-    double maxIndex = 0;
+    int maxIndex = 0;
+    int innerIndex = 0;
     int count = 0;
 //    NSMutableArray *maxLose = [self boardTotalLosingValue:2];
     NSMutableArray *maxMove = [[NSMutableArray alloc] init];
     for (NSMutableArray *move in allMoves) {
-        NSLog(@"new start");
+        double tempMax = -30000;
         //Doesnt care if there is move to make or not
-        double curValue = [self thinkAhead:[move objectAtIndex:0] to:[move objectAtIndex:1]];
-        NSLog(@"finishmove");
-        if (curValue > maxValue) {
-                maxValue = curValue;
+        for (int i = 0; i < [move count]; i+=2) {
+            double innerCur = [self thinkAhead:[move objectAtIndex:i] to:[move objectAtIndex:i+1]];
+            if (innerCur > maxValue) {
+                maxValue = innerCur;
                 maxIndex = count;
+                innerIndex = i;
                 maxMove = move;
+            }
+//            NSLog(@"Move %@ to %@ with value %.2f",[[move objectAtIndex:i] printInformation],[[move objectAtIndex:i+1] printInformation],innerCur);
         }
+//        double curValue = [self thinkAhead:[move objectAtIndex:0] to:[move objectAtIndex:1]];
+//        NSLog(@"Move %@ to %@ with value %.2f",[[move objectAtIndex:0] printInformation],[[move objectAtIndex:1] printInformation],curValue);
+//        if (curValue > maxValue) {
+//                maxValue = curValue;
+//                maxIndex = count;
+//                maxMove = move;
+//        }
         count ++;
     }
 
 //    NSLog(@"bestMove is %@(%d,%d) to %@(%d,%d) with value %.2f",[[maxMove objectAtIndex:0] getName],[[maxMove objectAtIndex:0] getX],[[maxMove objectAtIndex:0] getY],[[maxMove objectAtIndex:1] getName],[[maxMove objectAtIndex:1] getX],[[maxMove objectAtIndex:1] getY], maxValue);
-    NSLog(@"returning max");
-    return maxMove;
+    NSMutableArray *ret = [[NSMutableArray alloc] initWithObjects:[maxMove objectAtIndex:innerIndex],[maxMove objectAtIndex:innerIndex+1], nil];
+    NSLog(@"returning maxMove %@ to %@ with value %.2f",[[ret objectAtIndex:0] printInformation],[[ret objectAtIndex:1] printInformation],maxValue);
+    return ret;
 }
 
 -(NSMutableArray *)whitePawnCount {
@@ -913,7 +927,7 @@
     for (NSMutableArray *i in [self pieceSet]) {
         for (Piece *p in i) {
             if ([p getSide] == side) {
-                            totalValue += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:side] insufficientMaterial:[self isInsufficentMaterial:side]];
+                            totalValue += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:side] insufficientMaterial:[self isInsufficentMaterial:side]] * 2;
             }
             
         }
@@ -923,7 +937,7 @@
     for (NSMutableArray *i in [self pieceSet]) {
         for (Piece *p in i) {
             if ([p getSide] == (3 - side)) {
-                totalValueOpponent += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:3 -side] insufficientMaterial:[self isInsufficentMaterial:3 - side]];
+                totalValueOpponent += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:3 -side] insufficientMaterial:[self isInsufficentMaterial:3 - side]] * 2;
             }
             
         }
@@ -947,8 +961,8 @@
         score -= [pi getRelativeValue];
     }
     else {
-        score += attackedValue * 0.3;
-        score += defendValue * 0.1;
+        score += attackedValue * 0.5;
+        score += defendValue * 0.2;
     }
 
 
@@ -962,6 +976,9 @@
         
         score += [[self.PawnTable objectAtIndex:index] integerValue];
         if ([pi getSide] == 1) {
+            if ([pi hasPieceMoved]) {
+                score -= 20;
+            }
             if ([whitePawnCount objectAtIndex:(position % 8)] > 0) {
                 score -= 16;
             }

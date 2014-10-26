@@ -166,12 +166,13 @@
                       action:@selector(clickOnComfirm)
             forControlEvents:UIControlEventTouchDown];
     NSLog(@"mode is: %ld",(long)mode1);
-    if (mode1 == 1) {
-        NSLog(@"***In bot mode");
-        myBoard = [[EasyBot alloc] init];
-        [myBoard setMode:1];
-    }
-    else if (mode1 == 2) {
+//    if (mode1 == 1) {
+//        NSLog(@"***In bot mode");
+//        myBoard = [[EasyBot alloc] init];
+//        [myBoard setMode:1];
+//    }
+//    else if (mode1 == 2) {
+    if (mode1 == 1 || mode1 == 2) {
         myBoard = [[HardBot alloc] init];
     }
     else {
@@ -639,9 +640,10 @@
             [scanner setScanLocation:[scanner scanLocation] + 1];
             int Y1;
             [scanner scanInt:&Y1];
-            NSLog(@"%@ side:%d(value:%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
+            [[myBoard getPieceAt:X1 with:Y1] printInformation];
         }
-        else if ([debuggingWindow.text rangeOfString:@"TIM"].location != NSNotFound) {
+        //taken in move
+        else if ([debuggingWindow.text rangeOfString:@"tim"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
             [scanner scanUpToString:@"." intoString:NULL];
             [scanner setScanLocation:[scanner scanLocation] + 1];
@@ -659,13 +661,35 @@
             [scanner setScanLocation:[scanner scanLocation] + 1];
             int Y2;
             [scanner scanInt:&Y2];
-            NSLog(@"SCANNED, %d, %d, %d, %d",X1,Y1,X2,Y2);
             Piece *pi = [myBoard getPieceAt:X1 with:Y1];
-            NSLog(@"GOT PIECE");
             Piece *t = [myBoard getPieceAt:X2 with:Y2];
-            NSLog(@"GOT PIECE");
             int ret = [myBoard isTakenInMove:pi to:t];
             NSLog(@"%@ to %@, taken in move result %d",[pi printInformation],[t printInformation],ret);
+        }
+        //value at position
+        else if ([debuggingWindow.text rangeOfString:@"vap"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            HardBot *tempB = [myBoard imagineMoveOnBoard:pi to:t];
+            int eva = [tempB totalBoardValue:[pi getSide]];
+            NSLog(@"%@ to %@, after move totalboardvalue is %d",[pi printInformation],[t printInformation],eva);
         }
         //Board value check
         else if ([debuggingWindow.text rangeOfString:@"value"].location != NSNotFound) {
@@ -693,7 +717,7 @@
             int Y1;
             [scanner scanInt:&Y1];
             Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
-            NSLog(@"%@ is takenAfter result: %d, is takenBefore result: %d",[temppiece printInformation],[myBoard isTakenAfterMoved:temppiece],[myBoard isTakenBeforeMoved:temppiece]);
+//            NSLog(@"%@ is takenAfter result: %d, is takenBefore result: %d",[temppiece printInformation],[myBoard isTakenAfterMoved:temppiece],[myBoard isTakenBeforeMoved:temppiece]);
         }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -715,6 +739,33 @@
             
             NSLog(@"show available move of %@(%d , %d) side:%d(%.2f)",[[myBoard getPieceAt:X1 with:Y1] getName],[t getX],[t getY],[[myBoard getPieceAt:X1 with:Y1] getSide],[[myBoard getPieceAt:X1 with:Y1] getRelativeValue]);
         }
+        //Available moves for one piece test
+        else if ([debuggingWindow.text rangeOfString:@"opm"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            Piece *t = [myBoard getPieceAt:X1 with:Y1];
+            NSMutableArray *moves = [myBoard AvailableMovesForOnePiece:t];
+            NSLog(@"Available moves for one %@ print outs:",[t printInformation]);
+            for (int i = 0; i < [moves count]; i+=2) {
+                NSLog(@"%@ to %@",[[moves objectAtIndex:i] printInformation],[[moves objectAtIndex:i+1] printInformation]);
+            }
+        }
+        else if ([debuggingWindow.text rangeOfString:@"allm"].location != NSNotFound) {
+            NSMutableArray *allm = [myBoard getAllMoves:2];
+            NSLog(@"All moves");
+            for (NSMutableArray *moves in allm) {
+                for (int i = 0; i < [moves count]; i+=2) {
+                    NSLog(@"%@ to %@",[[moves objectAtIndex:i] printInformation],[[moves objectAtIndex:i+1] printInformation]);
+                }
+            }
+        }
         else if ([debuggingWindow.text rangeOfString:@"allValues"].location != NSNotFound) {
             CGRect frame = [UIScreen mainScreen].bounds;
             DrawValues *valueView = [[DrawValues alloc] initWithFrame:frame];
@@ -723,6 +774,10 @@
             [self.view addSubview:valueView];
             [self.view bringSubviewToFront:valueView];
             [self showAllValues:valueView];
+        }
+        else if ([debuggingWindow.text rangeOfString:@"best"].location != NSNotFound) {
+
+            [myBoard findBestMove:[myBoard getAllMoves:2]];
         }
         else if ([debuggingWindow.text rangeOfString:@"imob"].location != NSNotFound) {
             if ([myBoard class] != [HardBot class]) {
