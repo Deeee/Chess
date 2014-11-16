@@ -14,7 +14,7 @@
 		<string>https://github.com/a505190722/Chess.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Chess.xcodeproj/project.xcworkspace</string>
+	<string>Chess.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</key>

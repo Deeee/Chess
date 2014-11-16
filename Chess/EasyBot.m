@@ -447,12 +447,31 @@
 //        self.terms = 1;
 //    }
 }
+
+-(void) imagineMoveFrom:(Piece *)p to:(Piece *)t {
+
+    [t setName:[p getName]];
+    [t setRelativeValue:[p getRelativeValue]];
+    [p setRelativeValue:0];
+    [t setHasMoved:1];
+    [p setHasMoved:0];
+    [t setX:[p getX]];
+    [t setY:[p getY]];
+    [p setX:[t getX]];
+    [p setY:[t getY]];
+    [p setName: [NSMutableString stringWithFormat: @"empty"]];
+    [t setSide:[p getSide]];
+    [p setSide:0];
+}
+
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t {
     NSLog(@"in bot move");
     UIImageView *tempImage2 = [t getImage];
     UIImageView *tempImage = [p getImage];
     NSLog(@"%@ take over %@, from %d %d, to %d %d",[p getName],[t getName],[p getX], [p getY],[t getX],[t getY]);
     [self imageTakeOver:tempImage takeOver:tempImage2];
+    [t setRelativeValue:[p getRelativeValue]];
+    [p setRelativeValue:0];
     [t setName:[p getName]];
     [p setName: [NSMutableString stringWithFormat: @"empty"]];
     [t setSide:[p getSide]];

@@ -31,6 +31,8 @@
 -(NSMutableArray *)bestMoveForOnePiece:(NSMutableArray *)allMoves Steps:(int)step;
 -(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial;
 -(int) totalBoardValue:(int)side;
-
+-(void) imagineMoveFrom:(Piece *)p to:(Piece *)t;
 -(Piece *) getPieceAt:(int)X with:(int)Y;
+
+-(NSMutableArray *) totalBoardValueDetailed:(int)side;
 @end

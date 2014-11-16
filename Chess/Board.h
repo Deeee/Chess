@@ -25,7 +25,8 @@
 @property NSMutableArray *isCastlePiecesMoved;
 @property int mode;
 @property NSMutableArray *checkingPieces;
-@property int isCastled;
+@property BOOL isWhiteCastled;
+@property BOOL isBlackCastled;
 @property NSArray *PawnTable;
 @property NSArray *KnightTable;
 @property NSArray *BishopTable;
@@ -38,6 +39,7 @@
 -(void) setPieceOnBoard:(int)X with:(int)Y with:(Piece *)p;
 
 -(void) changeTerms;
+-(NSMutableArray *) copyPieceSet;
 
 -(BOOL) validateMove:(Piece *) pi to:(Piece *)t;
 -(BOOL) comparePoints:(BoardPoint *)x to:(BoardPoint *)y;
@@ -72,6 +74,7 @@
 -(BOOL) isTakenBeforeMoved:(Piece *)pi;
 -(BOOL) isTakenAfterMoved:(Piece *)pi;
 -(BOOL) isTakenInMove:(Piece *)pi to:(Piece *)tp;
+-(BOOL)isTakenAfterWithMove:(Piece *)pi withPieceOnPosition:(Piece *)tp;
 
 -(NSMutableArray *) sortPiecesInArray:(NSMutableArray *) array;
 -(NSMutableArray *) isGuardingPiece:(Piece *)pi;

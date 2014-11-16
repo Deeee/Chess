@@ -103,7 +103,7 @@
 @synthesize isSet;
 @synthesize confirmButton;
 @synthesize mode1;
-
+@synthesize isDetailPrinted;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -157,6 +157,7 @@
     isDebug = 0;
     isTapped = 0;
     availableMoves = 1;
+    isDetailPrinted = 0;
     paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
     filePath = [[paths objectAtIndex:0]stringByAppendingPathComponent:@"data.txt"];
     debugInfo = [[NSMutableString alloc] init];
@@ -183,7 +184,7 @@
     [myBoard setIsFirstCaller:1];
     NSDate *currentTime = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    filePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString* fileName = @"log.txt";
     NSString* fileAtPath = [filePath stringByAppendingPathComponent:fileName];
     [dateFormatter setDateFormat:@"hh:mm MM/YY"];
@@ -624,11 +625,45 @@
             [myBoard debugMove:[myBoard getPieceAt:X1 with:Y1] to:[myBoard getPieceAt:X2 with:Y2]];
             
         }
+        if ([debuggingWindow.text rangeOfString:@"istakenm"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            Piece *p = [myBoard getPieceAt:X1 with:Y1];
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            NSLog(@"is taken in move returns %d",[myBoard isTakenInMove:p to:t]);
+        }
         else if ([debuggingWindow.text rangeOfString:@"debug mode off"].location != NSNotFound) {
             isDebug = 0;
         }
         else if ([debuggingWindow.text rangeOfString:@"debug mode on"].location != NSNotFound) {
             isDebug = 1;
+        }
+        else if ([debuggingWindow.text rangeOfString:@"detail on"].location != NSNotFound) {
+            isDetailPrinted = 1;
+        }
+        else if ([debuggingWindow.text rangeOfString:@"detail off"].location != NSNotFound) {
+            isDetailPrinted = 0;
+        }
+        else if ([debuggingWindow.text rangeOfString:@"no think"].location != NSNotFound) {
+            myBoard.ifThink = 0;
+        }
+        else if ([debuggingWindow.text rangeOfString:@"yes think"].location != NSNotFound) {
+            myBoard.ifThink = 1;
         }
         else if ([debuggingWindow.text rangeOfString:@"require"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -640,7 +675,7 @@
             [scanner setScanLocation:[scanner scanLocation] + 1];
             int Y1;
             [scanner scanInt:&Y1];
-            [[myBoard getPieceAt:X1 with:Y1] printInformation];
+            NSLog(@"%@",[[myBoard getPieceAt:X1 with:Y1] printInformation]);
         }
         //taken in move
         else if ([debuggingWindow.text rangeOfString:@"tim"].location != NSNotFound) {
@@ -666,6 +701,79 @@
             int ret = [myBoard isTakenInMove:pi to:t];
             NSLog(@"%@ to %@, taken in move result %d",[pi printInformation],[t printInformation],ret);
         }
+        // think ahead
+        else if ([debuggingWindow.text rangeOfString:@"simnt"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            HardBot *tempB = [myBoard copySelf];
+            int value = [tempB thinkAhead:[tempB getPieceAt:X1 with:Y1] to:[tempB getPieceAt:X2 with:Y2]];
+            NSLog(@"%@ to %@, after move simulate value is %d",[pi printInformation],[t printInformation],value);
+        }
+        //sim with ifthink = 1
+        else if ([debuggingWindow.text rangeOfString:@"simt"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            int value = [myBoard thinkAhead:pi to:t];
+            NSLog(@"%@ to %@, after move simulate value is %d",[pi printInformation],[t printInformation],value);
+        }
+        else if ([debuggingWindow.text rangeOfString:@"isunchecked"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X2;
+            [scanner scanInt:&X2];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y2;
+            [scanner scanInt:&Y2];
+            Piece *pi = [myBoard getPieceAt:X1 with:Y1];
+            Piece *t = [myBoard getPieceAt:X2 with:Y2];
+            HardBot *tempB = [myBoard copySelf];
+                NSLog(@"%@ to %@, after move isunchecked is %d",[pi printInformation],[t printInformation],[tempB isUnchecked:pi to:t]);
+            
+        }
         //value at position
         else if ([debuggingWindow.text rangeOfString:@"vap"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -688,8 +796,16 @@
             Piece *pi = [myBoard getPieceAt:X1 with:Y1];
             Piece *t = [myBoard getPieceAt:X2 with:Y2];
             HardBot *tempB = [myBoard imagineMoveOnBoard:pi to:t];
+            if (isDetailPrinted == 1) {
+                NSMutableArray *a = [myBoard totalBoardValueDetailed:[pi getSide]];
+                for (NSString *s in a) {
+                    NSLog(@"%@",s);
+                }
+            }
+            else {
             int eva = [tempB totalBoardValue:[pi getSide]];
             NSLog(@"%@ to %@, after move totalboardvalue is %d",[pi printInformation],[t printInformation],eva);
+            }
         }
         //Board value check
         else if ([debuggingWindow.text rangeOfString:@"value"].location != NSNotFound) {
@@ -703,8 +819,17 @@
             int Y1;
             [scanner scanInt:&Y1];
             Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
-            NSLog(@"%@ value is %d",[temppiece printInformation], [(HardBot *)myBoard boardEvaluationPiece:temppiece isCastled:[myBoard isCastled] isEndGame:0 bishopCount:[myBoard bishopCount:[temppiece getSide]] insufficientMaterial:0]);
+            BOOL isCastled = false;
+            if ([temppiece getSide] == 1) {
+                isCastled = myBoard.isWhiteCastled;
+            }
+            else if ([temppiece getSide] == 2) {
+                isCastled = myBoard.isBlackCastled;
+            }
+
+            NSLog(@"%@ value is %d",[temppiece printInformation], [(HardBot *)myBoard boardEvaluationPiece:temppiece isCastled:isCastled isEndGame:0 bishopCount:[myBoard bishopCount:[temppiece getSide]] insufficientMaterial:0]);
         }
+
 
         else if ([debuggingWindow.text rangeOfString:@"istaken"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -717,7 +842,7 @@
             int Y1;
             [scanner scanInt:&Y1];
             Piece *temppiece = [myBoard getPieceAt:X1 with:Y1];
-//            NSLog(@"%@ is takenAfter result: %d, is takenBefore result: %d",[temppiece printInformation],[myBoard isTakenAfterMoved:temppiece],[myBoard isTakenBeforeMoved:temppiece]);
+            NSLog(@"%@ is takenAfter result: %d, is takenBefore result: %d",[temppiece printInformation],[myBoard isTakenAfterMoved:temppiece],[myBoard isTakenBeforeMoved:temppiece]);
         }
         else if ([debuggingWindow.text rangeOfString:@"ava"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
@@ -778,6 +903,10 @@
         else if ([debuggingWindow.text rangeOfString:@"best"].location != NSNotFound) {
 
             [myBoard findBestMove:[myBoard getAllMoves:2]];
+        }
+        else if ([debuggingWindow.text rangeOfString:@"bestw"].location != NSNotFound) {
+            HardBot *tempB = [myBoard copySelf];
+            [tempB findBestMove:[tempB getAllMoves:1]];
         }
         else if ([debuggingWindow.text rangeOfString:@"imob"].location != NSNotFound) {
             if ([myBoard class] != [HardBot class]) {

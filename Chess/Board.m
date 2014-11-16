@@ -20,7 +20,8 @@
 @synthesize checkingPieces;
 @synthesize tempRook;
 @synthesize oriRook;
-@synthesize isCastled;
+@synthesize isWhiteCastled;
+@synthesize isBlackCastled;
 @synthesize pawnValue;
 @synthesize PawnTable, KingTable, KingTableEndGame, KnightTable, BishopTable;
 @synthesize logPath;
@@ -190,10 +191,16 @@
         return nil;
     }
 }
-
+//TODO: Buggy
 -(void) undoCastling{
     NSLog(@"undoCastling:%@,%@",[tempRook printInformation],[oriRook printInformation]);
-    isCastled = 0;
+    if ([tempRook getSide] == 1) {
+        isWhiteCastled = false;
+    }
+    else if([tempRook getSide] == 2) {
+        isBlackCastled = false;
+    }
+//    isCastled = 0;
     Piece *tempP = tempRook;
     Piece *tempT = oriRook;
     [tempT setName:[tempP getName]];
@@ -351,7 +358,7 @@
 }
 
 -(BOOL)isTakenAfterMoved:(Piece *)pi{
-//    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
+    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
 
     //    NSLog(@"isTaken:%@",[pi printInformation]);
     NSMutableArray *takenArray = [[NSMutableArray alloc] init];
@@ -359,6 +366,7 @@
         for (Piece *t in i) {
             if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
                 if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    NSLog(@"taken by %@", [t printInformation]);
                     [takenArray addObject:t];
                 }
             }
@@ -388,7 +396,7 @@
 //    }
 //    NSLog(@"__________");
     NSUInteger takenCount = [takenArray count];
-    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
+//    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
     double guardValue = 0;
     double takenValue = 0;
     int tStack = 0, gStack = 0;
@@ -397,12 +405,12 @@
     //While loop cannot do real time calculation, switch to compare lowest to highest
     while(takenCount != 0 && guardCount != 0) {
         if (tterm == 0 || tterm % 2 == 0) {
-            NSLog(@"adding taken value");
+//            NSLog(@"adding taken value");
             takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
             guardCount--;
         }
         else {
-            NSLog(@"adding guardvalue %@",[[takenArray objectAtIndex:tStack] printInformation]);
+//            NSLog(@"adding guardvalue %@",[[takenArray objectAtIndex:tStack] printInformation]);
             guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
             takenCount--;
         }
@@ -425,6 +433,86 @@
         return true;
     }
 }
+-(BOOL)isTakenAfterWithMove:(Piece *)pi withPieceOnPosition:(Piece *)tp{
+    //    NSLog(@"isTakenAfterMoved:%@",[pi printInformation]);
+    
+    //    NSLog(@"isTaken:%@",[pi printInformation]);
+
+    NSMutableArray *takenArray = [[NSMutableArray alloc] init];
+    for (NSMutableArray *i in self.pieceSet) {
+        for (Piece *t in i) {
+            if (([t getSide] != [pi getSide]) && ([t getSide] != 0)) {
+                if ([self validateMove:t to:pi] && [self isUnchecked:t to:pi]) {
+                    [takenArray addObject:t];
+                }
+            }
+        }
+    }
+    NSMutableArray *guardArray = [self isGuardingPiece:pi];
+    if (([guardArray count] == 0 && ([tp getSide] != (3 - [pi getSide])))&& [takenArray count] > 0) {
+        return true;
+    }
+    else if([takenArray count] == 0) {
+        return false;
+    }
+    takenArray = [self sortPiecesInArray:takenArray];
+    
+    //Cannot dectect in real time
+    double finalValue = 0;
+    [guardArray insertObject:pi atIndex:0];
+    NSUInteger guardCount = [guardArray count];
+    //    NSLog(@"Guard_____");
+    //    for (Piece * u in guardArray) {
+    //        [u printInformation];
+    //    }
+    //    NSLog(@"__________");
+    //    NSLog(@"Taken_____");
+    //    for (Piece * u in takenArray) {
+    //        [u printInformation];
+    //    }
+    //    NSLog(@"__________");
+    NSUInteger takenCount = [takenArray count];
+    //    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
+    double guardValue = 0;
+    if ([tp getSide] == (3 - [pi getSide])) {
+        guardValue += [tp getRelativeValue];
+    }
+    double takenValue = 0;
+    int tStack = 0, gStack = 0;
+    int tterm = 0;
+    int isTaken = 0;
+    //While loop cannot do real time calculation, switch to compare lowest to highest
+    while(takenCount != 0 && guardCount != 0) {
+        if (tterm == 0 || tterm % 2 == 0) {
+            //            NSLog(@"adding taken value");
+            takenValue += [[guardArray objectAtIndex:gStack++] getRelativeValue];
+            guardCount--;
+        }
+        else {
+            //            NSLog(@"adding guardvalue %@",[[takenArray objectAtIndex:tStack] printInformation]);
+            guardValue += [[takenArray objectAtIndex:tStack++] getRelativeValue];
+            takenCount--;
+        }
+        tterm++;
+        if (((takenValue - guardValue) > 0) && (tterm % 2 == 0 || takenCount == 0 || guardCount == 0)){
+            isTaken = 1;
+            break;
+        }
+    }
+    
+    finalValue += guardValue - takenValue;
+
+    if (isTaken == 0 && finalValue > 0) {
+        //        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d, istaken is %d, false", guardValue, takenValue, tterm,isTaken);
+        return false;
+    }
+    else {
+        //TODO: check if piece is taken in move
+        //        NSLog(@"guard value %.2f  takenvalue %.2f, tterm is %d, istaken is %D, true", guardValue, takenValue, tterm,isTaken);
+        return true;
+    }
+}
+
 -(HardBot *) imagineMoveOnBoard:(Piece *)p to:(Piece *)t {
     //    NSLog(@"imagineMoveOnBoard:%@ to %@",[p printInformation],[t printInformation]);
     HardBot *copy = [self copySelf];
@@ -434,26 +522,51 @@
     [copy botMoveFrom:igP to:igT];
     return copy;
 }
-
+-(NSMutableArray *) copyPieceSet{
+    NSMutableArray *copy = [[NSMutableArray alloc] initWithCapacity:8];
+    Piece *temp;
+    for (int i = 0; i < 8; i++) {
+        NSMutableArray *v = [[NSMutableArray alloc] initWithCapacity:8];
+        for (int j = 0;j < 8; j ++) {
+            temp = [self getPieceAt:i with:j];
+            Piece *copyPiece = [[Piece alloc] initWithImg:nil and:[temp getName] with:[temp getX] with:[temp getY] with:[temp getSide]];
+            [copyPiece setRelativeValue:[temp getRelativeValue]];
+            [copyPiece setHasMoved:[temp hasMoved]];
+            [v addObject:copyPiece];
+        }
+        [copy addObject:v];
+    }
+    return copy;
+}
 -(Board *) copySelf {
     
     //    NSLog(@"in copyself");
     Board *copy = [[Board alloc] init];
     
-    NSMutableArray *pieceSetCopy = self.pieceSet;
+    NSMutableArray *pieceSetCopy = [self copyPieceSet];
     copy.pieceSet = pieceSetCopy;
-    copy.isCastled = self.isCastled;
+    copy.isWhiteCastled = self.isWhiteCastled;
+    copy.isBlackCastled = self.isBlackCastled;
     copy.isInCheck = self.isInCheck;
     return copy;
 }
 -(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp {
     HardBot *tempBoard = [self imagineMoveOnBoard:pi to:tp];
     Piece *tOnTempBoard = [tempBoard getPieceAt:[tp getX] with:[tp getY]];
+//TODO: test the following function
+//    return [tempBoard isTakenAfterWithMove:tOnTempBoard withPosition:tp];
+
     return [tempBoard isTakenAfterMoved:tOnTempBoard];
 }
 
 -(void) castlingMove:(Piece *)p to:(Piece *)t{
-    isCastled = 1;
+    if ([p getSide] == 1) {
+        isWhiteCastled = true;
+    }
+    else if([p getSide] == 2) {
+        isBlackCastled = true;
+    }
+//    isCastled = 1;
     Piece *movingRook = [self getAccordingRook:p to:t];
     tempRook = movingRook;
     NSLog(@"castlingMove:tempRook:%@",[tempRook printInformation]);
@@ -487,7 +600,8 @@
             return false;
         }
         else {
-            if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && isCastled) {
+            if (([[p getName] rangeOfString:@"king"].location != NSNotFound) && (([p getSide]==1 &&isWhiteCastled) || ([p getSide] == 2 && isBlackCastled))) {
+                
                 [self undoCastling];
             }
             Piece *tempP = [undecidedMove objectAtIndex:0];
@@ -563,7 +677,7 @@
 -(Piece *)getBlackKing {
     for (NSMutableArray *i  in pieceSet) {
         for (Piece *p in i) {
-            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"bking"]]) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"bking"]] && [p getSide] == 2) {
                 return p;
             }
         }
@@ -575,7 +689,7 @@
 -(Piece *)getWhiteKing {
     for (NSMutableArray *i  in pieceSet) {
         for (Piece *p in i) {
-            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"king"]]) {
+            if ([[p getName] isEqualToString:[NSMutableString stringWithFormat:@"king"]] && [p getSide] == 1) {
                 return p;
             }
         }
@@ -1367,34 +1481,74 @@
 }
 
 -(BOOL) isUnchecked:(Piece *)pi to:(Piece *)t {
+    if ([pi getSide] == 0) {
+        NSLog(@"isuncheck got pi = empty");
+        return false;
+    }
+    Piece* king;
+
+    //    NSLog(@"king is %@ at (%d,%d)\n",[king getName],[king getX],[king getY]);
+    //    return [self isAttacked:king];
+    Board *temp = [self imagineMoveOnBoard:pi to:t];
+    if([pi getSide] == 1)
+        king = [temp getWhiteKing];
+    else
+        king = [temp getBlackKing];
+    for (NSMutableArray *i in temp.pieceSet) {
+        for (Piece * p in i){
+            if([p getSide] != [king getSide] && ([p getSide] != 0)){
+                if([self validateMove:p to:king]){
+                    NSLog(@"%@ checked by %@(%d,%d)",[king getName],[p getName],[p getX],[p getY]);
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 //    if ([pi getSide] == [t getSide]) {
 //        return false;
 //    }
     //NSLog(@"isunchecked.");
-    int tempSideT = [t getSide];
-    int tempSideP = [pi getSide];
-    NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
-    NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
-    [t setName:[pi getName]];
-    [pi setName:[NSMutableString stringWithString:@"empty"]];
-    [t setSide:[pi getSide]];
-    [pi setSide:0];
-    if ([self isChecked] ) {
-        [t setSide:tempSideT];
-        [t setName:tempNameT];
-        [pi setSide:tempSideP];
-        [pi setName:tempNameP];
-        //NSLog(@"ischecked return false");
-        return false;
-    }
-    else {
-        [t setSide:tempSideT];
-        [t setName:tempNameT];
-        [pi setSide:tempSideP];
-        [pi setName:tempNameP];
-        //NSLog(@"isunchecked return true");
-        return true;
-    }
+    
+//    Board *temp = [self imagineMoveOnBoard:pi to:t];
+//    if ([pi getSide] == 1) {
+//        return ![temp isTakenAfterMoved:[temp getWhiteKing]];
+//
+//    }
+//    else if ([pi getSide] == 2) {
+//        return ![temp isTakenAfterMoved:[temp getBlackKing]];
+//        
+//    }
+//    else {
+//        NSLog(@"is unchecked error, pi is empty");
+//        return false;
+//    }
+    
+    
+//    int tempSideT = [t getSide];
+//    int tempSideP = [pi getSide];
+//    NSMutableString *tempNameP = [NSMutableString stringWithString:[pi getName]];
+//    NSMutableString *tempNameT = [NSMutableString stringWithString:[t getName]];
+//    [t setName:[pi getName]];
+//    [pi setName:[NSMutableString stringWithString:@"empty"]];
+//    [t setSide:[pi getSide]];
+//    [pi setSide:0];
+//    if ([self isChecked] ) {
+//        [t setSide:tempSideT];
+//        [t setName:tempNameT];
+//        [pi setSide:tempSideP];
+//        [pi setName:tempNameP];
+//        //NSLog(@"ischecked return false");
+//        return false;
+//    }
+//    else {
+//        [t setSide:tempSideT];
+//        [t setName:tempNameT];
+//        [pi setSide:tempSideP];
+//        [pi setName:tempNameP];
+//        //NSLog(@"isunchecked return true");
+//        return true;
+//    }
     
 }
 

@@ -24,7 +24,7 @@
 -(id) init{
     self = [super init];
     manual = [[ChessManual alloc] initWithManualName:@"stoneWall" and:2];
-    ifThink = 0;
+    ifThink = 1;
     botSide = 2;
     return self;
 }
@@ -54,6 +54,7 @@
             temp = [self getPieceAt:i with:j];
             Piece *copyPiece = [[Piece alloc] initWithImg:nil and:[temp getName] with:[temp getX] with:[temp getY] with:[temp getSide]];
             [copyPiece setRelativeValue:[temp getRelativeValue]];
+            [copyPiece setHasMoved:[temp hasMoved]];
             [v addObject:copyPiece];
         }
         [copy addObject:v];
@@ -66,14 +67,17 @@
 }
 
 -(HardBot *) copySelf {
-
+    NSLog(@"copy self!");
 //    NSLog(@"in copyself");
     HardBot *copy = [[HardBot alloc] init];
     
     NSMutableArray *pieceSetCopy = [self copyPieceSet];
     copy.pieceSet = pieceSetCopy;
-    copy.isCastled = self.isCastled;
+    copy.isBlackCastled = self.isBlackCastled;
+    copy.isWhiteCastled = self.isWhiteCastled;
     copy.isInCheck = self.isInCheck;
+    copy.ifThink = 0;
+
     return copy;
 }
 
@@ -102,6 +106,7 @@
 -(HardBot *) imagineMoveOnBoard:(Piece *)p to:(Piece *)t {
 //    NSLog(@"imagineMoveOnBoard:%@ to %@",[p printInformation],[t printInformation]);
     HardBot *copy = [self copySelf];
+    
     Piece *igP = [copy getPieceAt:[p getX] with:[p getY]];
     Piece *igT = [copy getPieceAt:[t getX] with:[t getY]];
 //    NSLog(@"imagine move from %@ to %@",[p printInformation], [t printInformation]);
@@ -136,10 +141,7 @@
 -(NSMutableArray *)isTakingPiece:(Piece *)pi {
 //    NSLog(@"isTakingPiece:%@",[pi printInformation]);
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    for (int k = 0; k < [self.pieceSet count]; k++) {
-        NSMutableArray *i = [self.pieceSet objectAtIndex:k];
-        
-    }
+
     for (NSMutableArray *i in self.pieceSet) {
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide] && [t getSide] != 0) {
@@ -284,17 +286,23 @@
 //}
 
 -(double)simulate:(int)s lastValue:(double)v curBoard:(HardBot *)b{
+    NSLog(@"simulate %d",s);
     if (s == 1) {
         return v;
     }
-    [b normalMove:(3 - botSide)];
-    [b normalMove:botSide];
-    NSLog(@"simulate! %d value:%f",s,v);
-    return [b simulate:(s+1) lastValue:[b totalBoardValue:botSide] curBoard:b];
+    NSString *opponentMove = [b normalMove:(3 - botSide)];
+    int opponentBoardValue = [b totalBoardValue:1];
+    NSString *botMove = [b normalMove:botSide];
+    int botBoardValue = [b totalBoardValue:2];
+    NSLog(@"white's best move is:%@ with value: %d",opponentMove, opponentBoardValue);
+    NSLog(@"black's best move is:%@ with value: %d",botMove, botBoardValue);
+//    NSLog(@"white's best move is:%@ with value: %d",[b normalMove:(3 - botSide)], [b totalBoardValue:1]);
+    return [b simulate:(s+1) lastValue:botBoardValue - opponentBoardValue + v curBoard:b];
 }
 
 -(double)thinkAhead:(Piece *)p to:(Piece *)t {
     NSLog(@"thinkAhead:%@ to:%@",[p printInformation],[t printInformation]);
+    
     HardBot *tempBoard = [self imagineMoveOnBoard:p to:t];
     tempBoard.ifThink = 0;
     Piece *tOnTempBoard = [tempBoard getPieceAt:[t getX] with:[t getY]];
@@ -303,7 +311,7 @@
         NSLog(@"in simulate!!");
         return [self simulate:0 lastValue:boardValue curBoard:tempBoard];
     }
-    else return boardValue;
+    return boardValue;
 }
 
 
@@ -585,14 +593,17 @@
 //            NSLog(@"%@ to %@",[[moves objectAtIndex:i] printInformation],[[moves objectAtIndex:i+1] printInformation]);
 //        }
 //    }
-    double maxValue = -30000;
+    double maxValue = -99999;
     int maxIndex = 0;
     int innerIndex = 0;
     int count = 0;
 //    NSMutableArray *maxLose = [self boardTotalLosingValue:2];
     NSMutableArray *maxMove = [[NSMutableArray alloc] init];
+    if ([allMoves count] == 0) {
+        NSLog(@"no moves available return!!");
+        return nil;
+    }
     for (NSMutableArray *move in allMoves) {
-        double tempMax = -30000;
         //Doesnt care if there is move to make or not
         for (int i = 0; i < [move count]; i+=2) {
             double innerCur = [self thinkAhead:[move objectAtIndex:i] to:[move objectAtIndex:i+1]];
@@ -613,7 +624,7 @@
 //        }
         count ++;
     }
-
+    NSLog(@"findbest move about to finish");
 //    NSLog(@"bestMove is %@(%d,%d) to %@(%d,%d) with value %.2f",[[maxMove objectAtIndex:0] getName],[[maxMove objectAtIndex:0] getX],[[maxMove objectAtIndex:0] getY],[[maxMove objectAtIndex:1] getName],[[maxMove objectAtIndex:1] getX],[[maxMove objectAtIndex:1] getY], maxValue);
     NSMutableArray *ret = [[NSMutableArray alloc] initWithObjects:[maxMove objectAtIndex:innerIndex],[maxMove objectAtIndex:innerIndex+1], nil];
     NSLog(@"returning maxMove %@ to %@ with value %.2f",[[ret objectAtIndex:0] printInformation],[[ret objectAtIndex:1] printInformation],maxValue);
@@ -667,7 +678,30 @@
 //TODO: implement such that when a good trade happens take it
 -(NSMutableArray *)AvailableMovesForOnePiece:(Piece *)pi{
     NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+    if ([pi getSide] == 0) {
+        return availableMovesArray;
+    }
 //    NSLog(@"AvailableMovesForOnePiece: %@", [pi getName]);
+    for (NSMutableArray *i in [self getPieceSet]) {
+        for (Piece *t in i) {
+            if ([t getSide] != [pi getSide] ) {
+                //                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                if ([self validateMove:pi to:t] && [self isUnchecked:pi to:t] && ![self isTakenInMove:pi to:t]) {
+                    //                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+                    
+                    [availableMovesArray addObject:pi];
+                    [availableMovesArray addObject:t];
+                    
+                }
+            }
+        }
+    }
+    return availableMovesArray;
+}
+//TODO: implement such that when a good trade happens take it
+-(NSMutableArray *)bestMoveForOnePiece:(Piece *)pi{
+    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+    //    NSLog(@"AvailableMovesForOnePiece: %@", [pi getName]);
     for (NSMutableArray *i in [self getPieceSet]) {
         for (Piece *t in i) {
             if ([t getSide] != [pi getSide] ) {
@@ -705,6 +739,10 @@
     NSMutableArray *avaMoves = [self getAllMoves:side];
     NSLog(@"getallmoves");
 //    NSLog(@"finish getAllMoves");
+    if ([avaMoves count] == 0) {
+        NSLog(@"there is no avamoves");
+        return @"there is no avamoves";
+    }
     NSMutableArray *bestMove = [self findBestMove:avaMoves];
     if ([bestMove count] == 0) {
         //TODO: should be developing
@@ -802,9 +840,47 @@
     [p setSide:0];
     [t setRelativeValue:[p getRelativeValue]];
     [p setRelativeValue:0];
+    [p setHasMoved:0];
+    [t setHasMoved:1];
 
 }
 
+-(void) imagineTakeoverFrom:(Piece *)p to:(Piece *)t {
+    [t setName:[p getName]];
+    [t setRelativeValue:[p getRelativeValue]];
+    [p setRelativeValue:0];
+    [t setHasMoved:1];
+    [p setHasMoved:0];
+    [t setX:[p getX]];
+    [t setY:[p getY]];
+    [p setX:[t getX]];
+    [p setY:[t getY]];
+    [p setName: [NSMutableString stringWithFormat: @"empty"]];
+    [t setSide:[p getSide]];
+    [p setSide:0];
+    
+}
+
+-(void) imagineMoveFrom:(Piece *)p to:(Piece *)t {
+    
+
+    if ([[p getName] rangeOfString:@"king"].location != NSNotFound) {
+        if ([self kingCanCastle:p to:t]) {
+            [self castlingMove:p to:t];
+            return;
+        }
+        else {
+            [self imagineTakeoverFrom:p to:t];
+            return;
+        }
+        
+    }
+    else {
+        //        NSLog(@"%@(v:%.2f) take over %@(v:%.2f), from %d %d, to %d %d",[p getName],[p getRelativeValue],[t getName],[t getRelativeValue],[p getX], [p getY],[t getX],[t getY]);
+        [self imagineTakeoverFrom:p to:t];
+        return;
+    }
+}
 
 -(void) botMoveFrom:(Piece *)p to:(Piece *)t {
 //    NSLog(@"in bot move for %@(%d,%d) to %@(%d,%d)", [p getName], [p getX], [p getY], [t getName],[t getX], [t getY]);
@@ -816,8 +892,7 @@
         }
         else {
             [self pieceTakeoverFrom:p to:t];
-            [p setHasMoved:0];
-            [t setHasMoved:1];
+
             return;
         }
         
@@ -825,8 +900,7 @@
     else {
 //        NSLog(@"%@(v:%.2f) take over %@(v:%.2f), from %d %d, to %d %d",[p getName],[p getRelativeValue],[t getName],[t getRelativeValue],[p getX], [p getY],[t getX],[t getY]);
         [self pieceTakeoverFrom:p to:t];
-        [p setHasMoved:0];
-        [t setHasMoved:1];
+
         return;
     }
 }
@@ -924,26 +998,82 @@
 }
 -(int) totalBoardValue:(int)side {
     int totalValue = 0;
+    int totalValueOpponent = 0;
+    BOOL isCastled = false;
+    if (side == 1) {
+        isCastled = self.isWhiteCastled;
+    }
+    else if (side == 2) {
+        isCastled = self.isBlackCastled;
+    }
     for (NSMutableArray *i in [self pieceSet]) {
         for (Piece *p in i) {
             if ([p getSide] == side) {
-                            totalValue += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:side] insufficientMaterial:[self isInsufficentMaterial:side]] * 2;
+                totalValue += [self boardEvaluationPiece:p isCastled:isCastled isEndGame:0 bishopCount:[self bishopCount:side] insufficientMaterial:[self isInsufficentMaterial:side]];
+            }
+            if ([p getSide] == (3 - side)) {
+                totalValueOpponent += [self boardEvaluationPiece:p isCastled:isCastled isEndGame:0 bishopCount:[self bishopCount:3 -side] insufficientMaterial:[self isInsufficentMaterial:3 - side]];
             }
             
         }
     }
+//    NSLog(@"go for opponent's value");
+//    for (NSMutableArray *i in [self pieceSet]) {
+//        for (Piece *p in i) {
+//
+//            
+//        }
+//    }
+    NSLog(@"finish opponent's move, opp %d, bot %d", totalValueOpponent, totalValue);
+    return totalValue - totalValueOpponent;
+}
+-(NSMutableArray *) totalBoardValueDetailed:(int)side {
+    int totalValue = 0;
     int totalValueOpponent = 0;
-    NSLog(@"go for opponent's value");
+    NSMutableArray *retTotalValue = [[NSMutableArray alloc] init];
+    NSMutableArray *retTotalValueOpponent = [[NSMutableArray alloc] init];
+    BOOL isCastled = false;
+    if (side == 1) {
+        isCastled = self.isWhiteCastled;
+    }
+    else if (side == 2) {
+        isCastled = self.isBlackCastled;
+    }
+
     for (NSMutableArray *i in [self pieceSet]) {
         for (Piece *p in i) {
+            if ([p getSide] == side) {
+                int cur = [self boardEvaluationPiece:p isCastled:isCastled isEndGame:0 bishopCount:[self bishopCount:side] insufficientMaterial:[self isInsufficentMaterial:side]];
+                totalValue += cur;
+                NSString *strForArray = [NSString stringWithFormat:@"%@ curValue on Board: %d", [p getName], cur];
+                [retTotalValue addObject:strForArray];
+                
+            }
             if ([p getSide] == (3 - side)) {
-                totalValueOpponent += [self boardEvaluationPiece:p isCastled:self.isCastled isEndGame:0 bishopCount:[self bishopCount:3 -side] insufficientMaterial:[self isInsufficentMaterial:3 - side]] * 2;
+                int cur = [self boardEvaluationPiece:p isCastled:isCastled isEndGame:0 bishopCount:[self bishopCount:3 -side] insufficientMaterial:[self isInsufficentMaterial:3 - side]];
+                totalValueOpponent += cur;
+                NSString *strForArray = [NSString stringWithFormat:@"%@ curValue on Board: %d", [p getName], cur];
+                [retTotalValueOpponent addObject:strForArray];
             }
             
         }
     }
+    //    NSLog(@"go for opponent's value");
+    //    for (NSMutableArray *i in [self pieceSet]) {
+    //        for (Piece *p in i) {
+    //
+    //
+    //        }
+    //    }
     NSLog(@"finish opponent's move");
-    return totalValue - totalValueOpponent;
+    int ret = totalValue - totalValueOpponent;
+    [retTotalValue insertObject:[NSString stringWithFormat:@"total value is %d", ret] atIndex:0];
+    [retTotalValue insertObject:[NSString stringWithFormat:@"total value for us is %d", totalValue] atIndex:0];
+    [retTotalValue addObject:[NSString stringWithFormat:@"total value for op is %d", totalValueOpponent]];
+    [retTotalValue addObjectsFromArray:retTotalValueOpponent];
+
+
+    return retTotalValue;
 }
 //Disabled for encouraging more moves
 -(int) boardEvaluationPiece:(Piece *) pi isCastled:(int)isCastled isEndGame:(int)isEndGame bishopCount:(int)bishopCount insufficientMaterial:(int)insuffcientMaterial {
@@ -958,12 +1088,12 @@
     int defendValue = [self getDefendValue:pi];
 
     if ([self isTakenAfterMoved:pi]) {
-        score -= [pi getRelativeValue];
+        score -= [pi getRelativeValue]*0.5;
     }
-    else {
-        score += attackedValue * 0.5;
-        score += defendValue * 0.2;
-    }
+//    else {
+//        score += attackedValue * 0.3;
+//        score += defendValue * 0.1;
+//    }
 
 
     NSMutableArray *blackPawnCount = [self blackPawnCount];
@@ -1051,7 +1181,7 @@
     else if([pi isRook]) {
         insuffcientMaterial = 0;
         //&& !endGamePhase
-        if (![pi hasPieceMoved] && self.isCastled == false)
+        if (![pi hasPieceMoved] && isCastled == false)
         {
             score -= 10;
         }
@@ -1085,11 +1215,13 @@
     }
     return score;
 }
-//TODO: Simply add the value of tp piece to the trading chain will do it
+// TODO: Simply add the value of tp piece to the trading chain will do it
 -(BOOL)isTakenInMove:(Piece *)pi to:(Piece *)tp {
     HardBot *tempBoard = [self imagineMoveOnBoard:pi to:tp];
     Piece *tOnTempBoard = [tempBoard getPieceAt:[tp getX] with:[tp getY]];
-    return [tempBoard isTakenAfterMoved:tOnTempBoard];
+// TODO: Test istaken afterWithMove
+//    return [tempBoard isTakenAfterMoved:tOnTempBoard];
+    return [tempBoard isTakenAfterWithMove:tOnTempBoard withPieceOnPosition:tp];
 }
 
 @end

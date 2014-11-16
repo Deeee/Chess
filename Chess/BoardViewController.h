@@ -92,6 +92,7 @@
 
 @property NSMutableString *debugInfo;
 @property (nonatomic, strong) IBOutlet UITextField *debuggingWindow;
+@property BOOL isDetailPrinted;
 
 @property (nonatomic, strong) NSMutableArray *circleViews;
 @property int availableMoves;
