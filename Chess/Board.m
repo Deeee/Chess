@@ -461,16 +461,16 @@
     double finalValue = 0;
     [guardArray insertObject:pi atIndex:0];
     NSUInteger guardCount = [guardArray count];
-    //    NSLog(@"Guard_____");
-    //    for (Piece * u in guardArray) {
-    //        [u printInformation];
-    //    }
-    //    NSLog(@"__________");
-    //    NSLog(@"Taken_____");
-    //    for (Piece * u in takenArray) {
-    //        [u printInformation];
-    //    }
-    //    NSLog(@"__________");
+        NSLog(@"Guard_____");
+        for (Piece * u in guardArray) {
+            [u printInformation];
+        }
+        NSLog(@"__________");
+        NSLog(@"Taken_____");
+        for (Piece * u in takenArray) {
+            [u printInformation];
+        }
+        NSLog(@"__________");
     NSUInteger takenCount = [takenArray count];
     //    NSLog(@"GUARD ARRAY COUNT %ld, TAKENARRAY COUNT %ld", guardCount, takenCount);
     double guardValue = 0;
@@ -1179,7 +1179,7 @@
 
 //rookMove for both colors
 -(BOOL)rookMove:(Piece *)pi to :(Piece*)t {
-    if(([pi getSide] != [t getSide]) && [self isValidrookMove:pi to:t]) {
+    if([self isValidrookMove:pi to:t]) {
 //        NSLog(@"valid rook move ");
         return true;
     }
@@ -1246,7 +1246,7 @@
 }
 
 -(BOOL)bishopMove:(Piece *)pi to :(Piece*)t {
-    if(([pi getSide] != [t getSide]) && [self isValidBishopMove:pi to:t]) {
+    if([self isValidBishopMove:pi to:t]) {
         //NSLog(@"valid bishop move ");
         return true;
     }
@@ -1285,7 +1285,7 @@
 }
 
 -(BOOL)knightMove:(Piece *)pi to:(Piece *)t {
-    if(([pi getSide] != [t getSide]) && [self isValidKnightMove:pi to:t]) {
+    if([self isValidKnightMove:pi to:t]) {
 //        NSLog(@"valid knight move ");
         return true;
     }
@@ -1362,7 +1362,7 @@
 }
 
 -(BOOL)queenMove:(Piece *)pi to :(Piece *)t {
-    if (([pi getSide] != [t getSide]) && [self isValidQueenMove:pi to:t]) {
+    if ([self isValidQueenMove:pi to:t]) {
 //        NSLog(@"valid queen move");
         return true;
     }
@@ -1452,7 +1452,7 @@
     }
     
     //check for castling.
-    if((ABS(xDiff) == 2) && (yDiff == 0)) {
+    if((ABS(xDiff) == 2) && (yDiff == 0) && [t getSide] != [pi getSide]) {
         NSLog(@"king approved for castling from %@ to %@",[pi printInformation], [t printInformation]);
         return [self kingCanCastle:pi to:t];
     }

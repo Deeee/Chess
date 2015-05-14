@@ -24,7 +24,7 @@
 -(id) init{
     self = [super init];
     manual = [[ChessManual alloc] initWithManualName:@"stoneWall" and:2];
-    ifThink = 1;
+    ifThink = 0;
     botSide = 2;
     return self;
 }
@@ -34,10 +34,10 @@
     NSString *ret;
     [self addRelativeValue];
 //    [self normalMove];
-    if ([self isInCheck] == botSide) {
-        ret = [self eliminateThreate];
-    }
-    else if (readin != nil) {
+//    if ([self isInCheck] == botSide) {
+//        ret = [self eliminateThreate];
+//    }
+     if (readin != nil) {
         ret = [self scriptMove:readin];
     }
     else {
@@ -131,29 +131,29 @@
 
 
 
--(BOOL)isSafeTaking:(Piece *)pi and:(Piece *)t {
-    if (!([self validateMove:t to:pi] && [self isUnchecked:t to:pi])) {
-        return true;
-    }
-    else return false;
-}
-
--(NSMutableArray *)isTakingPiece:(Piece *)pi {
-//    NSLog(@"isTakingPiece:%@",[pi printInformation]);
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-
-    for (NSMutableArray *i in self.pieceSet) {
-        for (Piece *t in i) {
-            if ([t getSide] != [pi getSide] && [t getSide] != 0) {
-                if ([self validateMove:pi to:t] && [self isUnchecked:pi to:t] && [self isSafeTaking:pi and:t] && ![self isTakenInMove:pi to:t] && [[self isGuardingPiece:t] count] == 0) {
-                    [tempArray addObject:t];
-                }
-            }
-        }
-    }
-    tempArray = [self sortPiecesInArray:tempArray];
-    return tempArray;
-}
+//-(BOOL)isSafeTaking:(Piece *)pi and:(Piece *)t {
+//    if (!([self validateMove:t to:pi] && [self isUnchecked:t to:pi])) {
+//        return true;
+//    }
+//    else return false;
+//}
+//
+//-(NSMutableArray *)isTakingPiece:(Piece *)pi {
+////    NSLog(@"isTakingPiece:%@",[pi printInformation]);
+//    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+//
+//    for (NSMutableArray *i in self.pieceSet) {
+//        for (Piece *t in i) {
+//            if ([t getSide] != [pi getSide] && [t getSide] != 0) {
+//                if ([self validateMove:pi to:t] && [self isUnchecked:pi to:t] && [self isSafeTaking:pi and:t] && ![self isTakenInMove:pi to:t] && [[self isGuardingPiece:t] count] == 0) {
+//                    [tempArray addObject:t];
+//                }
+//            }
+//        }
+//    }
+//    tempArray = [self sortPiecesInArray:tempArray];
+//    return tempArray;
+//}
 //-(BOOL)isWorthTaken:(Piece *)pi to:(Piece *)t {
 //    if ([pi getSide] == [t getSide]) {
 //        return false;
@@ -450,7 +450,7 @@
 //        return true;
 //    }
 //}
-
+//
 -(NSMutableArray *)isTakenBy:(Piece *)pi {
     NSMutableArray *takenBy = [[NSMutableArray alloc] init];
     for (NSMutableArray *i in self.pieceSet) {
@@ -528,40 +528,40 @@
 //    return result;
 //}
 
--(NSMutableArray *)AvailableMovesForLosePiece:(Piece *)pi{
-    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
-//    NSLog(@"AvailableMovesForLosePiece:%@", [pi getName]);
-    for (NSMutableArray *i in [self getPieceSet]) {
-        for (Piece *t in i) {
-            if ([t getSide] != [pi getSide] ) {
-                if ([self validateMove:pi to:t] &&  [self isUnchecked:pi to:t] && ![self isTakenInMove:pi to:t]) {
-//                                        NSLog(@"AvailableMovesForLosePiece: approved %@(%d,%d)",[t getName],[t getX],[t getY]);
-                    
-                    [availableMovesArray addObject:pi];
-                    [availableMovesArray addObject:t];
-                    
-                }
-            }
-        }
-    }
-    return availableMovesArray;
-}
+//-(NSMutableArray *)AvailableMovesForLosePiece:(Piece *)pi{
+//    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+////    NSLog(@"AvailableMovesForLosePiece:%@", [pi getName]);
+//    for (NSMutableArray *i in [self getPieceSet]) {
+//        for (Piece *t in i) {
+//            if ([t getSide] != [pi getSide] ) {
+//                if ([self validateMove:pi to:t] &&  [self isUnchecked:pi to:t] && ![self isTakenInMove:pi to:t]) {
+////                                        NSLog(@"AvailableMovesForLosePiece: approved %@(%d,%d)",[t getName],[t getX],[t getY]);
+//                    
+//                    [availableMovesArray addObject:pi];
+//                    [availableMovesArray addObject:t];
+//                    
+//                }
+//            }
+//        }
+//    }
+//    return availableMovesArray;
+//}
 
--(Piece *) availableToSpot:(Piece *) t with:(NSMutableArray *)allMoves{
-    Piece *availablePiece = t;
-    double max = 0;
-    double curr = 0;
-    for (NSMutableArray* i in allMoves) {
-        if ([i objectAtIndex:1] == t) {
-            curr = [self thinkAhead:[i objectAtIndex:0] to:t];
-            if (curr > max) {
-                max = curr;
-                availablePiece = [i objectAtIndex:0];
-            }
-        }
-    }
-    return  availablePiece;
-}
+//-(Piece *) availableToSpot:(Piece *) t with:(NSMutableArray *)allMoves{
+//    Piece *availablePiece = t;
+//    double max = 0;
+//    double curr = 0;
+//    for (NSMutableArray* i in allMoves) {
+//        if ([i objectAtIndex:1] == t) {
+//            curr = [self thinkAhead:[i objectAtIndex:0] to:t];
+//            if (curr > max) {
+//                max = curr;
+//                availablePiece = [i objectAtIndex:0];
+//            }
+//        }
+//    }
+//    return  availablePiece;
+//}
 
 //-(NSMutableArray *) losePieceMove:(Piece *)losePice and:(NSMutableArray *)threates and:(NSMutableArray *)allMoves{
 //    NSLog(@"losePieceMove:%@,threates count:%d",[losePice printInformation],[threates count]);
@@ -699,25 +699,25 @@
     return availableMovesArray;
 }
 //TODO: implement such that when a good trade happens take it
--(NSMutableArray *)bestMoveForOnePiece:(Piece *)pi{
-    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
-    //    NSLog(@"AvailableMovesForOnePiece: %@", [pi getName]);
-    for (NSMutableArray *i in [self getPieceSet]) {
-        for (Piece *t in i) {
-            if ([t getSide] != [pi getSide] ) {
-                //                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
-                if ([self validateMove:pi to:t] &&  [self isUnchecked:pi to:t] && ![self isTakenInMove:pi to:t] && [self kingNotTaken:pi to:t]) {
-                    //                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
-                    
-                    [availableMovesArray addObject:pi];
-                    [availableMovesArray addObject:t];
-                    
-                }
-            }
-        }
-    }
-    return availableMovesArray;
-}
+//-(NSMutableArray *)bestMoveForOnePiece:(Piece *)pi{
+//    NSMutableArray *availableMovesArray = [[NSMutableArray alloc] init];
+//    //    NSLog(@"AvailableMovesForOnePiece: %@", [pi getName]);
+//    for (NSMutableArray *i in [self getPieceSet]) {
+//        for (Piece *t in i) {
+//            if ([t getSide] != [pi getSide] ) {
+//                //                NSLog(@"#1%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+//                if ([self validateMove:pi to:t] &&  [self isUnchecked:pi to:t] && ![self isTakenInMove:pi to:t] && [self kingNotTaken:pi to:t]) {
+//                    //                    NSLog(@"#2%@(%d,%d) approved",[t getName],[t getX],[t getY]);
+//                    
+//                    [availableMovesArray addObject:pi];
+//                    [availableMovesArray addObject:t];
+//                    
+//                }
+//            }
+//        }
+//    }
+//    return availableMovesArray;
+//}
 
 -(NSMutableArray *)getAllMoves:(int)side {
     NSMutableArray *avaMoves = [[NSMutableArray alloc] init];
@@ -766,50 +766,50 @@
         return [NSString stringWithFormat:@"%@(%d,%d) move from %@ to %@",[p getName],[p getX] + 1,[p getY] + 1, [p printLocation], [t printLocation]];
 }
 //It miss checked checking piece
--(NSString *)eliminateThreate {
-//    NSLog(@"eliminateThreate");
-    if ([self.checkingPieces count] == 1) {
-        Piece *cp = [self.checkingPieces objectAtIndex:0];
-        for (NSMutableArray *i in self.pieceSet) {
-            for (Piece *p in i) {
-                if ([p getSide] == 2) {
-                    if ([self validateMove:p to:cp] && [self isUnchecked:p to:cp]) {
-                        [self botMoveFrom:p to:cp];
-                        return [self getLog:p to:cp];
-                    }
-                }
-            }
-        }
-        //do somethign like move king away over here
-        Piece *myKing = [self getBlackKing];
-        for (NSMutableArray *i in self.pieceSet) {
-            for (Piece *t in i) {
-                if ([t getSide] != 2) {
-                    if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
-                        [self botMoveFrom:myKing to:t];
-                        return [self getLog:myKing to:t];
-                    }
-                }
-            }
-        }
-    }
-    else {
-        NSLog(@"more than one checking piece");
-        Piece *myKing = [self getBlackKing];
-        for (NSMutableArray *i in self.pieceSet) {
-            for (Piece *t in i) {
-                if ([t getSide] != 2) {
-                    if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
-                        [self botMoveFrom:myKing to:t];
-                        return [self getLog:myKing to:t];
-                    }
-                }
-            }
-        }
-    }
-    return [NSString stringWithFormat:@"Error in eliminate threate"];
-
-}
+//-(NSString *)eliminateThreate {
+////    NSLog(@"eliminateThreate");
+//    if ([self.checkingPieces count] == 1) {
+//        Piece *cp = [self.checkingPieces objectAtIndex:0];
+//        for (NSMutableArray *i in self.pieceSet) {
+//            for (Piece *p in i) {
+//                if ([p getSide] == 2) {
+//                    if ([self validateMove:p to:cp] && [self isUnchecked:p to:cp]) {
+//                        [self botMoveFrom:p to:cp];
+//                        return [self getLog:p to:cp];
+//                    }
+//                }
+//            }
+//        }
+//        //do somethign like move king away over here
+//        Piece *myKing = [self getBlackKing];
+//        for (NSMutableArray *i in self.pieceSet) {
+//            for (Piece *t in i) {
+//                if ([t getSide] != 2) {
+//                    if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
+//                        [self botMoveFrom:myKing to:t];
+//                        return [self getLog:myKing to:t];
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    else {
+//        NSLog(@"more than one checking piece");
+//        Piece *myKing = [self getBlackKing];
+//        for (NSMutableArray *i in self.pieceSet) {
+//            for (Piece *t in i) {
+//                if ([t getSide] != 2) {
+//                    if ([self isUnchecked:myKing to:t] && [self validateMove:myKing to:t]) {
+//                        [self botMoveFrom:myKing to:t];
+//                        return [self getLog:myKing to:t];
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    return [NSString stringWithFormat:@"Error in eliminate threate"];
+//
+//}
 -(NSString *) scriptMove:(NSArray *)readin {
     NSLog(@"scprit move");
 //    NSArray *readin = [manual outputScript];

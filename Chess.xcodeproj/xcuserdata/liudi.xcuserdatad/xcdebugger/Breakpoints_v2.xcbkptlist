@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chess/HardBot.m"
-            timestampString = "437863249.132789"
+            timestampString = "437980066.734689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "623"
-            endingLineNumber = "623"
-            landmarkName = "-findBestMove:"
-            landmarkType = "5">
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "@implementation HardBot"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

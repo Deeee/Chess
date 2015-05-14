@@ -677,6 +677,24 @@
             [scanner scanInt:&Y1];
             NSLog(@"%@",[[myBoard getPieceAt:X1 with:Y1] printInformation]);
         }
+        else if ([debuggingWindow.text rangeOfString:@"isguard"].location != NSNotFound) {
+            NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int X1;
+            [scanner scanInt:&X1];
+            [scanner scanUpToString:@"." intoString:NULL];
+            [scanner setScanLocation:[scanner scanLocation] + 1];
+            int Y1;
+            [scanner scanInt:&Y1];
+            Piece *temp = [myBoard getPieceAt:X1 with:Y1];
+            NSMutableArray *a = [myBoard isGuardingPiece:temp];
+            NSLog(@"print is guard:");
+            for (Piece *i in a) {
+                NSLog(@"%@",[i printInformation]);
+            }
+            
+        }
         //taken in move
         else if ([debuggingWindow.text rangeOfString:@"tim"].location != NSNotFound) {
             NSScanner *scanner = [NSScanner scannerWithString:debuggingWindow.text];
