@@ -24,7 +24,7 @@
 -(id) init{
     self = [super init];
     manual = [[ChessManual alloc] initWithManualName:@"stoneWall" and:2];
-    ifThink = 0;
+    ifThink = 1;
     botSide = 2;
     return self;
 }

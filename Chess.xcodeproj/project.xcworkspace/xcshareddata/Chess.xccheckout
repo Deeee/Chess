@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>5C7B0882-83ED-4278-87B9-A7CA03FE4064</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Chess</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</key>
 		<string>https://github.com/a505190722/Chess.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Chess.xcodeproj</string>
+	<string>Chess.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1910A9C08403D3C4AD17D3E3BC97D518C9D1BC86</key>
